@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     sourceFileContent = loadFile("./data/example.cpp");
 
-    gcHandler = new GcHandler(centralwidget);
+    gcHandler = new GcHandler("./data/uigui_greatcode.ini", centralwidget);
     vboxLayout1->addWidget(gcHandler);
     sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
     QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(callIndenter()));
