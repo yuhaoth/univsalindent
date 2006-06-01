@@ -1,3 +1,15 @@
+/****************************************************************************
+**
+** This file may be used under the terms of the GNU General Public
+** License version 2.0 as published by the Free Software Foundation
+** and appearing in the file LICENSE.GPL included in the packaging of
+** this file.  
+**
+** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+**
+****************************************************************************/
+
 #include "gchandler.h"
 
 /*!
@@ -8,7 +20,7 @@
     Calls GreatCode each time a setting has been changed and informs
     the main window about the reformatted source code.
  */
-GcHandler::GcHandler(QWidget *parent) : QWidget(parent)
+GcHandler::GcHandler(QString iniFilePath, QWidget *parent) : QWidget(parent)
 {
     // define this widgets size and resize behavior
     this->setMaximumWidth(263);
@@ -26,42 +38,43 @@ GcHandler::GcHandler(QWidget *parent) : QWidget(parent)
 	vboxLayout->addWidget(toolBox);
 
     // open the ini-file that contains all available GreatCode settings with their additional infos
-    gcSettings = new QSettings("./data/standard.ini", QSettings::IniFormat, NULL);
+    gcSettings = new QSettings(iniFilePath, QSettings::IniFormat, NULL);
     // read all possible parameters written in brackets []
     gcParamters = gcSettings->childGroups();
 	QStringList gcCategories;
     QString gcGroupString = "";
     QString paramToolTip = "";
 
+    indenterName = gcSettings->value("_header/name").toString();
+    indenterProgramName = gcSettings->value("_header/filename").toString();
+
+    // read the categories names which are separated by "|"
+    QString gcCategoriesStr = gcSettings->value("_header/categories").toString();
+    gcCategories = gcCategoriesStr.split("|");
+
+    ToolBoxPage toolBoxPage;
+
+    // create a page for each category and store its references in a toolboxpage-array
+    foreach (QString category, gcCategories) {
+        //QString categoryName = gcSettings->value("Categories/" + category).toString();
+        QString categoryName = category;
+
+        toolBoxPage.page = new QWidget();
+        toolBoxPage.page->setObjectName(categoryName);
+        toolBoxPage.vboxLayout = new QVBoxLayout(toolBoxPage.page);
+        toolBoxPage.vboxLayout->setSpacing(6);
+        toolBoxPage.vboxLayout->setMargin(9);
+        toolBoxPage.vboxLayout->setObjectName(categoryName);
+        toolBoxPages.append(toolBoxPage);
+        toolBox->addItem(toolBoxPage.page, QApplication::translate("GcHandler", categoryName.toAscii(), 0, QApplication::UnicodeUTF8));
+    }
+
     // read each parameter to create the corresponding input field
     foreach (QString gcParameter, gcParamters) {
-        // first setting in the ini-file has to be the categories, which is no parameter
-        // from GreatCode but for grouping the parameters. Therefore pages are being created.
-        // For each page their references and the vlayout reference is remembered in a toolboxpage-array
-		if ( gcParameter == "Categories") { 
-            ToolBoxPage toolBoxPage;
 
-            // read the categories names
-			gcSettings->beginGroup(gcParameter);
-			gcCategories = gcSettings->childKeys();
-            gcSettings->endGroup();
-
-            // create a page for each category and store its references in a toolboxpage-array
-            foreach (QString category, gcCategories) {
-                QString categoryName = gcSettings->value("Categories/" + category).toString();
-
-                toolBoxPage.page = new QWidget();
-                toolBoxPage.page->setObjectName(categoryName);
-                toolBoxPage.vboxLayout = new QVBoxLayout(toolBoxPage.page);
-                toolBoxPage.vboxLayout->setSpacing(6);
-                toolBoxPage.vboxLayout->setMargin(9);
-                toolBoxPage.vboxLayout->setObjectName(categoryName);
-                toolBoxPages.append(toolBoxPage);
-                toolBox->addItem(toolBoxPage.page, QApplication::translate("GcHandler", categoryName.toAscii(), 0, QApplication::UnicodeUTF8));
-            }
-		}
-        // since it is no categories definition here follow all GreatCode parameters
-		else {
+        // if it is not the indent header definition read the parameter and add it to
+        // the corresponding category toolbox page
+		if ( gcParameter != "_header") {
             // read to which category the parameter belongs
             int category = gcSettings->value(gcParameter + "/Category").toInt();
             // read which type of input field the parameter needs
@@ -96,7 +109,7 @@ GcHandler::GcHandler(QWidget *parent) : QWidget(parent)
                 label->setBuddy(spinBox);
                 label->setToolTip( paramToolTip );
 
-                // put all into a layout
+                // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
                 hboxLayout->addWidget(spinBox);
                 hboxLayout->addWidget(label);                
@@ -112,7 +125,7 @@ GcHandler::GcHandler(QWidget *parent) : QWidget(parent)
             }
             // edit type is boolean so create a checkbox
             else if ( editType == "boolean" ) {
-                // create the checkbox
+                // create the checkbox, make its settings and add it to the toolbox page
                 QCheckBox *chkBox = new QCheckBox( toolBoxPages.at(category).page );
                 chkBox->setText(gcParameter);
                 chkBox->setChecked( gcSettings->value(gcParameter + "/Value").toBool() );
@@ -145,7 +158,7 @@ GcHandler::GcHandler(QWidget *parent) : QWidget(parent)
 				label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
                 label->setToolTip( paramToolTip );
 
-                // put all into a layout
+                // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
                 hboxLayout->addWidget(lineEdit);
                 hboxLayout->addWidget(label);  
@@ -173,14 +186,14 @@ GcHandler::GcHandler(QWidget *parent) : QWidget(parent)
 QString GcHandler::callGreatCode(QString sourceCode) {
 
     QString formattedSourceCode;
-    QFile::remove( "./data/gcout.cpp" );
+    QFile::remove("./data/gcout.cpp");
     QFile outSrcFile("./data/gcout.cpp");
 
     outSrcFile.open( QFile::ReadWrite | QFile::Text );
     outSrcFile.write( sourceCode.toAscii() );
     outSrcFile.close();
 
-    QProcess::execute("./data/GC.exe -file-./data/gcout.cpp -output_test-");
+    QProcess::execute("./data/" + indenterProgramName + " -file-./data/gcout.cpp -output_test-");
 
     outSrcFile.setFileName("./data/gcout_test.cpp");
     outSrcFile.open(QFile::ReadOnly | QFile::Text);
