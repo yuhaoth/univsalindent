@@ -26,13 +26,14 @@
 #include <QSpinBox>
 #include <QLabel>
 #include <QByteArray>
+#include <QDir>
 
 class GcHandler : public QWidget
 {
     Q_OBJECT
 
 public:
-    GcHandler(QString iniFilePath, QWidget *parent = 0);
+    GcHandler(QString dataDirPathStr, QWidget *parent = 0);
 
     //! Format source code with GreatCode
     QString callGreatCode(QString sourceCode);
@@ -41,6 +42,7 @@ public:
 
 private:
     void writeConfigFile(QString parameterString);
+    void readIndentIniFile();
 
     // holds a reference to all created pages of the toolbox and the pages boxlayout
     struct ToolBoxPage
@@ -85,6 +87,8 @@ private:
     QString indenterName;
     // the indenters file name, that is being called (w/o extension)
     QString indenterProgramName;
+    QString dataDirctoryStr;
+    QStringList indenterIniFileList;
 
 private slots:
     void generateParameterString();

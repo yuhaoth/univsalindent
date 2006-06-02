@@ -20,7 +20,7 @@
     Calls GreatCode each time a setting has been changed and informs
     the main window about the reformatted source code.
  */
-GcHandler::GcHandler(QString iniFilePath, QWidget *parent) : QWidget(parent)
+GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
 {
     // define this widgets size and resize behavior
     this->setMaximumWidth(263);
@@ -36,6 +36,159 @@ GcHandler::GcHandler(QString iniFilePath, QWidget *parent) : QWidget(parent)
     toolBox->setMaximumSize(QSize(16777215, 16777215));
     // insert the toolbox into the vlayout
 	vboxLayout->addWidget(toolBox);
+
+    dataDirctoryStr = dataDirPathStr;
+    QDir dataDirctory = QDir(dataDirPathStr);
+
+    indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
+
+    // reads and parses first found indent ini file and creates toolbox entries
+    readIndentIniFile();    
+}
+
+//! Format source code with GreatCode
+QString GcHandler::callGreatCode(QString sourceCode) {
+
+    QString formattedSourceCode;
+    QFile::remove(dataDirctoryStr + "gcout.cpp");
+    QFile outSrcFile(dataDirctoryStr + "gcout.cpp");
+
+    outSrcFile.open( QFile::ReadWrite | QFile::Text );
+    outSrcFile.write( sourceCode.toAscii() );
+    outSrcFile.close();
+
+    QProcess::execute(dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
+
+    outSrcFile.setFileName(dataDirctoryStr + "gcout_test.cpp");
+    outSrcFile.open(QFile::ReadOnly | QFile::Text);
+    formattedSourceCode = outSrcFile.readAll();
+    outSrcFile.close();
+
+    return formattedSourceCode;
+}
+
+//! Generates a string with all parameters needed to call GreatCode and write it to the indenter config file
+void GcHandler::generateParameterString() {
+
+    parameterString = "";
+
+    // generate parameter string for all boolean values
+    foreach (ParamCheckBox pChkBox, paramCheckBoxes) {
+        if ( pChkBox.checkBox->isChecked() ) {
+            parameterString += "-" + pChkBox.paramName + " \n";
+            gcSettings->setValue( pChkBox.paramName + "/Value", 1);
+        }
+        else {
+            parameterString += "-no-" + pChkBox.paramName + " \n";
+            gcSettings->setValue( pChkBox.paramName + "/Value", 0);
+        }
+    }
+
+    // generate parameter string for all numeric values
+    foreach (ParamSpinBox pSpinBox, paramSpinBoxes) {
+        parameterString += "-" + pSpinBox.paramName + QString::number( pSpinBox.spinBox->value() ) + " \n";
+        gcSettings->setValue( pSpinBox.paramName + "/Value", pSpinBox.spinBox->value());
+    }
+
+    // generate parameter string for all string values
+    foreach (ParamLineEdit pLineEdit, paramLineEdits) {
+        if ( pLineEdit.lineEdit->text() != "" ) {
+            if ( pLineEdit.paramName == "cmt_fixme-" ) {
+                parameterString += "-" + pLineEdit.paramName + "\"" + pLineEdit.lineEdit->text() + "\" \n";
+            }
+            else {
+                parameterString += "-" + pLineEdit.paramName + pLineEdit.lineEdit->text() + " \n";
+            }
+            gcSettings->setValue( pLineEdit.paramName + "/Value", pLineEdit.lineEdit->text());
+        }
+    }
+
+    writeConfigFile(parameterString);
+
+    emit settingsCodeChanged();
+}
+
+
+//! Write config file
+void GcHandler::writeConfigFile(QString paramString) {
+
+    QFile::remove( dataDirctoryStr + "gc.cfg" );
+    QFile outSrcFile( dataDirctoryStr + "gc.cfg");
+
+    outSrcFile.open( QFile::ReadWrite | QFile::Text );
+    outSrcFile.write( paramString.toAscii() );
+    outSrcFile.close();
+}
+
+//! Load a GC config file
+void GcHandler::loadConfigFile(QString filePathName) {
+
+	QFile cfgFile(filePathName);
+	int index;
+    int crPos;
+    int paramValue = 0;
+    QString paramValueStr;
+
+    // open the config file and read all data
+	cfgFile.open( QFile::ReadOnly | QFile::Text );
+	cfgFileData = cfgFile.readAll();
+	cfgFile.close();
+
+    // search for name of each boolean parameter and set/or not if "no-" is found in front of it
+	foreach (ParamCheckBox pChkBox, paramCheckBoxes) {
+		index = cfgFileData.indexOf( pChkBox.paramName, 0 );
+		if ( index != -1 ) {
+            // get the three charcters in front of the found index
+			if ( cfgFileData.mid(index-3, 3) == "no-" ) {
+				pChkBox.checkBox->setChecked(false);
+			}
+			else {
+				pChkBox.checkBox->setChecked(true);
+			}
+		}
+	}
+
+    // search for name of each numeric parameter and set the value found behind it
+	foreach (ParamSpinBox pSpinBox, paramSpinBoxes) {
+		index = cfgFileData.indexOf( pSpinBox.paramName, 0 );
+		if ( index != -1 ) {
+            // set index after the parameter name, so in front of the number
+            index += pSpinBox.paramName.length();
+
+            // find the line end by searching for carriage return
+            crPos = cfgFileData.indexOf( '\n', index+1 );
+
+            // get the number and convert it to int
+            paramValue = cfgFileData.mid( index, crPos - index ).toInt(NULL);
+
+            // disable the signal-slot connection. Otherwise signal is emmitted each time when value is set
+            QObject::disconnect(pSpinBox.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
+            pSpinBox.spinBox->setValue( paramValue );
+            QObject::connect(pSpinBox.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
+		}
+	}
+
+    // search for name of each string parameter and set/or not if "no-" is found in front of it
+	foreach (ParamLineEdit pLineEdit, paramLineEdits) {
+		index = cfgFileData.indexOf( pLineEdit.paramName, 0 );
+		if ( index != -1 ) {
+            // set index after the parameter name, so in front of the string
+            index += pLineEdit.paramName.length();
+
+            // find the line end by searching for carriage return
+            crPos = cfgFileData.indexOf( '\n', index+1 );
+
+            // get the number and convert it to int
+            paramValueStr = QString( cfgFileData.mid( index, crPos - index ) );
+            pLineEdit.lineEdit->setText( paramValueStr );
+		}
+	}
+
+	generateParameterString();
+}
+
+void GcHandler::readIndentIniFile() {
+    QString iniFilePath = dataDirctoryStr + indenterIniFileList.first();
 
     // open the ini-file that contains all available GreatCode settings with their additional infos
     gcSettings = new QSettings(iniFilePath, QSettings::IniFormat, NULL);
@@ -180,145 +333,4 @@ GcHandler::GcHandler(QString iniFilePath, QWidget *parent) : QWidget(parent)
         spacerItem = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
         tbp.vboxLayout->addItem(spacerItem);
     }
-}
-
-//! Format source code with GreatCode
-QString GcHandler::callGreatCode(QString sourceCode) {
-
-    QString formattedSourceCode;
-    QFile::remove("./data/gcout.cpp");
-    QFile outSrcFile("./data/gcout.cpp");
-
-    outSrcFile.open( QFile::ReadWrite | QFile::Text );
-    outSrcFile.write( sourceCode.toAscii() );
-    outSrcFile.close();
-
-    QProcess::execute("./data/" + indenterProgramName + " -file-./data/gcout.cpp -output_test-");
-
-    outSrcFile.setFileName("./data/gcout_test.cpp");
-    outSrcFile.open(QFile::ReadOnly | QFile::Text);
-    formattedSourceCode = outSrcFile.readAll();
-    outSrcFile.close();
-
-    return formattedSourceCode;
-}
-
-//! Generates a string with all parameters needed to call GreatCode
-void GcHandler::generateParameterString() {
-
-    parameterString = "";
-
-    // generate parameter string for all boolean values
-    foreach (ParamCheckBox pChkBox, paramCheckBoxes) {
-        if ( pChkBox.checkBox->isChecked() ) {
-            parameterString += "-" + pChkBox.paramName + " \n";
-            gcSettings->setValue( pChkBox.paramName + "/Value", 1);
-        }
-        else {
-            parameterString += "-no-" + pChkBox.paramName + " \n";
-            gcSettings->setValue( pChkBox.paramName + "/Value", 0);
-        }
-    }
-
-    // generate parameter string for all numeric values
-    foreach (ParamSpinBox pSpinBox, paramSpinBoxes) {
-        parameterString += "-" + pSpinBox.paramName + QString::number( pSpinBox.spinBox->value() ) + " \n";
-        gcSettings->setValue( pSpinBox.paramName + "/Value", pSpinBox.spinBox->value());
-    }
-
-    // generate parameter string for all string values
-    foreach (ParamLineEdit pLineEdit, paramLineEdits) {
-        if ( pLineEdit.lineEdit->text() != "" ) {
-            if ( pLineEdit.paramName == "cmt_fixme-" ) {
-                parameterString += "-" + pLineEdit.paramName + "\"" + pLineEdit.lineEdit->text() + "\" \n";
-            }
-            else {
-                parameterString += "-" + pLineEdit.paramName + pLineEdit.lineEdit->text() + " \n";
-            }
-            gcSettings->setValue( pLineEdit.paramName + "/Value", pLineEdit.lineEdit->text());
-        }
-    }
-
-    writeConfigFile(parameterString);
-
-    emit settingsCodeChanged();
-}
-
-
-//! Write config file
-void GcHandler::writeConfigFile(QString paramString) {
-
-    QFile::remove( "./data/gc.cfg" );
-    QFile outSrcFile("./data/gc.cfg");
-
-    outSrcFile.open( QFile::ReadWrite | QFile::Text );
-    outSrcFile.write( paramString.toAscii() );
-    outSrcFile.close();
-}
-
-//! Load a GC config file
-void GcHandler::loadConfigFile(QString filePathName) {
-
-	QFile cfgFile(filePathName);
-	int index;
-    int crPos;
-    int paramValue = 0;
-    QString paramValueStr;
-
-    // open the config file and read all data
-	cfgFile.open( QFile::ReadOnly | QFile::Text );
-	cfgFileData = cfgFile.readAll();
-	cfgFile.close();
-
-    // search for name of each boolean parameter and set/or not if "no-" is found in front of it
-	foreach (ParamCheckBox pChkBox, paramCheckBoxes) {
-		index = cfgFileData.indexOf( pChkBox.paramName, 0 );
-		if ( index != -1 ) {
-            // get the three charcters in front of the found index
-			if ( cfgFileData.mid(index-3, 3) == "no-" ) {
-				pChkBox.checkBox->setChecked(false);
-			}
-			else {
-				pChkBox.checkBox->setChecked(true);
-			}
-		}
-	}
-
-    // search for name of each numeric parameter and set the value found behind it
-	foreach (ParamSpinBox pSpinBox, paramSpinBoxes) {
-		index = cfgFileData.indexOf( pSpinBox.paramName, 0 );
-		if ( index != -1 ) {
-            // set index after the parameter name, so in front of the number
-            index += pSpinBox.paramName.length();
-
-            // find the line end by searching for carriage return
-            crPos = cfgFileData.indexOf( '\n', index+1 );
-
-            // get the number and convert it to int
-            paramValue = cfgFileData.mid( index, crPos - index ).toInt(NULL);
-
-            // disable the signal-slot connection. Otherwise signal is emmitted each time when value is set
-            QObject::disconnect(pSpinBox.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
-            pSpinBox.spinBox->setValue( paramValue );
-            QObject::connect(pSpinBox.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
-		}
-	}
-
-    // search for name of each string parameter and set/or not if "no-" is found in front of it
-	foreach (ParamLineEdit pLineEdit, paramLineEdits) {
-		index = cfgFileData.indexOf( pLineEdit.paramName, 0 );
-		if ( index != -1 ) {
-            // set index after the parameter name, so in front of the string
-            index += pLineEdit.paramName.length();
-
-            // find the line end by searching for carriage return
-            crPos = cfgFileData.indexOf( '\n', index+1 );
-
-            // get the number and convert it to int
-            paramValueStr = QString( cfgFileData.mid( index, crPos - index ) );
-            pLineEdit.lineEdit->setText( paramValueStr );
-		}
-	}
-
-	generateParameterString();
 }
