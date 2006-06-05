@@ -28,7 +28,7 @@ GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
 
     // create vertical layout box, into which the toolbox will be added
 	vboxLayout = new QVBoxLayout(this);
-    
+
     // create a toolbox and set its resize behavior
     toolBox = new QToolBox(this);
 	toolBox->setObjectName(QString::fromUtf8("toolBox"));
@@ -43,7 +43,7 @@ GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
     indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
 
     // reads and parses first found indent ini file and creates toolbox entries
-    readIndentIniFile();    
+    readIndentIniFile();
 }
 
 //! Format source code with GreatCode

@@ -123,9 +123,12 @@ void MainWindow::updateSourceView()
         sourceViewContent = sourceFileContent;
     }
 
-    //txtedSourceCode->setLineWrapMode( QTextEdit::NoWrap );
-    //txtedSourceCode->setFontFamily("Courier");
-    //txtedSourceCode->setFontWeight(QFont::Black);
+// because under linux the courier font is always set bold
+#if defined(Q_OS_LINUX)
+    txtedSourceCode->setFontFamily("freemono");
+    txtedLineNumbers->setFontFamily("freemono");
+#endif
+
     txtedSourceCode->setPlainText(sourceViewContent);
 
     numberOfLines = sourceViewContent.count(QRegExp("\n"));
