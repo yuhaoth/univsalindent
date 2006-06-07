@@ -57,7 +57,11 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     outSrcFile.write( sourceCode.toAscii() );
     outSrcFile.close();
 
+#if defined(Q_OS_LINUX)
+    QProcess::execute("wine " + dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
+#elif
     QProcess::execute(dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
+#endif
 
     outSrcFile.setFileName(dataDirctoryStr + "gcout_test.cpp");
     outSrcFile.open(QFile::ReadOnly | QFile::Text);
