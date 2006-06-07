@@ -59,7 +59,7 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 
 #if defined(Q_OS_LINUX)
     QProcess::execute("wine " + dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
-#elif
+#else
     QProcess::execute(dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
 #endif
 
