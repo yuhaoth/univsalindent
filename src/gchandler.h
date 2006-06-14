@@ -42,7 +42,7 @@ public:
 
 private:
     void writeConfigFile(QString parameterString);
-    void readIndentIniFile();
+    void readIndentIniFile(QString iniFilePath);
 
     // holds a reference to all created pages of the toolbox and the pages boxlayout
     struct ToolBoxPage
@@ -89,6 +89,12 @@ private:
     QString indenterProgramName;
     QString dataDirctoryStr;
     QStringList indenterIniFileList;
+    QString configFilename;
+    QString cfgFileParameterEnding;
+    QString inputFileParameter;
+    QString outputFile;
+    QString outputFileParameter;
+    QString fileTypes;
 
 private slots:
     void generateParameterString();

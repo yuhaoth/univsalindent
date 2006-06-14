@@ -43,15 +43,15 @@ GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
     indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
 
     // reads and parses first found indent ini file and creates toolbox entries
-    readIndentIniFile();
+    readIndentIniFile( dataDirctoryStr + indenterIniFileList.first() );
 }
 
 //! Format source code with GreatCode
 QString GcHandler::callGreatCode(QString sourceCode) {
 
     QString formattedSourceCode;
-    QFile::remove(dataDirctoryStr + "gcout.cpp");
-    QFile outSrcFile(dataDirctoryStr + "gcout.cpp");
+    QFile::remove(dataDirctoryStr + outputFile);
+    QFile outSrcFile(dataDirctoryStr + outputFile);
 
     outSrcFile.open( QFile::ReadWrite | QFile::Text );
     outSrcFile.write( sourceCode.toAscii() );
@@ -60,10 +60,10 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 #if defined(Q_OS_LINUX)
     QProcess::execute("wine " + dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
 #else
-    QProcess::execute(dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
+    QProcess::execute(dataDirctoryStr + indenterProgramName +" "+ inputFileParameter + dataDirctoryStr + outputFile);
 #endif
 
-    outSrcFile.setFileName(dataDirctoryStr + "gcout_test.cpp");
+    outSrcFile.setFileName(dataDirctoryStr + outputFile);
     outSrcFile.open(QFile::ReadOnly | QFile::Text);
     formattedSourceCode = outSrcFile.readAll();
     outSrcFile.close();
@@ -191,19 +191,39 @@ void GcHandler::loadConfigFile(QString filePathName) {
 	generateParameterString();
 }
 
-void GcHandler::readIndentIniFile() {
-    QString iniFilePath = dataDirctoryStr + indenterIniFileList.first();
+/*!
+    \brief opens and parses an indenter ini file, handed as parameter
+
+
+ */
+void GcHandler::readIndentIniFile(QString iniFilePath) {
 
     // open the ini-file that contains all available GreatCode settings with their additional infos
     gcSettings = new QSettings(iniFilePath, QSettings::IniFormat, NULL);
-    // read all possible parameters written in brackets []
-    gcParamters = gcSettings->childGroups();
+    
 	QStringList gcCategories;
     QString gcGroupString = "";
     QString paramToolTip = "";
 
+
+    //
+    //  parse ini file indenter header
+    //
+
     indenterName = gcSettings->value("_header/name").toString();
     indenterProgramName = gcSettings->value("_header/filename").toString();
+    configFilename = gcSettings->value("_header/cfgfilename").toString();
+    if ( gcSettings->value("_header/cfgfileparameterending").toString() == "cr" ) {
+        cfgFileParameterEnding = "\n";
+    }
+    else {
+        cfgFileParameterEnding = " ";
+    }
+    inputFileParameter = gcSettings->value("_header/inputfileparameter").toString();
+    outputFile = gcSettings->value("_header/outputfile").toString();
+    outputFileParameter = gcSettings->value("_header/outputfileparameter").toString();
+    fileTypes = gcSettings->value("_header/filetypes").toString();
+    fileTypes.replace('|', ";");
 
     // read the categories names which are separated by "|"
     QString gcCategoriesStr = gcSettings->value("_header/categories").toString();
@@ -225,6 +245,14 @@ void GcHandler::readIndentIniFile() {
         toolBoxPages.append(toolBoxPage);
         toolBox->addItem(toolBoxPage.page, QApplication::translate("GcHandler", categoryName.toAscii(), 0, QApplication::UnicodeUTF8));
     }
+
+
+    //
+    //  parse ini file indenter parameters
+    //
+
+    // read all possible parameters written in brackets []
+    gcParamters = gcSettings->childGroups();
 
     // read each parameter to create the corresponding input field
     foreach (QString gcParameter, gcParamters) {
