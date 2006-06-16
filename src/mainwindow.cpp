@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //font.setPointSize(10);
 
     setupUi(this);
+    QString version = "0.1.2_preAlpha";
+    this->setWindowTitle( this->windowTitle() +"  "+ version );
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
@@ -37,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     gcHandler = new GcHandler("./data/", centralwidget);
     vboxLayout1->addWidget(gcHandler);
+    cmbBoxIndenters->addItems( gcHandler->getAvailableIndenters() );
     sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
     QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(callIndenter()));
 
@@ -142,8 +145,10 @@ void MainWindow::updateSourceView()
 }
 
 void MainWindow::callIndenter() {
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
     updateSourceView();
+    QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::turnHighlightOnOff(bool turnOn) {
