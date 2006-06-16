@@ -50,8 +50,8 @@ GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
 QString GcHandler::callGreatCode(QString sourceCode) {
 
     QString formattedSourceCode;
-    QFile::remove(dataDirctoryStr + outputFile);
-    QFile outSrcFile(dataDirctoryStr + outputFile);
+    QFile::remove(dataDirctoryStr + tmpSrcFileName);
+    QFile outSrcFile(dataDirctoryStr + tmpSrcFileName);
 
     outSrcFile.open( QFile::ReadWrite | QFile::Text );
     outSrcFile.write( sourceCode.toAscii() );
@@ -60,10 +60,10 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 #if defined(Q_OS_LINUX)
     QProcess::execute("wine " + dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
 #else
-    QProcess::execute(dataDirctoryStr + indenterProgramName +" "+ inputFileParameter + dataDirctoryStr + outputFile);
+    QProcess::execute(dataDirctoryStr + indenterProgramName +" "+ inputFileParameter + dataDirctoryStr + tmpSrcFileName);
 #endif
 
-    outSrcFile.setFileName(dataDirctoryStr + outputFile);
+    outSrcFile.setFileName(dataDirctoryStr + tmpSrcFileName);
     outSrcFile.open(QFile::ReadOnly | QFile::Text);
     formattedSourceCode = outSrcFile.readAll();
     outSrcFile.close();
@@ -220,7 +220,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
         cfgFileParameterEnding = " ";
     }
     inputFileParameter = gcSettings->value("_header/inputfileparameter").toString();
-    outputFile = gcSettings->value("_header/outputfile").toString();
+    tmpSrcFileName = gcSettings->value("_header/tmpsrcfilename").toString();
     outputFileParameter = gcSettings->value("_header/outputfileparameter").toString();
     fileTypes = gcSettings->value("_header/filetypes").toString();
     fileTypes.replace('|', ";");
@@ -365,4 +365,11 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
         spacerItem = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
         tbp.vboxLayout->addItem(spacerItem);
     }
+}
+
+QStringList GcHandler::getAvailableIndenters() {
+    return indenterIniFileList;
+}
+
+void GcHandler::setIndenter(QString indenterName) {
 }

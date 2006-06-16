@@ -40,6 +40,9 @@ public:
 
 	void loadConfigFile(QString filePathName);
 
+    QStringList getAvailableIndenters();
+    void setIndenter(QString indenterName);
+
 private:
     void writeConfigFile(QString parameterString);
     void readIndentIniFile(QString iniFilePath);
@@ -92,7 +95,7 @@ private:
     QString configFilename;
     QString cfgFileParameterEnding;
     QString inputFileParameter;
-    QString outputFile;
+    QString tmpSrcFileName;
     QString outputFileParameter;
     QString fileTypes;
 
