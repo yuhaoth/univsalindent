@@ -38,6 +38,7 @@ private:
 	QScrollBar *textEditVScrollBar;
 	QScrollBar *textEdit2VScrollBar;
 	int textEditLastScrollPos;
+    int currentIndenterID;
 
     GcHandler *gcHandler;
 
@@ -52,6 +53,7 @@ public slots:
     void callIndenter();
     void updateSourceView();
     void turnHighlightOnOff(bool turnOn);
+	void selectIndenter(int indenterID);
 };
 
 #endif

@@ -37,13 +37,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     sourceFileContent = loadFile("./data/example.cpp");
 
-    gcHandler = new GcHandler("./data/", centralwidget);
-    vboxLayout1->addWidget(gcHandler);
-    cmbBoxIndenters->addItems( gcHandler->getAvailableIndenters() );
-    sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
-    QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(callIndenter()));
-
-
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
     textEdit2VScrollBar = txtedLineNumbers->verticalScrollBar();
 
@@ -52,10 +45,49 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     highlighter = new CppHighlighter(txtedSourceCode->document());
 
-    updateSourceView();
+    gcHandler = 0;
+    currentIndenterID = -1;
 
+    // selects the first found indenter
+    selectIndenter(0);
+
+    connect( cmbBoxIndenters, SIGNAL(activated(int)), this, SLOT(selectIndenter(int)) );
 }
 
+void MainWindow::selectIndenter(int indenterID) {
+	GcHandler *oldGcHandler = gcHandler;
+
+    // prevent unnecessarry updates if same indenter as current has been selected
+    if ( indenterID == currentIndenterID ) {
+        return;
+    }
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+
+	if ( oldGcHandler != 0 ) {
+		gcHandler = new GcHandler("./data/", indenterID, centralwidget);
+        gcHandler->hide();
+        vboxLayout1->insertWidget(0, gcHandler);
+        oldGcHandler->hide();
+        gcHandler->show();
+		vboxLayout1->removeWidget(oldGcHandler);
+		delete oldGcHandler;
+        cmbBoxIndenters->clear();
+	}
+	else {
+		gcHandler = new GcHandler("./data/", centralwidget);
+        vboxLayout1->addWidget(gcHandler);
+	}
+
+	cmbBoxIndenters->addItems( gcHandler->getAvailableIndenters() );
+	cmbBoxIndenters->setCurrentIndex(indenterID);
+	sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
+	QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(callIndenter()));
+
+    updateSourceView();
+    currentIndenterID = indenterID;
+    QApplication::restoreOverrideCursor();
+}
 
 //! Tries to load a file and returns its content as QString
 QString MainWindow::loadFile(QString filePath) {
