@@ -27,6 +27,7 @@
 #include <QLabel>
 #include <QByteArray>
 #include <QDir>
+#include <QMessageBox>
 
 class GcHandler : public QWidget
 {
@@ -35,13 +36,14 @@ class GcHandler : public QWidget
 public:
     GcHandler(QString dataDirPathStr, QWidget *parent = 0);
 
+	GcHandler(QString dataDirPathStr, int indenterID, QWidget *parent = 0);
+
     //! Format source code with GreatCode
     QString callGreatCode(QString sourceCode);
 
 	void loadConfigFile(QString filePathName);
 
     QStringList getAvailableIndenters();
-    void setIndenter(QString indenterName);
 
 private:
     void writeConfigFile(QString parameterString);
@@ -68,6 +70,7 @@ private:
 	{
         QString paramName;
         QLineEdit *lineEdit;
+        QLabel *label;
 	};
 	QVector<ParamLineEdit> paramLineEdits;
 
@@ -76,10 +79,10 @@ private:
 	{
         QString paramName;
         QSpinBox *spinBox;
+        QLabel *label;
 	};
 	QVector<ParamSpinBox> paramSpinBoxes;
 
-	QSpacerItem *spacerItem;
 	QVBoxLayout *vboxLayout;
     QToolBox *toolBox;
     QSettings *gcSettings;
@@ -95,12 +98,16 @@ private:
     QString configFilename;
     QString cfgFileParameterEnding;
     QString inputFileParameter;
-    QString tmpSrcFileName;
+    QString inputFileName;
     QString outputFileParameter;
+	QString outputFileName;
     QString fileTypes;
+    QString useCfgFileParameter;
 
 private slots:
     void generateParameterString();
+public slots:
+    void setIndenter(int indenterID);
 
 signals:
     void settingsCodeChanged();

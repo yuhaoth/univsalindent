@@ -46,24 +46,78 @@ GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.first() );
 }
 
+GcHandler::GcHandler(QString dataDirPathStr, int indenterID, QWidget *parent) : QWidget(parent)
+{
+	// define this widgets size and resize behavior
+	this->setMaximumWidth(263);
+	this->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+
+	// create vertical layout box, into which the toolbox will be added
+	vboxLayout = new QVBoxLayout(this);
+
+	// create a toolbox and set its resize behavior
+	toolBox = new QToolBox(this);
+	toolBox->setObjectName(QString::fromUtf8("toolBox"));
+	toolBox->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+	toolBox->setMaximumSize(QSize(16777215, 16777215));
+	// insert the toolbox into the vlayout
+	vboxLayout->addWidget(toolBox);
+
+	dataDirctoryStr = dataDirPathStr;
+	QDir dataDirctory = QDir(dataDirPathStr);
+
+	indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
+
+	// reads and parses first found indent ini file and creates toolbox entries
+	readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
+}
+
 //! Format source code with GreatCode
 QString GcHandler::callGreatCode(QString sourceCode) {
 
     QString formattedSourceCode;
-    QFile::remove(dataDirctoryStr + tmpSrcFileName);
-    QFile outSrcFile(dataDirctoryStr + tmpSrcFileName);
+    QFile::remove(dataDirctoryStr + inputFileName);
+    QFile outSrcFile(dataDirctoryStr + inputFileName);
+	QString indentCallString = dataDirctoryStr + indenterProgramName +" "+ inputFileParameter + dataDirctoryStr 
+        + inputFileName +" "+ outputFileParameter + dataDirctoryStr + outputFileName;
+    QProcess indentProcess;
+    QString processReturnString;
+
+    if ( !useCfgFileParameter.isEmpty() ) {
+        indentCallString += " "+ useCfgFileParameter + dataDirctoryStr + configFilename;
+    }
 
     outSrcFile.open( QFile::ReadWrite | QFile::Text );
     outSrcFile.write( sourceCode.toAscii() );
     outSrcFile.close();
+    
+    indentProcess.setReadChannelMode(QProcess::MergedChannels);
 
 #if defined(Q_OS_LINUX)
-    QProcess::execute("wine " + dataDirctoryStr + indenterProgramName + " -file-" + dataDirctoryStr + "gcout.cpp -output_test-");
+    indentProcess.start("wine " + indentCallString);
 #else
-    QProcess::execute(dataDirctoryStr + indenterProgramName +" "+ inputFileParameter + dataDirctoryStr + tmpSrcFileName);
+    //indentCallString.replace("/", "\\");
+    indentProcess.start(indentCallString);
 #endif
 
-    outSrcFile.setFileName(dataDirctoryStr + tmpSrcFileName);
+    if ( !indentProcess.waitForFinished() ) {
+        processReturnString = indentProcess.errorString();
+        QMessageBox::warning(NULL, tr("Error calling Indenter"), processReturnString
+            +tr("\nCallstring was: ")+indentCallString);
+    }
+    else {
+        processReturnString = indentProcess.readAll();
+    }
+
+    if ( indentProcess.exitCode() != 0 ) {
+        QString exitCode;
+        exitCode.setNum(indentProcess.exitCode());
+        QMessageBox::warning(NULL, tr("Error calling Indenter"), tr("Indenter returned with exit code ")+exitCode
+            +tr(".\nIndent console output was: \n")+processReturnString
+            +tr("\nCallstring was: ")+indentCallString);
+    }
+
+    outSrcFile.setFileName(dataDirctoryStr + outputFileName);
     outSrcFile.open(QFile::ReadOnly | QFile::Text);
     formattedSourceCode = outSrcFile.readAll();
     outSrcFile.close();
@@ -110,14 +164,15 @@ void GcHandler::generateParameterString() {
     writeConfigFile(parameterString);
 
     emit settingsCodeChanged();
+
 }
 
 
 //! Write config file
 void GcHandler::writeConfigFile(QString paramString) {
 
-    QFile::remove( dataDirctoryStr + "gc.cfg" );
-    QFile outSrcFile( dataDirctoryStr + "gc.cfg");
+    QFile::remove( dataDirctoryStr + configFilename );
+    QFile outSrcFile( dataDirctoryStr + configFilename );
 
     outSrcFile.open( QFile::ReadWrite | QFile::Text );
     outSrcFile.write( paramString.toAscii() );
@@ -199,7 +254,7 @@ void GcHandler::loadConfigFile(QString filePathName) {
 void GcHandler::readIndentIniFile(QString iniFilePath) {
 
     // open the ini-file that contains all available GreatCode settings with their additional infos
-    gcSettings = new QSettings(iniFilePath, QSettings::IniFormat, NULL);
+    gcSettings = new QSettings(iniFilePath, QSettings::IniFormat, this);
     
 	QStringList gcCategories;
     QString gcGroupString = "";
@@ -213,6 +268,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
     indenterName = gcSettings->value("_header/name").toString();
     indenterProgramName = gcSettings->value("_header/filename").toString();
     configFilename = gcSettings->value("_header/cfgfilename").toString();
+    useCfgFileParameter = gcSettings->value("_header/usecfgfileparameter").toString();
     if ( gcSettings->value("_header/cfgfileparameterending").toString() == "cr" ) {
         cfgFileParameterEnding = "\n";
     }
@@ -220,8 +276,9 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
         cfgFileParameterEnding = " ";
     }
     inputFileParameter = gcSettings->value("_header/inputfileparameter").toString();
-    tmpSrcFileName = gcSettings->value("_header/tmpsrcfilename").toString();
+    inputFileName = gcSettings->value("_header/inputfilename").toString();
     outputFileParameter = gcSettings->value("_header/outputfileparameter").toString();
+	outputFileName = gcSettings->value("_header/outputfilename").toString();
     fileTypes = gcSettings->value("_header/filetypes").toString();
     fileTypes.replace('|', ";");
 
@@ -304,6 +361,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 ParamSpinBox paramSpinBox;
                 paramSpinBox.paramName = gcParameter;
                 paramSpinBox.spinBox = spinBox;
+                paramSpinBox.label = label;
                 paramSpinBoxes.append(paramSpinBox);
 
                 QObject::connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
@@ -353,6 +411,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 ParamLineEdit paramLineEdit;
                 paramLineEdit.paramName = gcParameter;
                 paramLineEdit.lineEdit = lineEdit;
+                paramLineEdit.label = label;
                 paramLineEdits.append(paramLineEdit);
 
                 QObject::connect(lineEdit, SIGNAL(editingFinished()), this, SLOT(generateParameterString()));
@@ -362,14 +421,39 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 
     // put a spacer at each page end
     foreach (ToolBoxPage tbp, toolBoxPages) {
-        spacerItem = new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
-        tbp.vboxLayout->addItem(spacerItem);
+        tbp.vboxLayout->addStretch();
     }
 }
 
 QStringList GcHandler::getAvailableIndenters() {
-    return indenterIniFileList;
+    QSettings *indenterSettings;
+    QStringList indenterNamesList;
+
+    foreach (QString indenterIniFile, indenterIniFileList) {
+        indenterSettings = new QSettings(dataDirctoryStr + indenterIniFile, QSettings::IniFormat, NULL);
+        indenterNamesList << indenterSettings->value("_header/name").toString();
+        delete indenterSettings;
+    }
+    return indenterNamesList;
 }
 
-void GcHandler::setIndenter(QString indenterName) {
+void GcHandler::setIndenter(int indenterID) {
+    // remove all pages from the toolbox
+    for (int i = 0; i < toolBox->count(); i++) {
+        toolBox->removeItem(i);
+    }
+
+    // delete all toolbox pages and by this its children
+    foreach (ToolBoxPage toolBoxPage, toolBoxPages) {
+        delete toolBoxPage.page;
+    }
+
+    // empty all lists, which stored infos for the toolbox pages and its widgets
+    toolBoxPages.clear();
+    paramLineEdits.clear();
+    paramSpinBoxes.clear();
+    paramCheckBoxes.clear();
+    delete gcSettings;
+
+    readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
 }
