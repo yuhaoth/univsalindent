@@ -61,6 +61,7 @@ private:
     struct ParamCheckBox
 	{
         QString paramName;
+		QString paramCallName;
         QCheckBox *checkBox;
 	};
 	QVector<ParamCheckBox> paramCheckBoxes;
@@ -69,6 +70,7 @@ private:
     struct ParamLineEdit
 	{
         QString paramName;
+		QString paramCallName;
         QLineEdit *lineEdit;
         QLabel *label;
 	};
@@ -78,6 +80,7 @@ private:
     struct ParamSpinBox
 	{
         QString paramName;
+		QString paramCallName;
         QSpinBox *spinBox;
         QLabel *label;
 	};

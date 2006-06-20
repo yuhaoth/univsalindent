@@ -133,29 +133,29 @@ void GcHandler::generateParameterString() {
     // generate parameter string for all boolean values
     foreach (ParamCheckBox pChkBox, paramCheckBoxes) {
         if ( pChkBox.checkBox->isChecked() ) {
-            parameterString += "-" + pChkBox.paramName + " \n";
+            parameterString += pChkBox.paramCallName + " \n";
             gcSettings->setValue( pChkBox.paramName + "/Value", 1);
         }
         else {
-            parameterString += "-no-" + pChkBox.paramName + " \n";
+            parameterString += "-no" + pChkBox.paramCallName + " \n";
             gcSettings->setValue( pChkBox.paramName + "/Value", 0);
         }
     }
 
     // generate parameter string for all numeric values
     foreach (ParamSpinBox pSpinBox, paramSpinBoxes) {
-        parameterString += "-" + pSpinBox.paramName + QString::number( pSpinBox.spinBox->value() ) + " \n";
+        parameterString += pSpinBox.paramCallName + QString::number( pSpinBox.spinBox->value() ) + " \n";
         gcSettings->setValue( pSpinBox.paramName + "/Value", pSpinBox.spinBox->value());
     }
 
     // generate parameter string for all string values
     foreach (ParamLineEdit pLineEdit, paramLineEdits) {
         if ( pLineEdit.lineEdit->text() != "" ) {
-            if ( pLineEdit.paramName == "cmt_fixme-" ) {
-                parameterString += "-" + pLineEdit.paramName + "\"" + pLineEdit.lineEdit->text() + "\" \n";
+            if ( pLineEdit.paramName == "cmt_fixme" ) {
+                parameterString += pLineEdit.paramCallName + "\"" + pLineEdit.lineEdit->text() + "\" \n";
             }
             else {
-                parameterString += "-" + pLineEdit.paramName + pLineEdit.lineEdit->text() + " \n";
+                parameterString += pLineEdit.paramCallName + pLineEdit.lineEdit->text() + " \n";
             }
             gcSettings->setValue( pLineEdit.paramName + "/Value", pLineEdit.lineEdit->text());
         }
@@ -317,6 +317,8 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
         // if it is not the indent header definition read the parameter and add it to
         // the corresponding category toolbox page
 		if ( gcParameter != "_header") {
+			// read the parameter name as it is used at the command line or in its config file
+			QString parameterCallName = gcSettings->value(gcParameter + "/CallName").toString();
             // read to which category the parameter belongs
             int category = gcSettings->value(gcParameter + "/Category").toInt();
             // read which type of input field the parameter needs
@@ -360,6 +362,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 // remember parameter name and reference to its spinbox
                 ParamSpinBox paramSpinBox;
                 paramSpinBox.paramName = gcParameter;
+				paramSpinBox.paramCallName = parameterCallName;
                 paramSpinBox.spinBox = spinBox;
                 paramSpinBox.label = label;
                 paramSpinBoxes.append(paramSpinBox);
@@ -379,6 +382,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 // remember parameter name and reference to its checkbox
                 ParamCheckBox paramCheckBox;
                 paramCheckBox.paramName = gcParameter;
+				paramCheckBox.paramCallName = parameterCallName;
                 paramCheckBox.checkBox = chkBox;
                 paramCheckBoxes.append(paramCheckBox);
 
@@ -410,6 +414,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 // remember parameter name and reference to its lineedit
                 ParamLineEdit paramLineEdit;
                 paramLineEdit.paramName = gcParameter;
+				paramLineEdit.paramCallName = parameterCallName;
                 paramLineEdit.lineEdit = lineEdit;
                 paramLineEdit.label = label;
                 paramLineEdits.append(paramLineEdit);
