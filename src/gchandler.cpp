@@ -94,11 +94,10 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     indentProcess.setReadChannelMode(QProcess::MergedChannels);
 
 #if defined(Q_OS_LINUX)
-    indentProcess.start("wine " + indentCallString);
-#else
+    indentCallString = "wine " + indentCallString;
+#endif
     //indentCallString.replace("/", "\\");
     indentProcess.start(indentCallString);
-#endif
 
     if ( !indentProcess.waitForFinished() ) {
         processReturnString = indentProcess.errorString();
