@@ -25,3 +25,4 @@ SOURCES += src/cpphighlighter.cpp \
            src/mainwindow.cpp
 
 RESOURCES += resources/Icons.qrc
+RC_FILE    = resources/programicon.rc

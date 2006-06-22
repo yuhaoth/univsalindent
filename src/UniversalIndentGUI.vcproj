@@ -247,6 +247,10 @@
 				RelativePath="..\resources\Icons.qrc"
 				>
 			</File>
+			<File
+				RelativePath="..\resources\programicon.rc"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Forms (UI)"
