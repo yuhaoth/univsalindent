@@ -99,19 +99,47 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     //indentCallString.replace("/", "\\");
     indentProcess.start(indentCallString);
 
+    // test if there was an error during starting the process of the indenter, or in case of linux
+    // there might also been an error starting wine
     if ( !indentProcess.waitForFinished() ) {
         processReturnString = indentProcess.errorString();
+        //processReturnString += "\n" + indentProcess.readAllStandardError();
+        //processReturnString += "\n" + indentProcess.readAllStandardOutput();
+        switch ( indentProcess.error() ) {
+            case QProcess::FailedToStart : 
+                processReturnString += "\nThe process failed to start. Either the invoked program is missing, or you may have insufficient permissions to invoke the program.";
+                break;
+            case QProcess::Crashed : 
+                processReturnString += "\nThe process crashed some time after starting successfully.";
+                break;
+            case QProcess::Timedout : 
+                processReturnString += "\nThe last waitFor...() function timed out. The state of QProcess is unchanged, and you can try calling waitFor...() again.";
+                break;
+            case QProcess::WriteError : 
+                processReturnString += "\nAn error occurred when attempting to write to the process. For example, the process may not be running, or it may have closed its input channel.";
+                break;
+            case QProcess::ReadError : 
+                processReturnString += "\nAn error occurred when attempting to read from the process. For example, the process may not be running.";
+                break;
+            case QProcess::UnknownError : 
+                processReturnString += "\nAn unknown error occurred. This is the default return value of error().";
+                break;
+            default :
+                break;
+        }
         QMessageBox::warning(NULL, tr("Error calling Indenter"), processReturnString
             +tr("\nCallstring was: ")+indentCallString);
     }
+    // there was no problem starting  the process/indenter so fetch, what it returned
     else {
         processReturnString = indentProcess.readAll();
     }
 
+    // if the indenter returned an errorcode != 0 show its output
     if ( indentProcess.exitCode() != 0 ) {
         QString exitCode;
         exitCode.setNum(indentProcess.exitCode());
-        QMessageBox::warning(NULL, tr("Error calling Indenter"), tr("Indenter returned with exit code ")+exitCode
+        QMessageBox::warning(NULL, tr("Indenter returned error"), tr("Indenter returned with exit code ")+exitCode
             +tr(".\nIndent console output was: \n")+processReturnString
             +tr("\nCallstring was: ")+indentCallString);
     }
