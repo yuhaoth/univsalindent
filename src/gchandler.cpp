@@ -167,6 +167,7 @@ void GcHandler::generateParameterString() {
             parameterString += pBoolean.falseString + " \n";
             gcSettings->setValue( pBoolean.paramName + "/Value", 0);
         }
+		//gcSettings->setValue( pBoolean.paramName + "/CallName", 1111);
     }
 
     // generate parameter string for all numeric values
@@ -290,25 +291,25 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
     //  parse ini file indenter header
     //
 
-    indenterName = gcSettings->value("_header/name").toString();
-    indenterProgramName = gcSettings->value("_header/filename").toString();
-    configFilename = gcSettings->value("_header/cfgfilename").toString();
-    useCfgFileParameter = gcSettings->value("_header/usecfgfileparameter").toString();
-    if ( gcSettings->value("_header/cfgfileparameterending").toString() == "cr" ) {
+    indenterName = gcSettings->value(" header/name").toString();
+    indenterProgramName = gcSettings->value(" header/filename").toString();
+    configFilename = gcSettings->value(" header/cfgfilename").toString();
+    useCfgFileParameter = gcSettings->value(" header/usecfgfileparameter").toString();
+    if ( gcSettings->value(" header/cfgfileparameterending").toString() == "cr" ) {
         cfgFileParameterEnding = "\n";
     }
     else {
         cfgFileParameterEnding = " ";
     }
-    inputFileParameter = gcSettings->value("_header/inputfileparameter").toString();
-    inputFileName = gcSettings->value("_header/inputfilename").toString();
-    outputFileParameter = gcSettings->value("_header/outputfileparameter").toString();
-	outputFileName = gcSettings->value("_header/outputfilename").toString();
-    fileTypes = gcSettings->value("_header/filetypes").toString();
+    inputFileParameter = gcSettings->value(" header/inputfileparameter").toString();
+    inputFileName = gcSettings->value(" header/inputfilename").toString();
+    outputFileParameter = gcSettings->value(" header/outputfileparameter").toString();
+	outputFileName = gcSettings->value(" header/outputfilename").toString();
+    fileTypes = gcSettings->value(" header/filetypes").toString();
     fileTypes.replace('|', ";");
 
     // read the categories names which are separated by "|"
-    QString gcCategoriesStr = gcSettings->value("_header/categories").toString();
+    QString gcCategoriesStr = gcSettings->value(" header/categories").toString();
     gcCategories = gcCategoriesStr.split("|");
 
     ToolBoxPage toolBoxPage;
@@ -341,9 +342,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 
         // if it is not the indent header definition read the parameter and add it to
         // the corresponding category toolbox page
-		if ( gcParameter != "_header") {
-			// read the parameter name as it is used at the command line or in its config file
-			QString parameterCallName = gcSettings->value(gcParameter + "/CallName").toString();
+		if ( gcParameter != " header") {
             // read to which category the parameter belongs
             int category = gcSettings->value(gcParameter + "/Category").toInt();
             // read which type of input field the parameter needs
@@ -351,6 +350,8 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 
             // edit type is numeric so create a spinbox with label
             if ( editType == "numeric" ) {
+				// read the parameter name as it is used at the command line or in its config file
+				QString parameterCallName = gcSettings->value(gcParameter + "/CallName").toString();
                 // create the spinbox
                 QSpinBox *spinBox = new QSpinBox( toolBoxPages.at(category).page );
                 spinBox->setValue( gcSettings->value(gcParameter + "/Value").toInt() );
@@ -407,7 +408,6 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 // remember parameter name and reference to its checkbox
                 ParamBoolean paramBoolean;
                 paramBoolean.paramName = gcParameter;
-				paramBoolean.paramCallName = parameterCallName;
                 paramBoolean.checkBox = chkBox;
 				QStringList trueFalseStrings = gcSettings->value(gcParameter + "/TrueFalse").toString().split("|");
 				paramBoolean.trueString = trueFalseStrings.at(0);
@@ -418,6 +418,8 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
             }
             // edit type is numeric so create a lineedit with label
             else {
+				// read the parameter name as it is used at the command line or in its config file
+				QString parameterCallName = gcSettings->value(gcParameter + "/CallName").toString();
                 // create the line edit
                 QLineEdit *lineEdit = new QLineEdit( toolBoxPages.at(category).page );
                 lineEdit->setText( gcSettings->value(gcParameter + "/Value").toString() );
@@ -464,7 +466,7 @@ QStringList GcHandler::getAvailableIndenters() {
 
     foreach (QString indenterIniFile, indenterIniFileList) {
         indenterSettings = new QSettings(dataDirctoryStr + indenterIniFile, QSettings::IniFormat, NULL);
-        indenterNamesList << indenterSettings->value("_header/name").toString();
+        indenterNamesList << indenterSettings->value(" header/name").toString();
         delete indenterSettings;
     }
     return indenterNamesList;

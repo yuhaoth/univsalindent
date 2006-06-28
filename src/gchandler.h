@@ -61,7 +61,6 @@ private:
     struct ParamBoolean
 	{
         QString paramName;
-		QString paramCallName;
 		QString trueString;
 		QString falseString;
         QCheckBox *checkBox;
