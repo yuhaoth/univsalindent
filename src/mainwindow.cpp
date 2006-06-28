@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //font.setPointSize(10);
 
     setupUi(this);
-    QString version = "0.1.2_preAlpha";
+    QString version = "0.1.3_preAlpha revision 33";
     this->setWindowTitle( this->windowTitle() +"  "+ version );
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
