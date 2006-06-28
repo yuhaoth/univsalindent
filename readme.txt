@@ -50,6 +50,8 @@ For the Windows Visual Studio 2005 a solution file is included, named "Universal
 
 Alternatively the qmake project file can be used to compile on any platform. Just run "qmake" in the projects main directory (where the file "UniversalIndentGUI.pro" resides). After this run "make debug" or "make release". That should do it.
 
+ATTENTION! If you have successfully compiled the project, you have to put Astyle.exe or GC.exe into the "data" directory in Order to run the program with normal functionality.
+
 
 5. Some end words
 -----------------
