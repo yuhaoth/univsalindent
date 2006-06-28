@@ -158,14 +158,14 @@ void GcHandler::generateParameterString() {
     parameterString = "";
 
     // generate parameter string for all boolean values
-    foreach (ParamCheckBox pChkBox, paramCheckBoxes) {
-        if ( pChkBox.checkBox->isChecked() ) {
-            parameterString += pChkBox.paramCallName + " \n";
-            gcSettings->setValue( pChkBox.paramName + "/Value", 1);
+    foreach (ParamBoolean pBoolean, paramBooleans) {
+        if ( pBoolean.checkBox->isChecked() ) {
+            parameterString += pBoolean.trueString + " \n";
+            gcSettings->setValue( pBoolean.paramName + "/Value", 1);
         }
         else {
-            parameterString += "-no" + pChkBox.paramCallName + " \n";
-            gcSettings->setValue( pChkBox.paramName + "/Value", 0);
+            parameterString += pBoolean.falseString + " \n";
+            gcSettings->setValue( pBoolean.paramName + "/Value", 0);
         }
     }
 
@@ -221,15 +221,15 @@ void GcHandler::loadConfigFile(QString filePathName) {
 	cfgFile.close();
 
     // search for name of each boolean parameter and set/or not if "no-" is found in front of it
-	foreach (ParamCheckBox pChkBox, paramCheckBoxes) {
-		index = cfgFileData.indexOf( pChkBox.paramName, 0 );
+	foreach (ParamBoolean pBoolean, paramBooleans) {
+		index = cfgFileData.indexOf( pBoolean.paramName, 0 );
 		if ( index != -1 ) {
             // get the three charcters in front of the found index
 			if ( cfgFileData.mid(index-3, 3) == "no-" ) {
-				pChkBox.checkBox->setChecked(false);
+				pBoolean.checkBox->setChecked(false);
 			}
 			else {
-				pChkBox.checkBox->setChecked(true);
+				pBoolean.checkBox->setChecked(true);
 			}
 		}
 	}
@@ -275,8 +275,6 @@ void GcHandler::loadConfigFile(QString filePathName) {
 
 /*!
     \brief opens and parses an indenter ini file, handed as parameter
-
-
  */
 void GcHandler::readIndentIniFile(QString iniFilePath) {
 
@@ -407,11 +405,14 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 				toolBoxPages.at(category).vboxLayout->addWidget(chkBox);
 
                 // remember parameter name and reference to its checkbox
-                ParamCheckBox paramCheckBox;
-                paramCheckBox.paramName = gcParameter;
-				paramCheckBox.paramCallName = parameterCallName;
-                paramCheckBox.checkBox = chkBox;
-                paramCheckBoxes.append(paramCheckBox);
+                ParamBoolean paramBoolean;
+                paramBoolean.paramName = gcParameter;
+				paramBoolean.paramCallName = parameterCallName;
+                paramBoolean.checkBox = chkBox;
+				QStringList trueFalseStrings = gcSettings->value(gcParameter + "/TrueFalse").toString().split("|");
+				paramBoolean.trueString = trueFalseStrings.at(0);
+				paramBoolean.falseString = trueFalseStrings.at(1);
+                paramBooleans.append(paramBoolean);
 
                 QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
             }
@@ -484,7 +485,7 @@ void GcHandler::setIndenter(int indenterID) {
     toolBoxPages.clear();
     paramLineEdits.clear();
     paramSpinBoxes.clear();
-    paramCheckBoxes.clear();
+    paramBooleans.clear();
     delete gcSettings;
 
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );

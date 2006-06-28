@@ -57,14 +57,16 @@ private:
 	};
 	QVector<ToolBoxPage> toolBoxPages;
 
-    // hold a reference to all checkboxes needed for parameter setting and the parameters name
-    struct ParamCheckBox
+    // hold a reference to all checkboxes needed for boolean parameter setting and the parameters name
+    struct ParamBoolean
 	{
         QString paramName;
 		QString paramCallName;
+		QString trueString;
+		QString falseString;
         QCheckBox *checkBox;
 	};
-	QVector<ParamCheckBox> paramCheckBoxes;
+	QVector<ParamBoolean> paramBooleans;
 
     // hold a reference to all lineedits needed for parameter setting and the parameters name
     struct ParamLineEdit
