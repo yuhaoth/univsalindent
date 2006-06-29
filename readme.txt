@@ -44,11 +44,12 @@ A current version of the project can be downloaded via subversion.
 Server: https://svn.sourceforge.net
 Repository: svnroot/universalindent
 
-The Qt Framework with source code is needed to compile. It is available at www.trolltech.com. Please look there for more info.
+The Qt Framework Version >=4.x with source code is needed to compile. It is available at www.trolltech.com. Please look there for more info.
 
 For the Windows Visual Studio 2005 a solution file is included, named "UniversalIndentGUI.sln". Additional include and lib directories for Qt have to be set in the preferences. Look at the trolltechs homepage or google for these settings right now. Later I will write them down here.
 
 Alternatively the qmake project file can be used to compile on any platform. Just run "qmake" in the projects main directory (where the file "UniversalIndentGUI.pro" resides). After this run "make debug" or "make release". That should do it.
+Also for ease you can run the batch file makeall.bat under windows if you use Visual Studio 2005. It also embeds the manifest file into the executable.
 
 ATTENTION! If you have successfully compiled the project, you have to put Astyle.exe or GC.exe into the "data" directory in Order to run the program with normal functionality.
 

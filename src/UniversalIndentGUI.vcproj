@@ -21,7 +21,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\tmp_$(ProjectName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\tmp"
 			ConfigurationType="1"
 			CharacterSet="1"
 			>
@@ -54,12 +54,13 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/D &quot;QT_LARGEFILE_SUPPORT&quot; /D &quot;QT_DLL&quot; /D &quot;QT_GUI_LIB&quot; /D &quot;QT_CORE_LIB&quot; /D &quot;QT_THREAD_SUPPORT&quot;"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(OutDir)\tmp_$(ProjectName)\uic\$(ConfigurationName)_shared\&quot;;&quot;$(QtDir)\demos\shared&quot;"
+				AdditionalIncludeDirectories="&quot;$(OutDir)\tmp\uic\&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
+				ObjectFile="$(IntDir)\obj\"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -110,7 +111,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\tmp_$(ProjectName)"
+			IntermediateDirectory="$(SolutionDir)$(ConfigurationName)\tmp"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -142,10 +143,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(OutDir)\tmp_$(ProjectName)\uic\$(ConfigurationName)_shared\&quot;;&quot;$(QtDir)\demos\shared&quot;"
+				AdditionalIncludeDirectories="&quot;$(OutDir)\tmp\uic\&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
+				ObjectFile="$(IntDir)\obj\"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -174,6 +176,7 @@
 			/>
 			<Tool
 				Name="VCManifestTool"
+				VerboseOutput="true"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -264,36 +267,38 @@
 			Name="Generated"
 			>
 			<File
-				RelativePath="$(OutDir)\tmp_$(ProjectName)\moc\$(ConfigurationName)_shared\moc_cpphighlighter.cpp"
+				RelativePath="$(OutDir)\tmp\moc\moc_cpphighlighter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="$(OutDir)\tmp_$(ProjectName)\moc\$(ConfigurationName)_shared\moc_gchandler.cpp"
+				RelativePath="$(OutDir)\tmp\moc\moc_gchandler.cpp"
 				>
 			</File>
 			<File
-				RelativePath="$(OutDir)\tmp_$(ProjectName)\moc\$(ConfigurationName)_shared\moc_mainwindow.cpp"
+				RelativePath="$(OutDir)\tmp\moc\moc_mainwindow.cpp"
 				>
 			</File>
 			<File
-				RelativePath="$(OutDir)\tmp_$(ProjectName)\qrc\$(ConfigurationName)_shared\qrc_Icons.cpp"
+				RelativePath="$(OutDir)\tmp\qrc\qrc_Icons.cpp"
 				>
 			</File>
 			<File
-				RelativePath="$(OutDir)\tmp_$(ProjectName)\uic\$(ConfigurationName)_shared\ui_indentgui.h"
+				RelativePath="$(OutDir)\tmp\uic\ui_indentgui.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
-						Name="VCCustomBuildTool"
+						Name="MOC"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
-						Name="VCCustomBuildTool"
+						Name="MOC"
 					/>
 				</FileConfiguration>
 			</File>

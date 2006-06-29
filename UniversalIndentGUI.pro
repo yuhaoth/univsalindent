@@ -12,6 +12,25 @@ DEPENDPATH += resources \
 
 INCLUDEPATH += src
 
+# destination directories
+
+debug {
+DESTDIR = ./debug
+MOC_DIR = ./debug/tmp/moc
+UI_HEADERS_DIR = ./debug/tmp/uic
+OBJECTS_DIR = ./debug/tmp/obj
+RCC_DIR = ./debug/tmp/qrc
+}
+
+release {
+DESTDIR = ./release
+MOC_DIR = ./release/tmp/moc
+UI_HEADERS_DIR = ./release/tmp/uic
+OBJECTS_DIR = ./release/tmp/obj
+RCC_DIR = ./release/tmp/qrc
+}
+
+
 # Input
 HEADERS += src/cpphighlighter.h \
            src/gchandler.h \
