@@ -68,24 +68,24 @@ private:
 	QVector<ParamBoolean> paramBooleans;
 
     // hold a reference to all lineedits needed for parameter setting and the parameters name
-    struct ParamLineEdit
+    struct ParamString
 	{
         QString paramName;
 		QString paramCallName;
         QLineEdit *lineEdit;
         QLabel *label;
 	};
-	QVector<ParamLineEdit> paramLineEdits;
+	QVector<ParamString> paramStrings;
 
     // hold a reference to all spinboxes needed for parameter setting and the parameters name
-    struct ParamSpinBox
+    struct ParamNumeric
 	{
         QString paramName;
 		QString paramCallName;
         QSpinBox *spinBox;
         QLabel *label;
 	};
-	QVector<ParamSpinBox> paramSpinBoxes;
+	QVector<ParamNumeric> paramNumerics;
 
 	QVBoxLayout *vboxLayout;
     QToolBox *toolBox;

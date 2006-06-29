@@ -171,21 +171,21 @@ void GcHandler::generateParameterString() {
     }
 
     // generate parameter string for all numeric values
-    foreach (ParamSpinBox pSpinBox, paramSpinBoxes) {
-        parameterString += pSpinBox.paramCallName + QString::number( pSpinBox.spinBox->value() ) + " \n";
-        gcSettings->setValue( pSpinBox.paramName + "/Value", pSpinBox.spinBox->value());
+    foreach (ParamNumeric pNumeric, paramNumerics) {
+        parameterString += pNumeric.paramCallName + QString::number( pNumeric.spinBox->value() ) + " \n";
+        gcSettings->setValue( pNumeric.paramName + "/Value", pNumeric.spinBox->value());
     }
 
     // generate parameter string for all string values
-    foreach (ParamLineEdit pLineEdit, paramLineEdits) {
-        if ( pLineEdit.lineEdit->text() != "" ) {
-            if ( pLineEdit.paramName == "cmt_fixme" ) {
-                parameterString += pLineEdit.paramCallName + "\"" + pLineEdit.lineEdit->text() + "\" \n";
+    foreach (ParamString pString, paramStrings) {
+        if ( pString.lineEdit->text() != "" ) {
+            if ( pString.paramName == "cmt_fixme" ) {
+                parameterString += pString.paramCallName + "\"" + pString.lineEdit->text() + "\" \n";
             }
             else {
-                parameterString += pLineEdit.paramCallName + pLineEdit.lineEdit->text() + " \n";
+                parameterString += pString.paramCallName + pString.lineEdit->text() + " \n";
             }
-            gcSettings->setValue( pLineEdit.paramName + "/Value", pLineEdit.lineEdit->text());
+            gcSettings->setValue( pString.paramName + "/Value", pString.lineEdit->text());
         }
     }
 
@@ -236,11 +236,11 @@ void GcHandler::loadConfigFile(QString filePathName) {
 	}
 
     // search for name of each numeric parameter and set the value found behind it
-	foreach (ParamSpinBox pSpinBox, paramSpinBoxes) {
-		index = cfgFileData.indexOf( pSpinBox.paramName, 0 );
+	foreach (ParamNumeric pNumeric, paramNumerics) {
+		index = cfgFileData.indexOf( pNumeric.paramName, 0 );
 		if ( index != -1 ) {
             // set index after the parameter name, so in front of the number
-            index += pSpinBox.paramName.length();
+            index += pNumeric.paramName.length();
 
             // find the line end by searching for carriage return
             crPos = cfgFileData.indexOf( '\n', index+1 );
@@ -249,25 +249,25 @@ void GcHandler::loadConfigFile(QString filePathName) {
             paramValue = cfgFileData.mid( index, crPos - index ).toInt(NULL);
 
             // disable the signal-slot connection. Otherwise signal is emmitted each time when value is set
-            QObject::disconnect(pSpinBox.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
-            pSpinBox.spinBox->setValue( paramValue );
-            QObject::connect(pSpinBox.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
+            QObject::disconnect(pNumeric.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
+            pNumeric.spinBox->setValue( paramValue );
+            QObject::connect(pNumeric.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
 		}
 	}
 
     // search for name of each string parameter and set/or not if "no-" is found in front of it
-	foreach (ParamLineEdit pLineEdit, paramLineEdits) {
-		index = cfgFileData.indexOf( pLineEdit.paramName, 0 );
+	foreach (ParamString pString, paramStrings) {
+		index = cfgFileData.indexOf( pString.paramName, 0 );
 		if ( index != -1 ) {
             // set index after the parameter name, so in front of the string
-            index += pLineEdit.paramName.length();
+            index += pString.paramName.length();
 
             // find the line end by searching for carriage return
             crPos = cfgFileData.indexOf( '\n', index+1 );
 
             // get the number and convert it to int
             paramValueStr = QString( cfgFileData.mid( index, crPos - index ) );
-            pLineEdit.lineEdit->setText( paramValueStr );
+            pString.lineEdit->setText( paramValueStr );
 		}
 	}
 
@@ -386,12 +386,12 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 toolBoxPages.at(category).vboxLayout->addLayout(hboxLayout);
 
                 // remember parameter name and reference to its spinbox
-                ParamSpinBox paramSpinBox;
-                paramSpinBox.paramName = gcParameter;
-				paramSpinBox.paramCallName = parameterCallName;
-                paramSpinBox.spinBox = spinBox;
-                paramSpinBox.label = label;
-                paramSpinBoxes.append(paramSpinBox);
+                ParamNumeric paramNumeric;
+                paramNumeric.paramName = gcParameter;
+				paramNumeric.paramCallName = parameterCallName;
+                paramNumeric.spinBox = spinBox;
+                paramNumeric.label = label;
+                paramNumerics.append(paramNumeric);
 
                 QObject::connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
             }
@@ -442,12 +442,12 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 toolBoxPages.at(category).vboxLayout->addLayout(hboxLayout);
 
                 // remember parameter name and reference to its lineedit
-                ParamLineEdit paramLineEdit;
-                paramLineEdit.paramName = gcParameter;
-				paramLineEdit.paramCallName = parameterCallName;
-                paramLineEdit.lineEdit = lineEdit;
-                paramLineEdit.label = label;
-                paramLineEdits.append(paramLineEdit);
+                ParamString paramString;
+                paramString.paramName = gcParameter;
+				paramString.paramCallName = parameterCallName;
+                paramString.lineEdit = lineEdit;
+                paramString.label = label;
+                paramStrings.append(paramString);
 
                 QObject::connect(lineEdit, SIGNAL(editingFinished()), this, SLOT(generateParameterString()));
             }
@@ -485,8 +485,8 @@ void GcHandler::setIndenter(int indenterID) {
 
     // empty all lists, which stored infos for the toolbox pages and its widgets
     toolBoxPages.clear();
-    paramLineEdits.clear();
-    paramSpinBoxes.clear();
+    paramStrings.clear();
+    paramNumerics.clear();
     paramBooleans.clear();
     delete gcSettings;
 
