@@ -72,6 +72,7 @@ private:
 	{
         QString paramName;
 		QString paramCallName;
+        QCheckBox *valueEnabledChkBox;
         QLineEdit *lineEdit;
         QLabel *label;
 	};
@@ -82,6 +83,7 @@ private:
 	{
         QString paramName;
 		QString paramCallName;
+        QCheckBox *valueEnabledChkBox;
         QSpinBox *spinBox;
         QLabel *label;
 	};

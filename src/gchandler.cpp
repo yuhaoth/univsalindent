@@ -352,6 +352,13 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
             if ( editType == "numeric" ) {
 				// read the parameter name as it is used at the command line or in its config file
 				QString parameterCallName = gcSettings->value(gcParameter + "/CallName").toString();
+
+                // create checkbox which enables or disables the parameter
+                QCheckBox *chkBox = new QCheckBox( toolBoxPages.at(category).page );
+                chkBox->setChecked( gcSettings->value(gcParameter + "/Enabled").toBool() );
+                chkBox->setToolTip( "Enables/disables the parameter. If disabled the indenters default value will be used." );
+                // TODO: remove space between checkbox and spinbox
+
                 // create the spinbox
                 QSpinBox *spinBox = new QSpinBox( toolBoxPages.at(category).page );
                 spinBox->setValue( gcSettings->value(gcParameter + "/Value").toInt() );
@@ -381,6 +388,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
+                hboxLayout->addWidget(chkBox);
                 hboxLayout->addWidget(spinBox);
                 hboxLayout->addWidget(label);                
                 toolBoxPages.at(category).vboxLayout->addLayout(hboxLayout);
