@@ -172,21 +172,20 @@ void GcHandler::generateParameterString() {
 
     // generate parameter string for all numeric values
     foreach (ParamNumeric pNumeric, paramNumerics) {
-        parameterString += pNumeric.paramCallName + QString::number( pNumeric.spinBox->value() ) + " \n";
+        if ( pNumeric.valueEnabledChkBox->isChecked()) {
+            parameterString += pNumeric.paramCallName + QString::number( pNumeric.spinBox->value() ) + " \n";
+        }
         gcSettings->setValue( pNumeric.paramName + "/Value", pNumeric.spinBox->value());
+        gcSettings->setValue( pNumeric.paramName + "/Enabled", pNumeric.valueEnabledChkBox->isChecked() );
     }
 
     // generate parameter string for all string values
     foreach (ParamString pString, paramStrings) {
-        if ( pString.lineEdit->text() != "" ) {
-            if ( pString.paramName == "cmt_fixme" ) {
-                parameterString += pString.paramCallName + "\"" + pString.lineEdit->text() + "\" \n";
-            }
-            else {
-                parameterString += pString.paramCallName + pString.lineEdit->text() + " \n";
-            }
-            gcSettings->setValue( pString.paramName + "/Value", pString.lineEdit->text());
+        if ( pString.lineEdit->text() != "" && pString.valueEnabledChkBox->isChecked()) {
+            parameterString += pString.paramCallName + pString.lineEdit->text() + " \n";
         }
+        gcSettings->setValue( pString.paramName + "/Value", pString.lineEdit->text());
+        gcSettings->setValue( pString.paramName + "/Enabled", pString.valueEnabledChkBox->isChecked() );
     }
 
     writeConfigFile(parameterString);
@@ -357,7 +356,10 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 QCheckBox *chkBox = new QCheckBox( toolBoxPages.at(category).page );
                 chkBox->setChecked( gcSettings->value(gcParameter + "/Enabled").toBool() );
                 chkBox->setToolTip( "Enables/disables the parameter. If disabled the indenters default value will be used." );
-                // TODO: remove space between checkbox and spinbox
+                chkBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+                int left, top, right, bottom;
+                chkBox->getContentsMargins( &left, &top, &right, &bottom );
+                chkBox->setContentsMargins( left, top, 0, bottom );
 
                 // create the spinbox
                 QSpinBox *spinBox = new QSpinBox( toolBoxPages.at(category).page );
@@ -366,18 +368,17 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 spinBox->setToolTip( paramToolTip );
                 spinBox->setMaximumWidth(50);
                 spinBox->setMinimumWidth(50);
-				if ( gcSettings->value(gcParameter + "/MinMax").toString() == "" ) {
-					spinBox->setMaximum(2000);
+				if ( gcSettings->value(gcParameter + "/MinVal").toString() != "" ) {
+					spinBox->setMinimum( gcSettings->value(gcParameter + "/MinVal").toInt() );
 				}
 				else {
-					// a negative number sets the min value, a positive the max value
-					int minMax = gcSettings->value(gcParameter + "/MinMax").toInt();
-					if ( minMax < 0 ) {
-						spinBox->setMinimum( minMax * (-1) );
-					}
-					else {
-						spinBox->setMaximum( minMax );
-					}
+                    spinBox->setMinimum( 0 );
+				}
+                if ( gcSettings->value(gcParameter + "/MaxVal").toString() != "" ) {
+					spinBox->setMaximum( gcSettings->value(gcParameter + "/MaxVal").toInt() );
+				}
+				else {
+                    spinBox->setMaximum( 2000 );
 				}
 
                 // create the label
@@ -399,9 +400,11 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 				paramNumeric.paramCallName = parameterCallName;
                 paramNumeric.spinBox = spinBox;
                 paramNumeric.label = label;
+                paramNumeric.valueEnabledChkBox = chkBox;
                 paramNumerics.append(paramNumeric);
 
                 QObject::connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
+                QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
             }
             // edit type is boolean so create a checkbox
             else if ( editType == "boolean" ) {
@@ -425,9 +428,19 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
             }
             // edit type is numeric so create a lineedit with label
-            else {
+            else if ( editType == "string" ) {
 				// read the parameter name as it is used at the command line or in its config file
 				QString parameterCallName = gcSettings->value(gcParameter + "/CallName").toString();
+
+                // create checkbox which enables or disables the parameter
+                QCheckBox *chkBox = new QCheckBox( toolBoxPages.at(category).page );
+                chkBox->setChecked( gcSettings->value(gcParameter + "/Enabled").toBool() );
+                chkBox->setToolTip( "Enables/disables the parameter. If disabled the indenters default value will be used." );
+                chkBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+                int left, top, right, bottom;
+                chkBox->getContentsMargins( &left, &top, &right, &bottom );
+                chkBox->setContentsMargins( left, top, 0, bottom );
+
                 // create the line edit
                 QLineEdit *lineEdit = new QLineEdit( toolBoxPages.at(category).page );
                 lineEdit->setText( gcSettings->value(gcParameter + "/Value").toString() );
@@ -445,6 +458,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
+                hboxLayout->addWidget(chkBox);
                 hboxLayout->addWidget(lineEdit);
                 hboxLayout->addWidget(label);  
                 toolBoxPages.at(category).vboxLayout->addLayout(hboxLayout);
@@ -455,9 +469,11 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
 				paramString.paramCallName = parameterCallName;
                 paramString.lineEdit = lineEdit;
                 paramString.label = label;
+                paramString.valueEnabledChkBox = chkBox;
                 paramStrings.append(paramString);
 
                 QObject::connect(lineEdit, SIGNAL(editingFinished()), this, SLOT(generateParameterString()));
+                QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
             }
         }
     }
