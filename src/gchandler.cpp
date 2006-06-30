@@ -172,7 +172,7 @@ void GcHandler::generateParameterString() {
 
     // generate parameter string for all numeric values
     foreach (ParamNumeric pNumeric, paramNumerics) {
-        if ( pNumeric.valueEnabledChkBox->isChecked()) {
+        if ( pNumeric.valueEnabledChkBox->isChecked() ) {
             parameterString += pNumeric.paramCallName + QString::number( pNumeric.spinBox->value() ) + " \n";
         }
         gcSettings->setValue( pNumeric.paramName + "/Value", pNumeric.spinBox->value());
@@ -181,11 +181,20 @@ void GcHandler::generateParameterString() {
 
     // generate parameter string for all string values
     foreach (ParamString pString, paramStrings) {
-        if ( pString.lineEdit->text() != "" && pString.valueEnabledChkBox->isChecked()) {
+        if ( pString.lineEdit->text() != "" && pString.valueEnabledChkBox->isChecked() ) {
             parameterString += pString.paramCallName + pString.lineEdit->text() + " \n";
         }
         gcSettings->setValue( pString.paramName + "/Value", pString.lineEdit->text());
         gcSettings->setValue( pString.paramName + "/Enabled", pString.valueEnabledChkBox->isChecked() );
+    }
+
+    // generate parameter string for all multiple choice values
+    foreach (ParamMultiple pMultiple, paramMultiples) {
+        if ( pMultiple.valueEnabledChkBox->isChecked() ) {
+            parameterString += pMultiple.choicesStrings.at( pMultiple.comboBox->currentIndex () ) + " \n";
+        }
+        gcSettings->setValue( pMultiple.paramName + "/Value", pMultiple.comboBox->currentIndex ());
+        gcSettings->setValue( pMultiple.paramName + "/Enabled", pMultiple.valueEnabledChkBox->isChecked() );
     }
 
     writeConfigFile(parameterString);
@@ -475,6 +484,47 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
                 QObject::connect(lineEdit, SIGNAL(editingFinished()), this, SLOT(generateParameterString()));
                 QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
             }
+            // edit type is multiple so create a combobox with label
+            else if ( editType == "multiple" ) {
+				// read the parameter name as it is used at the command line or in its config file
+				QString parameterCallName = gcSettings->value(gcParameter + "/CallName").toString();
+
+                // create checkbox which enables or disables the parameter
+                QCheckBox *chkBox = new QCheckBox( toolBoxPages.at(category).page );
+                chkBox->setChecked( gcSettings->value(gcParameter + "/Enabled").toBool() );
+                chkBox->setToolTip( "Enables/disables the parameter. If disabled the indenters default value will be used." );
+                chkBox->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Fixed );
+                int left, top, right, bottom;
+                chkBox->getContentsMargins( &left, &top, &right, &bottom );
+                chkBox->setContentsMargins( left, top, 0, bottom );
+
+                // create the combo box
+                QComboBox *comboBox = new QComboBox( toolBoxPages.at(category).page );
+                QStringList choicesStrings = gcSettings->value(gcParameter + "/Choices").toString().split("|");
+                comboBox->addItems( choicesStrings );
+                comboBox->setCurrentIndex( gcSettings->value(gcParameter + "/Value").toInt() );
+                paramToolTip = gcSettings->value(gcParameter + "/Description").toString();
+                comboBox->setToolTip( paramToolTip );
+
+                // put all into a layout and add it to the toolbox page
+                QHBoxLayout *hboxLayout = new QHBoxLayout();
+                hboxLayout->addWidget(chkBox);
+                hboxLayout->addWidget(comboBox);
+                toolBoxPages.at(category).vboxLayout->addLayout(hboxLayout);
+
+                // remember parameter name and reference to its lineedit
+                ParamMultiple paramMultiple;
+                paramMultiple.paramName = gcParameter;
+				paramMultiple.paramCallName = parameterCallName;
+                paramMultiple.comboBox = comboBox;
+                paramMultiple.choicesStrings = choicesStrings;
+                paramMultiple.valueEnabledChkBox = chkBox;
+                paramMultiples.append(paramMultiple);
+
+                QObject::connect(comboBox, SIGNAL(activated(int)), this, SLOT(generateParameterString()));
+                QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
+            }
+
         }
     }
 

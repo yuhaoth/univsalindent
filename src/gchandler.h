@@ -18,6 +18,7 @@
 #include <QVBoxLayout>
 #include <QApplication>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QFile>
 #include <QProcess>
 #include <QSettings>
@@ -88,6 +89,17 @@ private:
         QLabel *label;
 	};
 	QVector<ParamNumeric> paramNumerics;
+
+    // hold a reference to all comboboxes needed for parameter setting and the parameters name
+    struct ParamMultiple
+	{
+        QString paramName;
+		QString paramCallName;
+        QCheckBox *valueEnabledChkBox;
+        QComboBox *comboBox;
+        QStringList choicesStrings;
+	};
+	QVector<ParamMultiple> paramMultiples;
 
 	QVBoxLayout *vboxLayout;
     QToolBox *toolBox;
