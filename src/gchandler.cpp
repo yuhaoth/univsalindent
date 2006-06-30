@@ -94,7 +94,10 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     indentProcess.setReadChannelMode(QProcess::MergedChannels);
 
 #if defined(Q_OS_LINUX)
-    indentCallString = "wine " + indentCallString;
+	// if no linux binary exists to run the indenter, use wine to run the windows exe
+	if ( !QFile::exists(dataDirctoryStr + indenterProgramName) ) {
+		indentCallString = "wine " + indentCallString;
+	}
 #endif
     //indentCallString.replace("/", "\\");
     indentProcess.start(indentCallString);
