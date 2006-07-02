@@ -233,8 +233,9 @@ void GcHandler::loadConfigFile(QString filePathName) {
 	cfgFile.close();
 
     // search for name of each boolean parameter and set/or not if "no-" is found in front of it
+    /*
 	foreach (ParamBoolean pBoolean, paramBooleans) {
-		index = cfgFileData.indexOf( pBoolean.paramName, 0 );
+		index = cfgFileData.indexOf( pBoolean.CallName, 0 );
 		if ( index != -1 ) {
             // get the three charcters in front of the found index
 			if ( cfgFileData.mid(index-3, 3) == "no-" ) {
@@ -245,18 +246,20 @@ void GcHandler::loadConfigFile(QString filePathName) {
 			}
 		}
 	}
+    */
 
     // search for name of each numeric parameter and set the value found behind it
 	foreach (ParamNumeric pNumeric, paramNumerics) {
-		index = cfgFileData.indexOf( pNumeric.paramName, 0 );
+		index = cfgFileData.indexOf( pNumeric.paramCallName, 0 );
 		if ( index != -1 ) {
             // set index after the parameter name, so in front of the number
-            index += pNumeric.paramName.length();
+            index += pNumeric.paramCallName.length();
 
             // find the line end by searching for carriage return
             crPos = cfgFileData.indexOf( '\n', index+1 );
 
             // get the number and convert it to int
+            QString test = cfgFileData.mid( index, crPos - index );
             paramValue = cfgFileData.mid( index, crPos - index ).toInt(NULL);
 
             // disable the signal-slot connection. Otherwise signal is emmitted each time when value is set
@@ -268,10 +271,10 @@ void GcHandler::loadConfigFile(QString filePathName) {
 
     // search for name of each string parameter and set/or not if "no-" is found in front of it
 	foreach (ParamString pString, paramStrings) {
-		index = cfgFileData.indexOf( pString.paramName, 0 );
+		index = cfgFileData.indexOf( pString.paramCallName, 0 );
 		if ( index != -1 ) {
             // set index after the parameter name, so in front of the string
-            index += pString.paramName.length();
+            index += pString.paramCallName.length();
 
             // find the line end by searching for carriage return
             crPos = cfgFileData.indexOf( '\n', index+1 );
