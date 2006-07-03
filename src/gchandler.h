@@ -110,7 +110,7 @@ private:
     // the indenters name in a descriptive form
     QString indenterName;
     // the indenters file name, that is being called (w/o extension)
-    QString indenterProgramName;
+    QString indenterFileName;
     QString dataDirctoryStr;
     QStringList indenterIniFileList;
     QString configFilename;

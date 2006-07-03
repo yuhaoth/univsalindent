@@ -78,7 +78,7 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     QString formattedSourceCode;
     QFile::remove(dataDirctoryStr + inputFileName);
     QFile outSrcFile(dataDirctoryStr + inputFileName);
-	QString indentCallString = dataDirctoryStr + indenterProgramName +" "+ inputFileParameter + dataDirctoryStr 
+	QString indentCallString = dataDirctoryStr + indenterFileName +" "+ inputFileParameter + dataDirctoryStr 
         + inputFileName +" "+ outputFileParameter + dataDirctoryStr + outputFileName;
     QProcess indentProcess;
     QString processReturnString;
@@ -163,11 +163,15 @@ void GcHandler::generateParameterString() {
     // generate parameter string for all boolean values
     foreach (ParamBoolean pBoolean, paramBooleans) {
         if ( pBoolean.checkBox->isChecked() ) {
-            parameterString += pBoolean.trueString + " \n";
+            if ( !pBoolean.trueString.isEmpty() ) {
+                parameterString += pBoolean.trueString + cfgFileParameterEnding;
+            }
             gcSettings->setValue( pBoolean.paramName + "/Value", 1);
         }
         else {
-            parameterString += pBoolean.falseString + " \n";
+            if ( !pBoolean.falseString.isEmpty() ) {
+                parameterString += pBoolean.falseString + cfgFileParameterEnding;
+            }
             gcSettings->setValue( pBoolean.paramName + "/Value", 0);
         }
 		//gcSettings->setValue( pBoolean.paramName + "/CallName", 1111);
@@ -176,7 +180,7 @@ void GcHandler::generateParameterString() {
     // generate parameter string for all numeric values
     foreach (ParamNumeric pNumeric, paramNumerics) {
         if ( pNumeric.valueEnabledChkBox->isChecked() ) {
-            parameterString += pNumeric.paramCallName + QString::number( pNumeric.spinBox->value() ) + " \n";
+            parameterString += pNumeric.paramCallName + QString::number( pNumeric.spinBox->value() ) + cfgFileParameterEnding;
         }
         gcSettings->setValue( pNumeric.paramName + "/Value", pNumeric.spinBox->value());
         gcSettings->setValue( pNumeric.paramName + "/Enabled", pNumeric.valueEnabledChkBox->isChecked() );
@@ -185,7 +189,7 @@ void GcHandler::generateParameterString() {
     // generate parameter string for all string values
     foreach (ParamString pString, paramStrings) {
         if ( pString.lineEdit->text() != "" && pString.valueEnabledChkBox->isChecked() ) {
-            parameterString += pString.paramCallName + pString.lineEdit->text() + " \n";
+            parameterString += pString.paramCallName + pString.lineEdit->text() + cfgFileParameterEnding;
         }
         gcSettings->setValue( pString.paramName + "/Value", pString.lineEdit->text());
         gcSettings->setValue( pString.paramName + "/Enabled", pString.valueEnabledChkBox->isChecked() );
@@ -194,7 +198,7 @@ void GcHandler::generateParameterString() {
     // generate parameter string for all multiple choice values
     foreach (ParamMultiple pMultiple, paramMultiples) {
         if ( pMultiple.valueEnabledChkBox->isChecked() ) {
-            parameterString += pMultiple.choicesStrings.at( pMultiple.comboBox->currentIndex () ) + " \n";
+            parameterString += pMultiple.choicesStrings.at( pMultiple.comboBox->currentIndex () ) + cfgFileParameterEnding;
         }
         gcSettings->setValue( pMultiple.paramName + "/Value", pMultiple.comboBox->currentIndex ());
         gcSettings->setValue( pMultiple.paramName + "/Enabled", pMultiple.valueEnabledChkBox->isChecked() );
@@ -232,21 +236,48 @@ void GcHandler::loadConfigFile(QString filePathName) {
 	cfgFileData = cfgFile.readAll();
 	cfgFile.close();
 
-    // search for name of each boolean parameter and set/or not if "no-" is found in front of it
-    /*
+    // search for name of each boolean parameter and set its value if found
 	foreach (ParamBoolean pBoolean, paramBooleans) {
-		index = cfgFileData.indexOf( pBoolean.CallName, 0 );
-		if ( index != -1 ) {
-            // get the three charcters in front of the found index
-			if ( cfgFileData.mid(index-3, 3) == "no-" ) {
-				pBoolean.checkBox->setChecked(false);
-			}
-			else {
-				pBoolean.checkBox->setChecked(true);
-			}
-		}
+        // boolean value that will be assigned to the checkbox
+        bool paramValue = false;
+
+        // first search for the longer parameter string
+        // the true parameter string is longer than the false string
+        if ( pBoolean.trueString.length() > pBoolean.falseString.length() ) {
+            // search for the true string
+            index = cfgFileData.indexOf( pBoolean.trueString, 0 );
+            // if true string found set the parameter value to true
+            if ( index != -1 ) {
+                paramValue = true;
+            }
+            // if true string not found, search for false string
+            else {
+                index = cfgFileData.indexOf( pBoolean.falseString, 0 );
+                // if false string found set the parameter value to false
+                if ( index != -1 ) {
+                    paramValue = false;
+                }
+            }
+        }
+        // the false parameter string is longer than the true string
+        else {
+            // search for the false string
+            index = cfgFileData.indexOf( pBoolean.falseString, 0 );
+            // if false string found set the parameter value to false
+            if ( index != -1 ) {
+                paramValue = false;
+            }
+            // if false string not found, search for true string
+            else {
+                index = cfgFileData.indexOf( pBoolean.trueString, 0 );
+                // if true string found set the parameter value to true
+                if ( index != -1 ) {
+                    paramValue = true;
+                }
+            }
+        }
+        pBoolean.checkBox->setChecked(paramValue);
 	}
-    */
 
     // search for name of each numeric parameter and set the value found behind it
 	foreach (ParamNumeric pNumeric, paramNumerics) {
@@ -256,7 +287,7 @@ void GcHandler::loadConfigFile(QString filePathName) {
             index += pNumeric.paramCallName.length();
 
             // find the line end by searching for carriage return
-            crPos = cfgFileData.indexOf( '\n', index+1 );
+            crPos = cfgFileData.indexOf( cfgFileParameterEnding, index+1 );
 
             // get the number and convert it to int
             QString test = cfgFileData.mid( index, crPos - index );
@@ -269,7 +300,7 @@ void GcHandler::loadConfigFile(QString filePathName) {
 		}
 	}
 
-    // search for name of each string parameter and set/or not if "no-" is found in front of it
+    // search for name of each string parameter and set it
 	foreach (ParamString pString, paramStrings) {
 		index = cfgFileData.indexOf( pString.paramCallName, 0 );
 		if ( index != -1 ) {
@@ -277,12 +308,28 @@ void GcHandler::loadConfigFile(QString filePathName) {
             index += pString.paramCallName.length();
 
             // find the line end by searching for carriage return
-            crPos = cfgFileData.indexOf( '\n', index+1 );
+            crPos = cfgFileData.indexOf( cfgFileParameterEnding, index+1 );
 
             // get the number and convert it to int
             paramValueStr = QString( cfgFileData.mid( index, crPos - index ) );
             pString.lineEdit->setText( paramValueStr );
 		}
+	}
+
+    // search for name of each multiple choice parameter and set it
+	foreach (ParamMultiple pMultiple, paramMultiples) {
+        int i = 0;
+        index = -1;
+
+        // search for all parameter names of the multiple choice list
+        // if one is found, set it and leave the while loop
+        while ( i < pMultiple.choicesStrings.count() && index == -1 ) {
+            index = cfgFileData.indexOf( pMultiple.choicesStrings.at(i), 0 );
+            if ( index != -1 ) {
+                pMultiple.comboBox->setCurrentIndex( i );
+            }
+            i++;
+        }
 	}
 
 	generateParameterString();
@@ -296,7 +343,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
     // open the ini-file that contains all available GreatCode settings with their additional infos
     gcSettings = new QSettings(iniFilePath, QSettings::IniFormat, this);
     
-	QStringList gcCategories;
+	QStringList categories;
     QString gcGroupString = "";
     QString paramToolTip = "";
 
@@ -305,31 +352,30 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
     //  parse ini file indenter header
     //
 
-    indenterName = gcSettings->value(" header/name").toString();
-    indenterProgramName = gcSettings->value(" header/filename").toString();
-    configFilename = gcSettings->value(" header/cfgfilename").toString();
-    useCfgFileParameter = gcSettings->value(" header/usecfgfileparameter").toString();
-    if ( gcSettings->value(" header/cfgfileparameterending").toString() == "cr" ) {
+    indenterName = gcSettings->value(" header/indenterName").toString();
+    indenterFileName = gcSettings->value(" header/indenterFileName").toString();
+    configFilename = gcSettings->value(" header/configFilename").toString();
+    useCfgFileParameter = gcSettings->value(" header/useCfgFileParameter").toString();
+    cfgFileParameterEnding = gcSettings->value(" header/cfgFileParameterEnding").toString();
+    if ( cfgFileParameterEnding == "cr" ) {
         cfgFileParameterEnding = "\n";
     }
-    else {
-        cfgFileParameterEnding = " ";
-    }
-    inputFileParameter = gcSettings->value(" header/inputfileparameter").toString();
-    inputFileName = gcSettings->value(" header/inputfilename").toString();
-    outputFileParameter = gcSettings->value(" header/outputfileparameter").toString();
-	outputFileName = gcSettings->value(" header/outputfilename").toString();
-    fileTypes = gcSettings->value(" header/filetypes").toString();
+
+    inputFileParameter = gcSettings->value(" header/inputFileParameter").toString();
+    inputFileName = gcSettings->value(" header/inputFileName").toString();
+    outputFileParameter = gcSettings->value(" header/outputFileParameter").toString();
+	outputFileName = gcSettings->value(" header/outputFileName").toString();
+    fileTypes = gcSettings->value(" header/fileTypes").toString();
     fileTypes.replace('|', ";");
 
     // read the categories names which are separated by "|"
-    QString gcCategoriesStr = gcSettings->value(" header/categories").toString();
-    gcCategories = gcCategoriesStr.split("|");
+    QString categoriesStr = gcSettings->value(" header/categories").toString();
+    categories = categoriesStr.split("|");
 
     ToolBoxPage toolBoxPage;
 
     // create a page for each category and store its references in a toolboxpage-array
-    foreach (QString category, gcCategories) {
+    foreach (QString category, categories) {
         //QString categoryName = gcSettings->value("Categories/" + category).toString();
         QString categoryName = category;
 
@@ -546,7 +592,7 @@ QStringList GcHandler::getAvailableIndenters() {
 
     foreach (QString indenterIniFile, indenterIniFileList) {
         indenterSettings = new QSettings(dataDirctoryStr + indenterIniFile, QSettings::IniFormat, NULL);
-        indenterNamesList << indenterSettings->value(" header/name").toString();
+        indenterNamesList << indenterSettings->value(" header/indenterName").toString();
         delete indenterSettings;
     }
     return indenterNamesList;
