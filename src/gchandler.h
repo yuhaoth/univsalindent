@@ -46,6 +46,8 @@ public:
 
     QStringList getAvailableIndenters();
 
+	QString getPossibleIndenterFileExtensions();
+
 private:
     void writeConfigFile(QString parameterString);
     void readIndentIniFile(QString iniFilePath);

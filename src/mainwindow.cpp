@@ -109,7 +109,8 @@ QString MainWindow::loadFile(QString filePath) {
 }
 
 void MainWindow::openSourceFileDialog() {
-    sourceFileContent = openFileDialog( tr("Choose source code file"), "./", "(*.c *.cpp *.h *.hpp)" );
+	QString fileExtensions = gcHandler->getPossibleIndenterFileExtensions();
+    sourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
 
     if (sourceFileContent != "") {
         sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);

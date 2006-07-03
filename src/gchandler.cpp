@@ -174,7 +174,6 @@ void GcHandler::generateParameterString() {
             }
             gcSettings->setValue( pBoolean.paramName + "/Value", 0);
         }
-		//gcSettings->setValue( pBoolean.paramName + "/CallName", 1111);
     }
 
     // generate parameter string for all numeric values
@@ -182,7 +181,7 @@ void GcHandler::generateParameterString() {
         if ( pNumeric.valueEnabledChkBox->isChecked() ) {
             parameterString += pNumeric.paramCallName + QString::number( pNumeric.spinBox->value() ) + cfgFileParameterEnding;
         }
-        gcSettings->setValue( pNumeric.paramName + "/Value", pNumeric.spinBox->value());
+        gcSettings->setValue( pNumeric.paramName + "/Value", pNumeric.spinBox->value() );
         gcSettings->setValue( pNumeric.paramName + "/Enabled", pNumeric.valueEnabledChkBox->isChecked() );
     }
 
@@ -191,7 +190,7 @@ void GcHandler::generateParameterString() {
         if ( pString.lineEdit->text() != "" && pString.valueEnabledChkBox->isChecked() ) {
             parameterString += pString.paramCallName + pString.lineEdit->text() + cfgFileParameterEnding;
         }
-        gcSettings->setValue( pString.paramName + "/Value", pString.lineEdit->text());
+        gcSettings->setValue( pString.paramName + "/Value", pString.lineEdit->text() );
         gcSettings->setValue( pString.paramName + "/Enabled", pString.valueEnabledChkBox->isChecked() );
     }
 
@@ -200,7 +199,7 @@ void GcHandler::generateParameterString() {
         if ( pMultiple.valueEnabledChkBox->isChecked() ) {
             parameterString += pMultiple.choicesStrings.at( pMultiple.comboBox->currentIndex () ) + cfgFileParameterEnding;
         }
-        gcSettings->setValue( pMultiple.paramName + "/Value", pMultiple.comboBox->currentIndex ());
+        gcSettings->setValue( pMultiple.paramName + "/Value", pMultiple.comboBox->currentIndex () );
         gcSettings->setValue( pMultiple.paramName + "/Enabled", pMultiple.valueEnabledChkBox->isChecked() );
     }
 
@@ -257,6 +256,10 @@ void GcHandler::loadConfigFile(QString filePathName) {
                 if ( index != -1 ) {
                     paramValue = false;
                 }
+				// neither true nor false parameter found so use default value
+				else {
+					paramValue = gcSettings->value(pBoolean.paramName + "/ValueDefault").toBool();
+				}
             }
         }
         // the false parameter string is longer than the true string
@@ -274,6 +277,10 @@ void GcHandler::loadConfigFile(QString filePathName) {
                 if ( index != -1 ) {
                     paramValue = true;
                 }
+				// neither true nor false parameter found so use default value
+				else {
+					paramValue = gcSettings->value(pBoolean.paramName + "/ValueDefault").toBool();
+				}
             }
         }
         pBoolean.checkBox->setChecked(paramValue);
@@ -282,6 +289,7 @@ void GcHandler::loadConfigFile(QString filePathName) {
     // search for name of each numeric parameter and set the value found behind it
 	foreach (ParamNumeric pNumeric, paramNumerics) {
 		index = cfgFileData.indexOf( pNumeric.paramCallName, 0 );
+		// parameter was found in config file
 		if ( index != -1 ) {
             // set index after the parameter name, so in front of the number
             index += pNumeric.paramCallName.length();
@@ -298,11 +306,24 @@ void GcHandler::loadConfigFile(QString filePathName) {
             pNumeric.spinBox->setValue( paramValue );
             QObject::connect(pNumeric.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
 		}
+		// parameter was not found in config file
+		else {
+			int defaultValue = gcSettings->value(pNumeric.paramName + "/ValueDefault").toInt();
+			// a value of -1 means that this parameter is disabled
+			if ( defaultValue == -1 ) {
+				pNumeric.valueEnabledChkBox->setChecked( false );
+			}
+			// if not disabled use the given default value
+			else {
+				pNumeric.spinBox->setValue( defaultValue );
+			}
+		}
 	}
 
     // search for name of each string parameter and set it
 	foreach (ParamString pString, paramStrings) {
 		index = cfgFileData.indexOf( pString.paramCallName, 0 );
+		// parameter was found in config file
 		if ( index != -1 ) {
             // set index after the parameter name, so in front of the string
             index += pString.paramCallName.length();
@@ -313,6 +334,18 @@ void GcHandler::loadConfigFile(QString filePathName) {
             // get the number and convert it to int
             paramValueStr = QString( cfgFileData.mid( index, crPos - index ) );
             pString.lineEdit->setText( paramValueStr );
+		}
+		// parameter was not found in config file
+		else {
+			QString defaultValue = gcSettings->value(pString.paramName + "/ValueDefault").toString();
+			// a value of -1 means that this parameter is disabled
+			if ( defaultValue == "-1" ) {
+				pString.valueEnabledChkBox->setChecked( false );
+			}
+			// if not disabled use the given default value
+			else {
+				pString.lineEdit->setText( defaultValue );
+			}
 		}
 	}
 
@@ -330,6 +363,19 @@ void GcHandler::loadConfigFile(QString filePathName) {
             }
             i++;
         }
+
+		// parameter was not set in config file, so use default value
+		if ( index == -1 ) {
+			int defaultValue = gcSettings->value(pMultiple.paramName + "/ValueDefault").toInt();
+			// a value of -1 means that this parameter is disabled
+			if ( defaultValue == -1 ) {
+				pMultiple.valueEnabledChkBox->setChecked( false );
+			}
+			// if not disabled use the given default value
+			else {
+				pMultiple.comboBox->setCurrentIndex( defaultValue );
+			}
+		}
 	}
 
 	generateParameterString();
@@ -617,4 +663,8 @@ void GcHandler::setIndenter(int indenterID) {
     delete gcSettings;
 
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
+}
+
+QString GcHandler::getPossibleIndenterFileExtensions() {
+	return this->fileTypes;
 }
