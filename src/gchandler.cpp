@@ -78,10 +78,16 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     QString formattedSourceCode;
     QFile::remove(dataDirctoryStr + inputFileName);
     QFile outSrcFile(dataDirctoryStr + inputFileName);
-	QString indentCallString = dataDirctoryStr + indenterFileName +" "+ inputFileParameter + dataDirctoryStr 
+	QString indentCallString = inputFileParameter + dataDirctoryStr 
         + inputFileName +" "+ outputFileParameter + dataDirctoryStr + outputFileName;
     QProcess indentProcess;
     QString processReturnString;
+
+#if defined(Q_OS_WIN32)
+	indentCallString = dataDirctoryStr + indenterFileName +".exe "+ indentCallString;
+#else
+	indentCallString = dataDirctoryStr + indenterFileName +" "+ indentCallString;
+#endif
 
     if ( !useCfgFileParameter.isEmpty() ) {
         indentCallString += " "+ useCfgFileParameter + dataDirctoryStr + configFilename;
@@ -95,7 +101,7 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 
 #if defined(Q_OS_LINUX)
 	// if no linux binary exists to run the indenter, use wine to run the windows exe
-	if ( !QFile::exists(dataDirctoryStr + indenterProgramName) ) {
+	if ( !QFile::exists(dataDirctoryStr + indenterFileName) ) {
 		indentCallString = "wine " + indentCallString;
 	}
 #endif
