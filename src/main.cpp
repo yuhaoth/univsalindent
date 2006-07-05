@@ -13,8 +13,10 @@
 #include "mainwindow.h"
 #include <QApplication>
 
-//#include <iostream>
 
+/*!
+	Entry point to UniversalIndentGUI application. Does not evaluate any command line parameters.
+ */
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

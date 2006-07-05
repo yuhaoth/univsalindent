@@ -18,7 +18,18 @@
 
 #include <QtGui/QCheckBox>
 
-//! Constructor
+/*!
+	\class MainWindow
+	\brief Is the main window of UniversalIndentGUI
+
+	The MainWindow class is responsible for generating and displaying most of the gui elements.
+	Its look is set in the file "indentgui.ui". An object for the indent handler is generated here
+	and user actions are being controlled. Is responsible for file open dialogs and indenter selection.
+ */
+
+/*!
+	Constructs the main window.
+ */
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     //QFont font;
@@ -26,7 +37,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //font.setFixedPitch(true);
     //font.setPointSize(10);
 
+	// generate gui a it is build in the file "indentgui.ui"
     setupUi(this);
+
+	// set the program version, which is shown in the main window title
     QString version = "0.2.1 Alpha revision 51";
     this->setWindowTitle( this->windowTitle() +"  "+ version );
 
@@ -54,6 +68,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( cmbBoxIndenters, SIGNAL(activated(int)), this, SLOT(selectIndenter(int)) );
 }
 
+/*!
+	Creates the by \a indenterID selected indent handler object and adds the indent widget to its layout
+ */
 void MainWindow::selectIndenter(int indenterID) {
 	GcHandler *oldGcHandler = gcHandler;
 
@@ -89,14 +106,17 @@ void MainWindow::selectIndenter(int indenterID) {
     QApplication::restoreOverrideCursor();
 }
 
-//! Tries to load a file and returns its content as QString
+/*!
+	Tries to load the by \a filePath defined file and returns its content as QString.
+	If the file could not be loaded a error dialog will be shown.
+ */
 QString MainWindow::loadFile(QString filePath) {
 
     QFile inSrcFile(filePath);
     QString fileContent = "";
 
     if ( !inSrcFile.open(QFile::ReadOnly | QFile::Text) ) {
-        QMessageBox::warning(NULL, tr("Error open file"), tr("Cannot read file \"%s\".").arg(filePath));
+        QMessageBox::warning(NULL, tr("Error opening file"), tr("Cannot read the file ")+"\""+filePath+"\"." );
     }
     else {
         QTextStream inSrcStrm(&inSrcFile);
@@ -108,6 +128,10 @@ QString MainWindow::loadFile(QString filePath) {
     return fileContent;
 }
 
+/*!
+	Calls the source file open dialog to load a source file for the formatting preview.
+	If the file was successfully loaded the indenter will be called to generate the formatted source code.
+ */
 void MainWindow::openSourceFileDialog() {
 	QString fileExtensions = gcHandler->getPossibleIndenterFileExtensions();
     sourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
@@ -120,6 +144,10 @@ void MainWindow::openSourceFileDialog() {
     }
 }
 
+/*!
+	Shows a file open dialog to open an existing config file for the currently selected indenter.
+	If the file was successfully opened the indent handler is called to load the settings and update itself.
+ */
 void MainWindow::openConfigFileDialog() {
     QString configFilePath; 
 
@@ -130,6 +158,10 @@ void MainWindow::openConfigFileDialog() {
     }
 }
 
+/*!
+	Shows a file open dialog with the title \a dialogHeaderStr starting in the directory \a startPath 
+	and with a file mask defined by \a fileMaskStr. Returns the contents of the file as QString.
+ */
 QString MainWindow::openFileDialog(QString dialogHeaderStr, QString startPath, QString fileMaskStr) {
 
     QString fileContent = "";
@@ -143,7 +175,11 @@ QString MainWindow::openFileDialog(QString dialogHeaderStr, QString startPath, Q
     return fileContent;
 }
 
-
+/*!
+	Updates the text edit field, which is showing the loaded, and if preview is enabled formatted, source code.
+	Reassigns the line numbers and in case of switch between preview and none preview keeps the text field
+	at the same line number.
+ */
 void MainWindow::updateSourceView()
 {
     QString lineNumbers = "";
@@ -177,6 +213,10 @@ void MainWindow::updateSourceView()
     textEditVScrollBar->setValue( textEditLastScrollPos );
 }
 
+/*!
+	Calls the selected indenter with the currently loaded source code to retrieve the formatted source code.
+	The original loaded source code file will not be changed.
+ */
 void MainWindow::callIndenter() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
@@ -184,6 +224,9 @@ void MainWindow::callIndenter() {
     QApplication::restoreOverrideCursor();
 }
 
+/*!
+	Switches the syntax highlightning corresponding to the value \a turnOn either on or off.
+ */
 void MainWindow::turnHighlightOnOff(bool turnOn) {
     if ( turnOn ) {
         highlighter->turnHighlightOn();
