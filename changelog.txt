@@ -1,0 +1,31 @@
+2006-07-07 Version 0.2.1.1 Alpha (win32 only)
+- previously compiled using Visual Studio 2005 Express, whereby an additional installation of a redistributable package was needed to run UniversalIndentGUI. To avoid this and not force the user to install anything, now using mingw to compile.
+
+2006-07-04 Version 0.2.1 Alpha
+- added function to load config file (not the uigui ini file) of every indenter (and reenabled load config file button)
+- added use of a default value when loading a indenter config file and not all parameters are set.
+- added all documented default parameters of GreatCode and Astyle to their ini files.
+- fixed loading of file mask for source code file after changing indenter
+- fixed call of indenter failed under win32 if a linux binary exists.
+
+2006-06-30 Version 0.2.0 Alpha
+- added missing parameters for flexible indenter ini file format
+- added complete Astyle ini file
+- added multiple choice combobox for parameters
+- added checkbox in front of numeric and string parameters to enable/disable them. If disabled indenters default value is used
+
+2006-06-28
+- added working ini file for Astyle (right now only few boolean parameters)
+- changed ini file format for booleans to reach the planned flexibility
+
+2006-06-23
+- added combobox in the upper left showing available indenters (found by searching for uigui_*.ini file). at the moment only GreatCode and testwise Astyle
+- added more detailed info if the indenter call results in an error
+- added icon for executable
+- changed style/format of the ini file. Still not all planned features implemented
+- some bugfixes, as you can say this in a preAlpha
+
+2006-06-07
+- unnecessary gui menu removed
+- corrected ini file for great code (only in executable release)
+- made call of windows version of GreatCode under Linux possible by using wine
