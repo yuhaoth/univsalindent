@@ -45,7 +45,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->setWindowTitle( this->windowTitle() +"  "+ version );
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
-    connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
+    connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
+    //connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
+    connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
     connect( cbLivePreview, SIGNAL(clicked()), this, SLOT(updateSourceView()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
 
@@ -70,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // generate about dialog box
     aboutDialog = new AboutDialog(this);
     connect( pbAbout, SIGNAL(clicked()), aboutDialog, SLOT(exec()) );
+    connect( actionAbout_UniversalIndentGUI, SIGNAL(activated()), aboutDialog, SLOT(exec()) );
 }
 
 /*!

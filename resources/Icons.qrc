@@ -2,9 +2,16 @@
     <qresource prefix="/aboutDialog" >
         <file>banner.jpg</file>
     </qresource>
-    <qresource prefix="/new/prefix1" >
+    <qresource prefix="/mainWindow" >
         <file>Icon1.png</file>
+        <file>document-open.png</file>
+        <file>document-save-as.png</file>
+        <file>document-save.png</file>
+        <file>format-justify-left.png</file>
         <file>icon2.png</file>
         <file>icon3.png</file>
+        <file>syntax-highlight.png</file>
+        <file>system-log-out.png</file>
+        <file>view-refresh.png</file>
     </qresource>
 </RCC>
