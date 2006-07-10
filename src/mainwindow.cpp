@@ -107,6 +107,7 @@ void MainWindow::selectIndenter(int indenterID) {
 
     updateSourceView();
     currentIndenterID = indenterID;
+    updateSourceView();
     QApplication::restoreOverrideCursor();
 }
 

@@ -212,7 +212,6 @@ void GcHandler::generateParameterString() {
     writeConfigFile(parameterString);
 
     emit settingsCodeChanged();
-
 }
 
 
