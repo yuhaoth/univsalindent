@@ -134,4 +134,4 @@ signals:
 
 };
 
-#endif
+#endif // GCHANDLER_H

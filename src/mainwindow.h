@@ -16,6 +16,7 @@
 //#include "arthurwidgets.h"
 
 #include "ui_indentgui.h"
+#include "aboutdialog.h"
 #include "cpphighlighter.h"
 #include "gchandler.h"
 #include <QWidget>
@@ -37,6 +38,7 @@ private:
 	CppHighlighter *highlighter;
 	QScrollBar *textEditVScrollBar;
 	QScrollBar *textEdit2VScrollBar;
+    AboutDialog *aboutDialog;
 	int textEditLastScrollPos;
     int currentIndenterID;
 
@@ -56,4 +58,4 @@ public slots:
 	void selectIndenter(int indenterID);
 };
 
-#endif
+#endif // MAINWINDOW_H

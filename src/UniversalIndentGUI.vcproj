@@ -207,6 +207,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\aboutdialog.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\cpphighlighter.cpp"
 				>
 			</File>
@@ -228,6 +232,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\aboutdialog.h"
+				>
+			</File>
 			<File
 				RelativePath=".\cpphighlighter.h"
 				>
@@ -259,6 +267,10 @@
 			Name="Forms (UI)"
 			>
 			<File
+				RelativePath=".\aboutdialog.ui"
+				>
+			</File>
+			<File
 				RelativePath=".\indentgui.ui"
 				>
 			</File>
@@ -266,6 +278,10 @@
 		<Filter
 			Name="Generated"
 			>
+			<File
+				RelativePath="$(OutDir)\tmp\moc\moc_aboutdialog.cpp"
+				>
+			</File>
 			<File
 				RelativePath="$(OutDir)\tmp\moc\moc_cpphighlighter.cpp"
 				>
@@ -281,6 +297,26 @@
 			<File
 				RelativePath="$(OutDir)\tmp\qrc\qrc_Icons.cpp"
 				>
+			</File>
+			<File
+				RelativePath="$(OutDir)\tmp\uic\ui_aboutdialog.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="MOC"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="$(OutDir)\tmp\uic\ui_indentgui.h"
