@@ -142,9 +142,10 @@ QString MainWindow::loadFile(QString filePath) {
  */
 void MainWindow::openSourceFileDialog() {
 	QString fileExtensions = gcHandler->getPossibleIndenterFileExtensions();
-    sourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
+    QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
 
-    if (sourceFileContent != "") {
+    if (openedSourceFileContent != "") {
+        sourceFileContent = openedSourceFileContent;
         sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
         updateSourceView();
         textEditLastScrollPos = 0;
