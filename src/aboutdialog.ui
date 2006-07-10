@@ -8,9 +8,29 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>363</width>
-    <height>221</height>
+    <width>588</width>
+    <height>499</height>
    </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy>
+    <hsizetype>0</hsizetype>
+    <vsizetype>1</vsizetype>
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>588</width>
+    <height>499</height>
+   </size>
+  </property>
+  <property name="maximumSize" >
+   <size>
+    <width>588</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="windowTitle" >
    <string>About UniversalIndentGUI</string>
@@ -26,7 +46,51 @@
     <number>6</number>
    </property>
    <item>
+    <widget class="QLabel" name="label" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>0</hsizetype>
+       <vsizetype>0</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize" >
+      <size>
+       <width>570</width>
+       <height>87</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>570</width>
+       <height>87</height>
+      </size>
+     </property>
+     <property name="text" >
+      <string/>
+     </property>
+     <property name="pixmap" >
+      <pixmap resource="../resources/Icons.qrc" >:/aboutDialog/banner.jpg</pixmap>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTextBrowser" name="textBrowser" >
+     <property name="sizePolicy" >
+      <sizepolicy>
+       <hsizetype>5</hsizetype>
+       <vsizetype>1</vsizetype>
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize" >
+      <size>
+       <width>16777215</width>
+       <height>150</height>
+      </size>
+     </property>
      <property name="palette" >
       <palette>
        <active>
@@ -299,22 +363,26 @@
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="html" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;span style=" font-family:MS Shell Dlg 2; font-size:12pt; font-weight:600;">UniversalIndentGUI&lt;/span>&lt;span style=" font-family:MS Shell Dlg 2; font-size:12pt;"> Version 0.2.1.2 Alpha&lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg 2; font-size:8pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg 2; font-size:8pt;">... is a cross platform compatible GUI for several code formatter, beautifier and indenter like GreatCode, AStyle (Artistic Styler), GNU Indent, BCPP and so on. Main feature is a live preview to directly see how the selected formatting option affects the source code.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg 2; font-size:8pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg 2; font-size:8pt;">Written by :  	         Thomas Schweitzer&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg 2; font-size:8pt;">Project Homepage :    &lt;span style=" text-decoration: underline; color:#0000ff;">http://universalindent.sourceforge.net&lt;/span>&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg 2; font-size:8pt; text-decoration: underline; color:#0000ff;">&lt;span style=" text-decoration:none; color:#000000;">Lastest Version :         0.2.1.2 Alpha on 7th July 2006&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg 2; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg; font-size:8pt;">&lt;span style=" font-family:MS Shell Dlg 2; font-size:12pt;">Version 0.2.1.2 Alpha, 7th July 2006&lt;/span>&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">... is a cross platform compatible GUI for several code formatter, beautifier and indenter like GreatCode, AStyle (Artistic Styler), GNU Indent, BCPP and so on. Main feature is a live preview to directly see how the selected formatting option affects the source code.&lt;/p>&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">Written by :  	         Thomas Schweitzer&lt;/p>&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">Project Homepage :    &lt;span style=" text-decoration: underline; color:#0000ff;">http://universalindent.sourceforge.net&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
      </property>
     </widget>
    </item>
    <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>License:</string>
      </property>
-     <property name="sizeHint" >
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTextEdit" name="textEdit" >
+     <property name="readOnly" >
+      <bool>true</bool>
      </property>
-    </spacer>
+     <property name="html" >
+      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;/head>&lt;body style=" white-space: pre-wrap; font-family:MS Shell Dlg 2; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;">&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:Courier New; font-size:8pt;">&lt;/p>&lt;/body>&lt;/html></string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" >
@@ -362,7 +430,9 @@
   </layout>
  </widget>
  <pixmapfunction></pixmapfunction>
- <resources/>
+ <resources>
+  <include location="../resources/Icons.qrc" />
+ </resources>
  <connections>
   <connection>
    <sender>okButton</sender>
