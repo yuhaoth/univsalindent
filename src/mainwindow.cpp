@@ -208,13 +208,13 @@ void MainWindow::updateSourceView()
         sourceViewContent = sourceFileContent;
     }
 
+    disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
 // because under linux the courier font is always set bold
 #if defined(Q_OS_LINUX)
     txtedSourceCode->setFontFamily("freemono");
     txtedLineNumbers->setFontFamily("freemono");
 #endif
 
-    disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
     txtedSourceCode->setPlainText(sourceViewContent);
     connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
 
