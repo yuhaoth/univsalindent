@@ -15,13 +15,15 @@ INCLUDEPATH += src
 CONFIG(debug, debug|release) {
     unix:DESTDIR = ./debug
     win32:DESTDIR = ./release
+    win32:UI_DIR = ./debug/tmp/uic
 } else {
     unix:DESTDIR = ./release
     win32:DESTDIR = ./debug
+    win32:UI_DIR = ./release/tmp/uic
 }
 
 MOC_DIR = $${DESTDIR}/tmp/moc
-UI_DIR = $${DESTDIR}/tmp/uic
+unix:UI_DIR = $${DESTDIR}/tmp/uic
 OBJECTS_DIR = $${DESTDIR}/tmp/obj
 RCC_DIR = $${DESTDIR}/tmp/qrc
 
