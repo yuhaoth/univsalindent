@@ -74,6 +74,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     aboutDialog = new AboutDialog(this);
     connect( pbAbout, SIGNAL(clicked()), aboutDialog, SLOT(exec()) );
     connect( actionAbout_UniversalIndentGUI, SIGNAL(activated()), aboutDialog, SLOT(exec()) );
+
+    //QAction *actionAStyle;
+    //QMenu *menuSelect_Indenter;
+    //menuSelect_Indenter = new QMenu(menuIndenter);
+    //menuSelect_Indenter->setObjectName(QString::fromUtf8("menuSelect_Indenter"));
+    //menuIndenter->addAction(menuSelect_indenter->menuAction());
+    //actionAStyle = new QAction(this);
+    //actionAStyle->setObjectName(QString::fromUtf8("actionAStyle"));
+    //menuSelect_Indenter->addAction(actionAStyle);
+    //retranslateUi(this);
 }
 
 
@@ -226,12 +236,12 @@ void MainWindow::updateSourceView()
     txtedLineNumbers->setAlignment(Qt::AlignRight);
 
     textEditVScrollBar->setValue( textEditLastScrollPos );
-    savedCursor = txtedSourceCode->textCursor();
-    if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
-        cursorPos = txtedSourceCode->toPlainText().count() - 1;
-    }
-    savedCursor.setPosition( cursorPos );
-    txtedSourceCode->setTextCursor( savedCursor );
+    //savedCursor = txtedSourceCode->textCursor();
+    //if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
+    //    cursorPos = txtedSourceCode->toPlainText().count() - 1;
+    //}
+    //savedCursor.setPosition( cursorPos );
+    //txtedSourceCode->setTextCursor( savedCursor );
 }
 
 /*!
@@ -263,11 +273,9 @@ void MainWindow::turnHighlightOnOff(bool turnOn) {
     to format the changed source code.
  */
 void MainWindow::sourceViewChanged() {
-    //if ( !cbLivePreview->isChecked() ) {
-        sourceFileContent = txtedSourceCode->toPlainText();
-        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
-        updateSourceView();
-        QApplication::restoreOverrideCursor();
-    //}
+    sourceFileContent = txtedSourceCode->toPlainText();
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
+    updateSourceView();
+    QApplication::restoreOverrideCursor();
 }
