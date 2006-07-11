@@ -78,8 +78,10 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     QString formattedSourceCode;
     QFile::remove(dataDirctoryStr + inputFileName);
     QFile outSrcFile(dataDirctoryStr + inputFileName);
-	QString indentCallString = inputFileParameter + dataDirctoryStr 
-        + inputFileName +" "+ outputFileParameter + dataDirctoryStr + outputFileName;
+	QString indentCallString = inputFileParameter + dataDirctoryStr + inputFileName;
+    if ( outputFileParameter != "none" ) {
+        indentCallString += " "+ outputFileParameter + dataDirctoryStr + outputFileName;
+    }
     QProcess indentProcess;
     QString processReturnString;
 
