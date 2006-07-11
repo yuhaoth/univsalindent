@@ -78,9 +78,9 @@ QString GcHandler::callGreatCode(QString sourceCode) {
     QString formattedSourceCode;
     QFile::remove(dataDirctoryStr + inputFileName);
     QFile outSrcFile(dataDirctoryStr + inputFileName);
-	QString indentCallString = inputFileParameter + dataDirctoryStr + inputFileName;
+	QString indentCallString = inputFileParameter + inputFileName;
     if ( outputFileParameter != "none" ) {
-        indentCallString += " "+ outputFileParameter + dataDirctoryStr + outputFileName;
+        indentCallString += " "+ outputFileParameter + outputFileName;
     }
     QProcess indentProcess;
     QString processReturnString;
@@ -92,7 +92,7 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 #endif
 
     if ( !useCfgFileParameter.isEmpty() ) {
-        indentCallString += " "+ useCfgFileParameter + dataDirctoryStr + configFilename;
+        indentCallString += " "+ useCfgFileParameter + configFilename;
     }
 
     outSrcFile.open( QFile::ReadWrite | QFile::Text );
@@ -107,6 +107,7 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 		indentCallString = "wine " + indentCallString;
 	}
 #endif
+    indentProcess.setWorkingDirectory( QFileInfo(dataDirctoryStr).absoluteFilePath() );
     //indentCallString.replace("/", "\\");
     indentProcess.start(indentCallString);
 
