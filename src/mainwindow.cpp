@@ -50,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
     connect( cbLivePreview, SIGNAL(clicked()), this, SLOT(updateSourceView()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
+    connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
 
     sourceFileContent = loadFile("./data/example.cpp");
 
@@ -74,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( pbAbout, SIGNAL(clicked()), aboutDialog, SLOT(exec()) );
     connect( actionAbout_UniversalIndentGUI, SIGNAL(activated()), aboutDialog, SLOT(exec()) );
 }
+
 
 /*!
 	Creates the by \a indenterID selected indent handler object and adds the indent widget to its layout
@@ -108,7 +110,6 @@ void MainWindow::selectIndenter(int indenterID) {
 	sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
 	QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(callIndenter()));
 
-    updateSourceView();
     currentIndenterID = indenterID;
     updateSourceView();
     QApplication::restoreOverrideCursor();
@@ -195,6 +196,9 @@ void MainWindow::updateSourceView()
     int i;
     int numberOfLines = 0;
 
+    QTextCursor savedCursor = txtedSourceCode->textCursor();
+    int cursorPos = savedCursor.position();
+
     textEditLastScrollPos = textEditVScrollBar->value();
 
     if ( cbLivePreview->isChecked() ) {
@@ -210,7 +214,9 @@ void MainWindow::updateSourceView()
     txtedLineNumbers->setFontFamily("freemono");
 #endif
 
+    disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
     txtedSourceCode->setPlainText(sourceViewContent);
+    connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
 
     numberOfLines = sourceViewContent.count(QRegExp("\n"));
     for (i = 1; i <= numberOfLines+1; i++) {
@@ -220,6 +226,12 @@ void MainWindow::updateSourceView()
     txtedLineNumbers->setAlignment(Qt::AlignRight);
 
     textEditVScrollBar->setValue( textEditLastScrollPos );
+    savedCursor = txtedSourceCode->textCursor();
+    if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
+        cursorPos = txtedSourceCode->toPlainText().count() - 1;
+    }
+    savedCursor.setPosition( cursorPos );
+    txtedSourceCode->setTextCursor( savedCursor );
 }
 
 /*!
@@ -244,4 +256,18 @@ void MainWindow::turnHighlightOnOff(bool turnOn) {
         highlighter->turnHighlightOff();
     }
     updateSourceView();
+}
+
+/*!
+    Is emitted whenever the text inside the source view window changes. Calls the indenter
+    to format the changed source code.
+ */
+void MainWindow::sourceViewChanged() {
+    //if ( !cbLivePreview->isChecked() ) {
+        sourceFileContent = txtedSourceCode->toPlainText();
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
+        updateSourceView();
+        QApplication::restoreOverrideCursor();
+    //}
 }
