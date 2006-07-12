@@ -88,7 +88,7 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 #if defined(Q_OS_WIN32)
 	indentCallString = dataDirctoryStr + indenterFileName +".exe "+ indentCallString;
 #else
-	indentCallString = dataDirctoryStr + indenterFileName +" "+ indentCallString;
+	indentCallString = "./" + indenterFileName +" "+ indentCallString;
 #endif
 
     if ( !useCfgFileParameter.isEmpty() ) {
