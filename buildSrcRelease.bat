@@ -1,3 +1,4 @@
+rd UniversalIndentGUI_src /S /Q
 md UniversalIndentGUI_src
 cd UniversalIndentGUI_src
 md data

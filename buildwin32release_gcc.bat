@@ -1,3 +1,4 @@
+rd UniversalIndentGUI_win32 /S /Q
 md UniversalIndentGUI_win32
 cd UniversalIndentGUI_win32
 md data
