@@ -1,3 +1,10 @@
+2006-07-14 Version 2.2 Alpha
+- added ini file for GNU Indent with some first settings (if any one wants to write more in it let me know)
+- added a menu bar for more pleasent and common use of the program (some not yet used menu items are disabled)
+- added an about dialog
+- added some icons for better look and feel (can you feel it ;-) )
+- fixed a bug under linux which caused an endless loop if text was edited
+
 2006-07-07 Version 0.2.1.1 Alpha (win32 only)
 - previously compiled using Visual Studio 2005 Express, whereby an additional installation of a redistributable package was needed to run UniversalIndentGUI. To avoid this and not force the user to install anything, now using mingw to compile.
 
