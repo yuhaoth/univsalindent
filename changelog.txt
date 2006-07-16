@@ -1,7 +1,7 @@
-2006-07-16 Version 2.3 Alpha
+2006-07-16 Version 0.2.3 Alpha
 - added possibility to edit the source code while preview is active and see how it is formatted. So that is real live ;-)
 
-2006-07-14 Version 2.2 Alpha
+2006-07-14 Version 0.2.2 Alpha
 - added ini file for GNU Indent with some first settings (if any one wants to write more in it let me know)
 - added a menu bar for more pleasent and common use of the program (some not yet used menu items are disabled)
 - added an about dialog
