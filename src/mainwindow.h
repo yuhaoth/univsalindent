@@ -43,6 +43,11 @@ private:
 	int textEditLastScrollPos;
     int currentIndenterID;
 
+    bool sourceCodeChanged;
+    bool scrollPositionChanged;
+    bool indentSettingsChanged;
+    bool previewToggled;
+
     GcHandler *gcHandler;
 
     //! Tries to load a file and returns its content as QString
@@ -57,7 +62,10 @@ public slots:
     void updateSourceView();
     void turnHighlightOnOff(bool turnOn);
 	void selectIndenter(int indenterID);
-    void sourceViewChanged();
+    void sourceCodeChangedSlot();
+    void scrollPositionChangedSlot();
+    void indentSettingsChangedSlot();
+    void previewTurnedOnOff(bool turnOn);
 };
 
 #endif // MAINWINDOW_H

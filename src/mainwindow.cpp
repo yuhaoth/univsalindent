@@ -41,16 +41,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setupUi(this);
 
 	// set the program version, which is shown in the main window title
-    QString version = "0.2.1.2 Alpha revision 51";
+    QString version = "0.2.2 Alpha revision 80";
     this->setWindowTitle( this->windowTitle() +"  "+ version );
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
     //connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
     connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
-    connect( cbLivePreview, SIGNAL(clicked()), this, SLOT(updateSourceView()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
-    connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
 
     sourceFileContent = loadFile("./data/example.cpp");
 
@@ -60,10 +58,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( textEditVScrollBar, SIGNAL(valueChanged(int)), textEdit2VScrollBar, SLOT(setValue(int)));
     connect( textEdit2VScrollBar, SIGNAL(valueChanged(int)), textEditVScrollBar, SLOT(setValue(int)));
 
+    connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
+    connect( textEditVScrollBar, SIGNAL(valueChanged(int)), this, SLOT(scrollPositionChangedSlot()));
+    connect( cbLivePreview, SIGNAL(clicked(bool)), this, SLOT(previewTurnedOnOff(bool)) );
+
     highlighter = new CppHighlighter(txtedSourceCode->document());
 
     gcHandler = 0;
     currentIndenterID = -1;
+    sourceCodeChanged = false;
+    scrollPositionChanged = false;
+    indentSettingsChanged = false;
+    previewToggled = true;
 
     // selects the first found indenter
     selectIndenter(0);
@@ -118,9 +124,10 @@ void MainWindow::selectIndenter(int indenterID) {
 	cmbBoxIndenters->addItems( gcHandler->getAvailableIndenters() );
 	cmbBoxIndenters->setCurrentIndex(indenterID);
 	sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
-	QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(callIndenter()));
+	QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
 
     currentIndenterID = indenterID;
+    previewToggled = true;
     updateSourceView();
     QApplication::restoreOverrideCursor();
 }
@@ -206,10 +213,8 @@ void MainWindow::updateSourceView()
     int i;
     int numberOfLines = 0;
 
-    QTextCursor savedCursor = txtedSourceCode->textCursor();
-    int cursorPos = savedCursor.position();
-
     textEditLastScrollPos = textEditVScrollBar->value();
+
 
     if ( cbLivePreview->isChecked() ) {
         sourceViewContent = sourceFormattedContent;
@@ -218,15 +223,18 @@ void MainWindow::updateSourceView()
         sourceViewContent = sourceFileContent;
     }
 
-    disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
-// because under linux the courier font is always set bold
+    if (previewToggled) {
+        disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
+        // because under linux the courier font is always set bold
 #if defined(Q_OS_LINUX)
-    txtedSourceCode->setFontFamily("freemono");
-    txtedLineNumbers->setFontFamily("freemono");
+        txtedSourceCode->setFontFamily("freemono");
+        txtedLineNumbers->setFontFamily("freemono");
 #endif
 
-    txtedSourceCode->setPlainText(sourceViewContent);
-    connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceViewChanged()) );
+        txtedSourceCode->setPlainText(sourceViewContent);
+        connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
+        previewToggled = false;
+    }
 
     numberOfLines = sourceViewContent.count(QRegExp("\n"));
     for (i = 1; i <= numberOfLines+1; i++) {
@@ -236,12 +244,6 @@ void MainWindow::updateSourceView()
     txtedLineNumbers->setAlignment(Qt::AlignRight);
 
     textEditVScrollBar->setValue( textEditLastScrollPos );
-    //savedCursor = txtedSourceCode->textCursor();
-    //if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
-    //    cursorPos = txtedSourceCode->toPlainText().count() - 1;
-    //}
-    //savedCursor.setPosition( cursorPos );
-    //txtedSourceCode->setTextCursor( savedCursor );
 }
 
 /*!
@@ -251,7 +253,7 @@ void MainWindow::updateSourceView()
 void MainWindow::callIndenter() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
-    updateSourceView();
+    //updateSourceView();
     QApplication::restoreOverrideCursor();
 }
 
@@ -272,10 +274,108 @@ void MainWindow::turnHighlightOnOff(bool turnOn) {
     Is emitted whenever the text inside the source view window changes. Calls the indenter
     to format the changed source code.
  */
-void MainWindow::sourceViewChanged() {
+void MainWindow::sourceCodeChangedSlot() {
+    QChar enteredCharacter;
+
+    sourceCodeChanged = true;
+    if ( scrollPositionChanged ) {
+        scrollPositionChanged = false;
+    }
+
+    QTextCursor savedCursor = txtedSourceCode->textCursor();
+    int cursorPos = savedCursor.position();
+
     sourceFileContent = txtedSourceCode->toPlainText();
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
+
+    if ( sourceFileContent.count() == 0 || sourceFileContent.at(sourceFileContent.count()-1) != '\n' ) {
+        sourceFileContent += "\n";
+    }
+
+    if ( cursorPos <= 0 ) {
+        cursorPos = 1;
+    } 
+    enteredCharacter = sourceFileContent.at(cursorPos-1);
+
+    if ( cbLivePreview->isChecked() ) {
+        callIndenter();
+        previewToggled = true;
+    }
     updateSourceView();
-    QApplication::restoreOverrideCursor();
+
+    QString text = txtedSourceCode->toPlainText();
+    int lineBreakCounter = 0;
+    while ( cursorPos <= text.count() && text.at(cursorPos-1) != enteredCharacter && lineBreakCounter < 5 ) {
+        if ( text.at(cursorPos-1) == '\n' ) {
+            lineBreakCounter++;
+        }
+        cursorPos++;
+    }
+
+    savedCursor = txtedSourceCode->textCursor();
+    if ( cursorPos > txtedSourceCode->toPlainText().count() ) {
+        cursorPos = txtedSourceCode->toPlainText().count() - 1;
+    }
+    savedCursor.setPosition( cursorPos );
+    txtedSourceCode->setTextCursor( savedCursor );
+
+    if ( cbLivePreview->isChecked() ) {
+        sourceCodeChanged = false;
+    }
+}
+
+void MainWindow::scrollPositionChangedSlot() {
+    //scrollPositionChanged = true;
+    //if ( sourceCodeChanged ) {
+    //    sourceCodeChanged = false;
+    //}
+}
+
+void MainWindow::indentSettingsChangedSlot() {
+    indentSettingsChanged = true;
+
+    QTextCursor savedCursor = txtedSourceCode->textCursor();
+    int cursorPos = savedCursor.position();
+    
+    if ( cbLivePreview->isChecked() ) {
+        callIndenter();
+        previewToggled = true;
+
+        updateSourceView();
+        if (sourceCodeChanged) {
+            savedCursor = txtedSourceCode->textCursor();
+            if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
+                cursorPos = txtedSourceCode->toPlainText().count() - 1;
+            }
+            savedCursor.setPosition( cursorPos );
+            txtedSourceCode->setTextCursor( savedCursor );
+
+            sourceCodeChanged = false;
+        }
+        indentSettingsChanged = false;
+    }
+    else {
+        updateSourceView();
+    }
+}
+
+void MainWindow::previewTurnedOnOff(bool turnOn) {
+    previewToggled = true;
+    QTextCursor savedCursor = txtedSourceCode->textCursor();
+    int cursorPos = savedCursor.position();
+
+    if ( turnOn && (indentSettingsChanged || sourceCodeChanged) ) {
+        callIndenter();
+    }
+    updateSourceView();
+    if (sourceCodeChanged) {
+        savedCursor = txtedSourceCode->textCursor();
+        if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
+            cursorPos = txtedSourceCode->toPlainText().count() - 1;
+        }
+        savedCursor.setPosition( cursorPos );
+        txtedSourceCode->setTextCursor( savedCursor );
+
+        sourceCodeChanged = false;
+    }
+    indentSettingsChanged = false;
 }
