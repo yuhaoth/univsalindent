@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setupUi(this);
 
 	// set the program version, which is shown in the main window title
-    QString version = "0.2.2 Alpha revision 80";
+    QString version = "0.2.3 Alpha revision 85";
     this->setWindowTitle( this->windowTitle() +"  "+ version );
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
