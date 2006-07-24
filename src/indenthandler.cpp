@@ -10,7 +10,7 @@
 **
 ****************************************************************************/
 
-#include "GcHandler.h"
+#include "indenthandler.h"
 
 /*!
     Constructor of the GreatCode handler. This is a widget that is

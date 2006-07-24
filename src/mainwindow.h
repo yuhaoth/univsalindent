@@ -18,7 +18,7 @@
 #include "ui_indentgui.h"
 #include "aboutdialog.h"
 #include "cpphighlighter.h"
-#include "gchandler.h"
+#include "indenthandler.h"
 #include <QWidget>
 #include <QString>
 #include <QScrollBar>

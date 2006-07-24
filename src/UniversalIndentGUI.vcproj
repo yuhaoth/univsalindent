@@ -215,7 +215,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\gchandler.cpp"
+				RelativePath=".\indenthandler.cpp"
 				>
 			</File>
 			<File
@@ -241,7 +241,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\gchandler.h"
+				RelativePath=".\indenthandler.h"
 				>
 			</File>
 			<File
@@ -287,7 +287,7 @@
 				>
 			</File>
 			<File
-				RelativePath="$(OutDir)\tmp\moc\moc_gchandler.cpp"
+				RelativePath="$(OutDir)\tmp\moc\moc_indenthandler.cpp"
 				>
 			</File>
 			<File

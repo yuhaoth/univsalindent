@@ -31,7 +31,7 @@ message ( destdir is $${DESTDIR}. uic is $${UI_DIR}. moc id $${MOC_DIR})
 
 # Input
 HEADERS += src/cpphighlighter.h \
-           src/gchandler.h \
+           src/indenthandler.h \
            src/mainwindow.h \
            src/aboutdialog.h
 
@@ -39,7 +39,7 @@ FORMS += src/indentgui.ui \
          src/aboutdialog.ui
 
 SOURCES += src/cpphighlighter.cpp \
-           src/gchandler.cpp \
+           src/indenthandler.cpp \
            src/main.cpp \
            src/mainwindow.cpp \
            src/aboutdialog.cpp
