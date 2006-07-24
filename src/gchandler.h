@@ -10,8 +10,8 @@
 **
 ****************************************************************************/
 
-#ifndef GCHANDLER_H
-#define GCHANDLER_H
+#ifndef INDENTHANDLER_H
+#define INDENTHANDLER_H
 
 #include <QWidget>
 #include <QToolBox>
@@ -30,14 +30,14 @@
 #include <QDir>
 #include <QMessageBox>
 
-class GcHandler : public QWidget
+class IndentHandler : public QWidget
 {
     Q_OBJECT
 
 public:
-    GcHandler(QString dataDirPathStr, QWidget *parent = 0);
+    IndentHandler(QString dataDirPathStr, QWidget *parent = 0);
 
-	GcHandler(QString dataDirPathStr, int indenterID, QWidget *parent = 0);
+	IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent = 0);
 
     //! Format source code with GreatCode
     QString callGreatCode(QString sourceCode);
@@ -134,4 +134,4 @@ signals:
 
 };
 
-#endif // GCHANDLER_H
+#endif // INDENTHANDLER_H

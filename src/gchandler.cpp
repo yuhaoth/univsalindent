@@ -10,7 +10,7 @@
 **
 ****************************************************************************/
 
-#include "gchandler.h"
+#include "GcHandler.h"
 
 /*!
     Constructor of the GreatCode handler. This is a widget that is
@@ -20,7 +20,7 @@
     Calls GreatCode each time a setting has been changed and informs
     the main window about the reformatted source code.
  */
-GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
+IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
 {
     // define this widgets size and resize behavior
     this->setMaximumWidth(263);
@@ -46,7 +46,7 @@ GcHandler::GcHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.first() );
 }
 
-GcHandler::GcHandler(QString dataDirPathStr, int indenterID, QWidget *parent) : QWidget(parent)
+IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent) : QWidget(parent)
 {
 	// define this widgets size and resize behavior
 	this->setMaximumWidth(263);
@@ -73,7 +73,7 @@ GcHandler::GcHandler(QString dataDirPathStr, int indenterID, QWidget *parent) : 
 }
 
 //! Format source code with GreatCode
-QString GcHandler::callGreatCode(QString sourceCode) {
+QString IndentHandler::callGreatCode(QString sourceCode) {
 
     QString formattedSourceCode;
     QFile::remove(dataDirctoryStr + inputFileName);
@@ -165,7 +165,7 @@ QString GcHandler::callGreatCode(QString sourceCode) {
 }
 
 //! Generates a string with all parameters needed to call GreatCode and write it to the indenter config file
-void GcHandler::generateParameterString() {
+void IndentHandler::generateParameterString() {
 
     parameterString = "";
 
@@ -219,7 +219,7 @@ void GcHandler::generateParameterString() {
 
 
 //! Write config file
-void GcHandler::writeConfigFile(QString paramString) {
+void IndentHandler::writeConfigFile(QString paramString) {
 
     QFile::remove( dataDirctoryStr + configFilename );
     QFile outSrcFile( dataDirctoryStr + configFilename );
@@ -230,7 +230,7 @@ void GcHandler::writeConfigFile(QString paramString) {
 }
 
 //! Load a GC config file
-void GcHandler::loadConfigFile(QString filePathName) {
+void IndentHandler::loadConfigFile(QString filePathName) {
 
 	QFile cfgFile(filePathName);
 	int index;
@@ -392,7 +392,7 @@ void GcHandler::loadConfigFile(QString filePathName) {
 /*!
     \brief opens and parses an indenter ini file, handed as parameter
  */
-void GcHandler::readIndentIniFile(QString iniFilePath) {
+void IndentHandler::readIndentIniFile(QString iniFilePath) {
 
     // open the ini-file that contains all available GreatCode settings with their additional infos
     gcSettings = new QSettings(iniFilePath, QSettings::IniFormat, this);
@@ -440,7 +440,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
         toolBoxPage.vboxLayout->setMargin(9);
         toolBoxPage.vboxLayout->setObjectName(categoryName);
         toolBoxPages.append(toolBoxPage);
-        toolBox->addItem(toolBoxPage.page, QApplication::translate("GcHandler", categoryName.toAscii(), 0, QApplication::UnicodeUTF8));
+        toolBox->addItem(toolBoxPage.page, QApplication::translate("IndentHandler", categoryName.toAscii(), 0, QApplication::UnicodeUTF8));
     }
 
 
@@ -640,7 +640,7 @@ void GcHandler::readIndentIniFile(QString iniFilePath) {
     }
 }
 
-QStringList GcHandler::getAvailableIndenters() {
+QStringList IndentHandler::getAvailableIndenters() {
     QSettings *indenterSettings;
     QStringList indenterNamesList;
 
@@ -652,7 +652,7 @@ QStringList GcHandler::getAvailableIndenters() {
     return indenterNamesList;
 }
 
-void GcHandler::setIndenter(int indenterID) {
+void IndentHandler::setIndenter(int indenterID) {
     // remove all pages from the toolbox
     for (int i = 0; i < toolBox->count(); i++) {
         toolBox->removeItem(i);
@@ -673,6 +673,6 @@ void GcHandler::setIndenter(int indenterID) {
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
 }
 
-QString GcHandler::getPossibleIndenterFileExtensions() {
+QString IndentHandler::getPossibleIndenterFileExtensions() {
 	return this->fileTypes;
 }

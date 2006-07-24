@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     highlighter = new CppHighlighter(txtedSourceCode->document());
 
-    gcHandler = 0;
+    indentHandler = 0;
     currentIndenterID = -1;
     sourceCodeChanged = false;
     scrollPositionChanged = false;
@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	Creates the by \a indenterID selected indent handler object and adds the indent widget to its layout
  */
 void MainWindow::selectIndenter(int indenterID) {
-	GcHandler *oldGcHandler = gcHandler;
+	IndentHandler *oldIndentHandler = indentHandler;
 
     // prevent unnecessarry updates if same indenter as current has been selected
     if ( indenterID == currentIndenterID ) {
@@ -106,25 +106,25 @@ void MainWindow::selectIndenter(int indenterID) {
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	if ( oldGcHandler != 0 ) {
-		gcHandler = new GcHandler("./data/", indenterID, centralwidget);
-        gcHandler->hide();
-        vboxLayout1->insertWidget(0, gcHandler);
-        oldGcHandler->hide();
-        gcHandler->show();
-		vboxLayout1->removeWidget(oldGcHandler);
-		delete oldGcHandler;
+	if ( oldIndentHandler != 0 ) {
+		indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
+        indentHandler->hide();
+        vboxLayout1->insertWidget(0, indentHandler);
+        oldIndentHandler->hide();
+        indentHandler->show();
+		vboxLayout1->removeWidget(oldIndentHandler);
+		delete oldIndentHandler;
         cmbBoxIndenters->clear();
 	}
 	else {
-		gcHandler = new GcHandler("./data/", centralwidget);
-        vboxLayout1->addWidget(gcHandler);
+		indentHandler = new IndentHandler("./data/", centralwidget);
+        vboxLayout1->addWidget(indentHandler);
 	}
 
-	cmbBoxIndenters->addItems( gcHandler->getAvailableIndenters() );
+	cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
 	cmbBoxIndenters->setCurrentIndex(indenterID);
-	sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
-	QObject::connect(gcHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
+	sourceFormattedContent = indentHandler->callGreatCode(sourceFileContent);
+	QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
 
     currentIndenterID = indenterID;
     previewToggled = true;
@@ -159,12 +159,12 @@ QString MainWindow::loadFile(QString filePath) {
 	If the file was successfully loaded the indenter will be called to generate the formatted source code.
  */
 void MainWindow::openSourceFileDialog() {
-	QString fileExtensions = gcHandler->getPossibleIndenterFileExtensions();
+	QString fileExtensions = indentHandler->getPossibleIndenterFileExtensions();
     QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
 
     if (openedSourceFileContent != "") {
         sourceFileContent = openedSourceFileContent;
-        sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
+        sourceFormattedContent = indentHandler->callGreatCode(sourceFileContent);
         updateSourceView();
         textEditLastScrollPos = 0;
         textEditVScrollBar->setValue( textEditLastScrollPos );
@@ -181,7 +181,7 @@ void MainWindow::openConfigFileDialog() {
     configFilePath = QFileDialog::getOpenFileName( NULL, tr("Choose indenter config file"), "./", "(*.cfg *.ini *.txt)" );
 
     if (configFilePath != "") {
-        gcHandler->loadConfigFile(configFilePath);
+        indentHandler->loadConfigFile(configFilePath);
     }
 }
 
@@ -252,7 +252,7 @@ void MainWindow::updateSourceView()
  */
 void MainWindow::callIndenter() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    sourceFormattedContent = gcHandler->callGreatCode(sourceFileContent);
+    sourceFormattedContent = indentHandler->callGreatCode(sourceFileContent);
     //updateSourceView();
     QApplication::restoreOverrideCursor();
 }

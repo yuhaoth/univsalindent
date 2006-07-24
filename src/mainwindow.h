@@ -48,7 +48,7 @@ private:
     bool indentSettingsChanged;
     bool previewToggled;
 
-    GcHandler *gcHandler;
+    IndentHandler *indentHandler;
 
     //! Tries to load a file and returns its content as QString
     QString loadFile(QString filePath);
