@@ -12,6 +12,18 @@ DEPENDPATH += resources \
 
 INCLUDEPATH += src
 
+# remove linker flag "-mthreads" so the mingwm10.dll is no longer needed
+#message(old flags:$${QMAKE_LFLAGS})
+parameters = $${QMAKE_LFLAGS}
+newFlags =
+for(parameter, parameters) {
+    !contains(parameter, -mthreads) {
+        newFlags += $${parameter}
+    }
+}
+QMAKE_LFLAGS = $${newFlags}
+#message(new flags:$${QMAKE_LFLAGS})
+
 CONFIG(debug, debug|release) {
     unix:DESTDIR = ./debug
     win32:DESTDIR = ./release
