@@ -42,6 +42,7 @@ private:
     AboutDialog *aboutDialog;
 	int textEditLastScrollPos;
     int currentIndenterID;
+    QString currentSourceFileExtension;
 
     bool sourceCodeChanged;
     bool scrollPositionChanged;
