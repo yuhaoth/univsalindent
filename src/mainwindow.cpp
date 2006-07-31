@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
 
     sourceFileContent = loadFile("./data/example.cpp");
+    currentSourceFileExtension = "cpp";
 
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
     textEdit2VScrollBar = txtedLineNumbers->verticalScrollBar();
@@ -123,7 +124,6 @@ void MainWindow::selectIndenter(int indenterID) {
 
 	cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
 	cmbBoxIndenters->setCurrentIndex(indenterID);
-	sourceFormattedContent = indentHandler->callGreatCode(sourceFileContent);
 	QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
 
     currentIndenterID = indenterID;
@@ -159,12 +159,23 @@ QString MainWindow::loadFile(QString filePath) {
 	If the file was successfully loaded the indenter will be called to generate the formatted source code.
  */
 void MainWindow::openSourceFileDialog() {
+    QString openedSourceFileContent = "";
 	QString fileExtensions = indentHandler->getPossibleIndenterFileExtensions();
-    QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
 
-    if (openedSourceFileContent != "") {
+    //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
+    QString fileName = QFileDialog::getOpenFileName( NULL, tr("Choose source code file"), "./", fileExtensions);
+
+    if (fileName != "") {
+        QFileInfo fileInfo(fileName);
+        currentSourceFileExtension = fileInfo.suffix();
+
+        openedSourceFileContent = loadFile(fileName);
         sourceFileContent = openedSourceFileContent;
-        sourceFormattedContent = indentHandler->callGreatCode(sourceFileContent);
+        if ( cbLivePreview->isChecked() ) {
+            callIndenter();
+        }
+        sourceCodeChanged = true;
+        previewToggled = true;
         updateSourceView();
         textEditLastScrollPos = 0;
         textEditVScrollBar->setValue( textEditLastScrollPos );
