@@ -73,14 +73,15 @@ IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *pa
 }
 
 //! Format source code with GreatCode
-QString IndentHandler::callGreatCode(QString sourceCode) {
+QString IndentHandler::callGreatCode(QString sourceCode, QString fileExtension) {
 
     QString formattedSourceCode;
-    QFile::remove(dataDirctoryStr + inputFileName);
-    QFile outSrcFile(dataDirctoryStr + inputFileName);
-	QString indentCallString = inputFileParameter + inputFileName;
+    fileExtension = "." + fileExtension;
+    QFile::remove(dataDirctoryStr + inputFileName + fileExtension);
+    QFile outSrcFile(dataDirctoryStr + inputFileName + fileExtension);
+	QString indentCallString = inputFileParameter + inputFileName + fileExtension;
     if ( outputFileParameter != "none" ) {
-        indentCallString += " "+ outputFileParameter + outputFileName;
+        indentCallString += " "+ outputFileParameter + outputFileName + fileExtension;
     }
     QProcess indentProcess;
     QString processReturnString;
@@ -156,10 +157,12 @@ QString IndentHandler::callGreatCode(QString sourceCode) {
             +tr("\nCallstring was: ")+indentCallString);
     }
 
-    outSrcFile.setFileName(dataDirctoryStr + outputFileName);
+    outSrcFile.setFileName(dataDirctoryStr + outputFileName + fileExtension);
     outSrcFile.open(QFile::ReadOnly | QFile::Text);
     formattedSourceCode = outSrcFile.readAll();
     outSrcFile.close();
+    QFile::remove(dataDirctoryStr + outputFileName + fileExtension);
+    QFile::remove(dataDirctoryStr + inputFileName + fileExtension);
 
     return formattedSourceCode;
 }

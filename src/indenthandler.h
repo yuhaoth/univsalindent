@@ -40,7 +40,7 @@ public:
 	IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent = 0);
 
     //! Format source code with GreatCode
-    QString callGreatCode(QString sourceCode);
+    QString callGreatCode(QString sourceCode, QString fileExtension);
 
 	void loadConfigFile(QString filePathName);
 

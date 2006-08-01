@@ -263,7 +263,7 @@ void MainWindow::updateSourceView()
  */
 void MainWindow::callIndenter() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    sourceFormattedContent = indentHandler->callGreatCode(sourceFileContent);
+    sourceFormattedContent = indentHandler->callGreatCode(sourceFileContent, currentSourceFileExtension);
     //updateSourceView();
     QApplication::restoreOverrideCursor();
 }
