@@ -127,6 +127,9 @@ void MainWindow::selectIndenter(int indenterID) {
 	QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
 
     currentIndenterID = indenterID;
+    if ( cbLivePreview->isChecked() ) {
+        callIndenter();
+    }
     previewToggled = true;
     updateSourceView();
     QApplication::restoreOverrideCursor();
