@@ -42,6 +42,7 @@ private:
     AboutDialog *aboutDialog;
 	int textEditLastScrollPos;
     int currentIndenterID;
+    QString currentSourceFile;
     QString currentSourceFileExtension;
 
     bool sourceCodeChanged;
@@ -60,6 +61,7 @@ public slots:
     void openConfigFileDialog();
     void openSourceFileDialog();
     void saveasSourceFileDialog();
+    void saveSourceFile();
     void callIndenter();
     void updateSourceView();
     void turnHighlightOnOff(bool turnOn);

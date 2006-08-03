@@ -49,10 +49,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
     connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
     connect( actionSave_Source_File_As, SIGNAL(activated()), this, SLOT(saveasSourceFileDialog()) );
+    connect( actionSave_Source_File, SIGNAL(activated()), this, SLOT(saveSourceFile()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
 
-    sourceFileContent = loadFile("./data/example.cpp");
-    currentSourceFileExtension = "cpp";
+    currentSourceFile = "./data/example.cpp";
+    QFileInfo fileInfo(currentSourceFile);
+    currentSourceFile = fileInfo.absoluteFilePath();
+    sourceFileContent = loadFile(currentSourceFile);
+    currentSourceFileExtension = fileInfo.suffix();
 
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
     textEdit2VScrollBar = txtedLineNumbers->verticalScrollBar();
@@ -168,9 +172,10 @@ void MainWindow::openSourceFileDialog() {
                              ");;All files (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
-    QString fileName = QFileDialog::getOpenFileName( this, tr("Choose source code file"), "", fileExtensions);
+    QString fileName = QFileDialog::getOpenFileName( this, tr("Choose source code file"), currentSourceFile, fileExtensions);
 
     if (fileName != "") {
+        currentSourceFile = fileName;
         QFileInfo fileInfo(fileName);
         currentSourceFileExtension = fileInfo.suffix();
 
@@ -197,9 +202,10 @@ void MainWindow::saveasSourceFileDialog() {
                              ");;All files (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
-    QString fileName = QFileDialog::getSaveFileName( this, tr("Save source code file"), "", fileExtensions);
+    QString fileName = QFileDialog::getSaveFileName( this, tr("Save source code file"), currentSourceFile, fileExtensions);
 
     if (fileName != "") {
+        currentSourceFile = fileName;
         QFile::remove(fileName);
         QFile outSrcFile(fileName);
         outSrcFile.open( QFile::ReadWrite | QFile::Text );
@@ -213,13 +219,32 @@ void MainWindow::saveasSourceFileDialog() {
 
 
 /*!
+    Saves the currently shown source code to the last save or opened source file.
+    If no source file has been opened, because only the static example has been loaded,
+    the save as file dialog will be shown.
+ */
+void MainWindow::saveSourceFile() {
+    if ( currentSourceFile.isEmpty() ) {
+        saveasSourceFileDialog();
+    }
+    else {
+        QFile::remove(currentSourceFile);
+        QFile outSrcFile(currentSourceFile);
+        outSrcFile.open( QFile::ReadWrite | QFile::Text );
+        outSrcFile.write( txtedSourceCode->toPlainText().toAscii() );
+        outSrcFile.close();
+    }
+}
+
+
+/*!
 	Shows a file open dialog to open an existing config file for the currently selected indenter.
 	If the file was successfully opened the indent handler is called to load the settings and update itself.
  */
 void MainWindow::openConfigFileDialog() {
     QString configFilePath; 
 
-    configFilePath = QFileDialog::getOpenFileName( NULL, tr("Choose indenter config file"), "./", "(*.cfg *.ini *.txt)" );
+    configFilePath = QFileDialog::getOpenFileName( NULL, tr("Choose indenter config file"), "./", "(*.cfg *.ini *.txt);;All files (*.*)" );
 
     if (configFilePath != "") {
         indentHandler->loadConfigFile(configFilePath);
