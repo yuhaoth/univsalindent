@@ -423,7 +423,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
     outputFileParameter = gcSettings->value(" header/outputFileParameter").toString();
 	outputFileName = gcSettings->value(" header/outputFileName").toString();
     fileTypes = gcSettings->value(" header/fileTypes").toString();
-    fileTypes.replace('|', ";");
+    fileTypes.replace('|', " ");
 
     // read the categories names which are separated by "|"
     QString categoriesStr = gcSettings->value(" header/categories").toString();
