@@ -1,3 +1,12 @@
+2006-08-03 Version 0.2.4 Alpha
+- the windows version does no longer need any dlls due to static linking and removing bind to mingwm10.dll
+- the windows version of the GNU Indent is replaced by a DJGPP compiled GNU Indent version, that needs no further DLLs
+- added possibility to save the shown/indented source code
+- fixed the file extension used to call the selected indenter. It is now equal to the loaded source file extension so the indenter recognizes the source code language
+- fixed unnecessary calls of the indenter
+- fixed indenter was not called if preview was activated and indenter changed
+- fixed under linux the file mask for the open source file dialog did not work correctly 
+
 2006-07-16 Version 0.2.3 Alpha
 - added possibility to edit the source code while preview is active and see how it is formatted. So that is real live ;-)
 

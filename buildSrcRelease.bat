@@ -18,5 +18,5 @@ copy .\UniversalIndentGUI.pro .\UniversalIndentGUI_src\
 copy .\UniversalIndentGUI.sln .\UniversalIndentGUI_src\
 copy .\VS8QtRules.rules .\UniversalIndentGUI_src\
 cd UniversalIndentGUI_src
-7z.exe a -tzip UniversalIndentGUI_0.2.2_Alpha_src.zip
+7z.exe a -tzip UniversalIndentGUI_0.2.4_Alpha_src.zip
 cd ..
