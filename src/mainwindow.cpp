@@ -163,7 +163,8 @@ QString MainWindow::loadFile(QString filePath) {
  */
 void MainWindow::openSourceFileDialog() {
     QString openedSourceFileContent = "";
-	QString fileExtensions = indentHandler->getPossibleIndenterFileExtensions();
+	QString fileExtensions = "Supported by indenter ("+indentHandler->getPossibleIndenterFileExtensions()+
+                             ");;All files (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
     QString fileName = QFileDialog::getOpenFileName( NULL, tr("Choose source code file"), "./", fileExtensions);
