@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
     //connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
     connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
+    connect( actionSave_Source_File_As, SIGNAL(activated()), this, SLOT(saveasSourceFileDialog()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
 
     sourceFileContent = loadFile("./data/example.cpp");
@@ -167,7 +168,7 @@ void MainWindow::openSourceFileDialog() {
                              ");;All files (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
-    QString fileName = QFileDialog::getOpenFileName( NULL, tr("Choose source code file"), "./", fileExtensions);
+    QString fileName = QFileDialog::getOpenFileName( this, tr("Choose source code file"), "", fileExtensions);
 
     if (fileName != "") {
         QFileInfo fileInfo(fileName);
@@ -185,6 +186,31 @@ void MainWindow::openSourceFileDialog() {
         textEditVScrollBar->setValue( textEditLastScrollPos );
     }
 }
+
+
+/*!
+	Calls the source file save as dialog to save a source file under a choosen name.
+	If the file already exists and it should be overwritten, a warning is shown before.
+ */
+void MainWindow::saveasSourceFileDialog() {
+	QString fileExtensions = "Supported by indenter ("+indentHandler->getPossibleIndenterFileExtensions()+
+                             ");;All files (*.*)";
+
+    //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
+    QString fileName = QFileDialog::getSaveFileName( this, tr("Save source code file"), "", fileExtensions);
+
+    if (fileName != "") {
+        QFile::remove(fileName);
+        QFile outSrcFile(fileName);
+        outSrcFile.open( QFile::ReadWrite | QFile::Text );
+        outSrcFile.write( txtedSourceCode->toPlainText().toAscii() );
+        outSrcFile.close();
+
+        QFileInfo fileInfo(fileName);
+        currentSourceFileExtension = fileInfo.suffix();
+    }
+}
+
 
 /*!
 	Shows a file open dialog to open an existing config file for the currently selected indenter.

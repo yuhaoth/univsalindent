@@ -59,6 +59,7 @@ private:
 public slots:
     void openConfigFileDialog();
     void openSourceFileDialog();
+    void saveasSourceFileDialog();
     void callIndenter();
     void updateSourceView();
     void turnHighlightOnOff(bool turnOn);
