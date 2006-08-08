@@ -41,6 +41,7 @@ IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent) : QWidget(
     QDir dataDirctory = QDir(dataDirPathStr);
 
     indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
+    noIndenterExecExistDialogAlreadyShown = false;
 
     // reads and parses first found indent ini file and creates toolbox entries
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.first() );
@@ -67,24 +68,42 @@ IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *pa
 	QDir dataDirctory = QDir(dataDirPathStr);
 
 	indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
+    noIndenterExecExistDialogAlreadyShown = false;
 
 	// reads and parses first found indent ini file and creates toolbox entries
 	readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
 }
 
 //! Format source code with GreatCode
-QString IndentHandler::callGreatCode(QString sourceCode, QString fileExtension) {
+QString IndentHandler::callIndenter(QString sourceCode, QString inputFileExtension) {
 
     QString formattedSourceCode;
-    fileExtension = "." + fileExtension;
-    QFile::remove(dataDirctoryStr + inputFileName + fileExtension);
-    QFile outSrcFile(dataDirctoryStr + inputFileName + fileExtension);
-	QString indentCallString = inputFileParameter + inputFileName + fileExtension;
+    inputFileExtension = "." + inputFileExtension;
+    QFile::remove(dataDirctoryStr + inputFileName + inputFileExtension);
+    QFile outSrcFile(dataDirctoryStr + inputFileName + inputFileExtension);
+	QString indentCallString = inputFileParameter + inputFileName + inputFileExtension;
     if ( outputFileParameter != "none" ) {
-        indentCallString += " "+ outputFileParameter + outputFileName + fileExtension;
+        indentCallString += " "+ outputFileParameter + outputFileName + inputFileExtension;
     }
     QProcess indentProcess;
     QString processReturnString;
+
+    // Test if the indenter executable exists. If not show a dialog box once and return
+    // the unformatted source code. Else continue calling the indenter.
+    bool indenterExecutableExists = false; 
+#if defined(Q_OS_WIN32)
+    indenterExecutableExists = QFile::exists(dataDirctoryStr + indenterFileName+".exe");
+#else
+    indenterExecutableExists = QFile::exists(dataDirctoryStr + indenterFileName) || QFile::exists(dataDirctoryStr + indenterFileName+".exe");
+#endif
+    if ( !indenterExecutableExists ) {
+        if ( !noIndenterExecExistDialogAlreadyShown ) {
+            QMessageBox::warning(NULL, tr("No indenter executable"), tr("There exists no indenter executable with the name \"")
+                +indenterFileName+ tr("\" in the directory \"") +dataDirctoryStr+"\".");
+            noIndenterExecExistDialogAlreadyShown = true;
+        }
+        return sourceCode;
+    }
 
 #if defined(Q_OS_WIN32)
 	indentCallString = dataDirctoryStr + indenterFileName +".exe "+ indentCallString;
@@ -157,12 +176,12 @@ QString IndentHandler::callGreatCode(QString sourceCode, QString fileExtension) 
             +tr("\nCallstring was: ")+indentCallString);
     }
 
-    outSrcFile.setFileName(dataDirctoryStr + outputFileName + fileExtension);
+    outSrcFile.setFileName(dataDirctoryStr + outputFileName + inputFileExtension);
     outSrcFile.open(QFile::ReadOnly | QFile::Text);
     formattedSourceCode = outSrcFile.readAll();
     outSrcFile.close();
-    QFile::remove(dataDirctoryStr + outputFileName + fileExtension);
-    QFile::remove(dataDirctoryStr + inputFileName + fileExtension);
+    QFile::remove(dataDirctoryStr + outputFileName + inputFileExtension);
+    QFile::remove(dataDirctoryStr + inputFileName + inputFileExtension);
 
     return formattedSourceCode;
 }

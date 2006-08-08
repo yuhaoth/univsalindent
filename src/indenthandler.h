@@ -40,7 +40,7 @@ public:
 	IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent = 0);
 
     //! Format source code with GreatCode
-    QString callGreatCode(QString sourceCode, QString fileExtension);
+    QString callIndenter(QString sourceCode, QString inputFileExtension);
 
 	void loadConfigFile(QString filePathName);
 
@@ -123,6 +123,7 @@ private:
 	QString outputFileName;
     QString fileTypes;
     QString useCfgFileParameter;
+    bool noIndenterExecExistDialogAlreadyShown;
 
 private slots:
     void generateParameterString();
