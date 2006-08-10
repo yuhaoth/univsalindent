@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
     connect( actionSave_Source_File_As, SIGNAL(activated()), this, SLOT(saveasSourceFileDialog()) );
     connect( actionSave_Source_File, SIGNAL(activated()), this, SLOT(saveSourceFile()) );
+    connect( actionSave_Indenter_Config_File, SIGNAL(activated()), this, SLOT(saveasIndentCfgFileDialog()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
 
     currentSourceFile = "./data/example.cpp";
@@ -242,13 +243,33 @@ void MainWindow::saveSourceFile() {
 
 
 /*!
+	Calls the indenter config file save as dialog to save the config file under a choosen name.
+	If the file already exists and it should be overwritten, a warning is shown before.
+ */
+void MainWindow::saveasIndentCfgFileDialog() {
+	QString fileExtensions = "All files (*.*)";
+
+    //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
+    QString fileName = QFileDialog::getSaveFileName( this, tr("Save indent config file"), indentHandler->getIndenterCfgFile(), fileExtensions);
+
+    if (fileName != "") {
+        QFile::remove(fileName);
+        QFile outCfgFile(fileName);
+        outCfgFile.open( QFile::ReadWrite | QFile::Text );
+        outCfgFile.write( indentHandler->getParameterString().toAscii() );
+        outCfgFile.close();
+    }
+}
+
+
+/*!
 	Shows a file open dialog to open an existing config file for the currently selected indenter.
 	If the file was successfully opened the indent handler is called to load the settings and update itself.
  */
 void MainWindow::openConfigFileDialog() {
     QString configFilePath; 
 
-    configFilePath = QFileDialog::getOpenFileName( NULL, tr("Choose indenter config file"), "./", "(*.cfg *.ini *.txt);;All files (*.*)" );
+    configFilePath = QFileDialog::getOpenFileName( NULL, tr("Choose indenter config file"), indentHandler->getIndenterCfgFile(), "All files (*.*)" );
 
     if (configFilePath != "") {
         indentHandler->loadConfigFile(configFilePath);

@@ -65,6 +65,7 @@ public slots:
     void openSourceFileDialog();
     void saveasSourceFileDialog();
     void saveSourceFile();
+    void saveasIndentCfgFileDialog();
     void callIndenter();
     void updateSourceView();
     void turnHighlightOnOff(bool turnOn);
