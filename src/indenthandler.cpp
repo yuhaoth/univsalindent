@@ -77,6 +77,9 @@ IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *pa
 //! Format source code with GreatCode
 QString IndentHandler::callIndenter(QString sourceCode, QString inputFileExtension) {
 
+    // generate the parameter string that will be save to the indenters config file
+    writeConfigFile( generateParameterString() );
+
     QString formattedSourceCode;
     inputFileExtension = "." + inputFileExtension;
     QFile::remove(dataDirctoryStr + inputFileName + inputFileExtension);
@@ -186,10 +189,10 @@ QString IndentHandler::callIndenter(QString sourceCode, QString inputFileExtensi
     return formattedSourceCode;
 }
 
-//! Generates a string with all parameters needed to call GreatCode and write it to the indenter config file
-void IndentHandler::generateParameterString() {
+//! Generates and returns a string with all parameters needed to call GreatCode
+QString IndentHandler::generateParameterString() {
 
-    parameterString = "";
+    QString parameterString = "";
 
     // generate parameter string for all boolean values
     foreach (ParamBoolean pBoolean, paramBooleans) {
@@ -233,10 +236,8 @@ void IndentHandler::generateParameterString() {
         gcSettings->setValue( pMultiple.paramName + "/Value", pMultiple.comboBox->currentIndex () );
         gcSettings->setValue( pMultiple.paramName + "/Enabled", pMultiple.valueEnabledChkBox->isChecked() );
     }
-
-    writeConfigFile(parameterString);
-
-    emit settingsCodeChanged();
+    
+    return parameterString;
 }
 
 
@@ -332,9 +333,9 @@ void IndentHandler::loadConfigFile(QString filePathName) {
             paramValue = cfgFileData.mid( index, crPos - index ).toInt(NULL);
 
             // disable the signal-slot connection. Otherwise signal is emmitted each time when value is set
-            QObject::disconnect(pNumeric.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
+            QObject::disconnect(pNumeric.spinBox, SIGNAL(valueChanged(int)), this, SIGNAL(settingsCodeChanged()));
             pNumeric.spinBox->setValue( paramValue );
-            QObject::connect(pNumeric.spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
+            QObject::connect(pNumeric.spinBox, SIGNAL(valueChanged(int)), this, SIGNAL(settingsCodeChanged()));
 		}
 		// parameter was not found in config file
 		else {
@@ -407,8 +408,6 @@ void IndentHandler::loadConfigFile(QString filePathName) {
 			}
 		}
 	}
-
-	generateParameterString();
 }
 
 /*!
@@ -540,8 +539,8 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 paramNumeric.valueEnabledChkBox = chkBox;
                 paramNumerics.append(paramNumeric);
 
-                QObject::connect(spinBox, SIGNAL(valueChanged(int)), this, SLOT(generateParameterString()));
-                QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
+                QObject::connect(spinBox, SIGNAL(valueChanged(int)), this, SIGNAL(settingsCodeChanged()));
+                QObject::connect(chkBox, SIGNAL(clicked()), this, SIGNAL(settingsCodeChanged()));
             }
             // edit type is boolean so create a checkbox
             else if ( editType == "boolean" ) {
@@ -562,7 +561,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
 				paramBoolean.falseString = trueFalseStrings.at(1);
                 paramBooleans.append(paramBoolean);
 
-                QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
+                QObject::connect(chkBox, SIGNAL(clicked()), this, SIGNAL(settingsCodeChanged()));
             }
             // edit type is numeric so create a lineedit with label
             else if ( editType == "string" ) {
@@ -609,8 +608,8 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 paramString.valueEnabledChkBox = chkBox;
                 paramStrings.append(paramString);
 
-                QObject::connect(lineEdit, SIGNAL(editingFinished()), this, SLOT(generateParameterString()));
-                QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
+                QObject::connect(lineEdit, SIGNAL(editingFinished()), this, SIGNAL(settingsCodeChanged()));
+                QObject::connect(chkBox, SIGNAL(clicked()), this, SIGNAL(settingsCodeChanged()));
             }
             // edit type is multiple so create a combobox with label
             else if ( editType == "multiple" ) {
@@ -649,8 +648,8 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 paramMultiple.valueEnabledChkBox = chkBox;
                 paramMultiples.append(paramMultiple);
 
-                QObject::connect(comboBox, SIGNAL(activated(int)), this, SLOT(generateParameterString()));
-                QObject::connect(chkBox, SIGNAL(clicked()), this, SLOT(generateParameterString()));
+                QObject::connect(comboBox, SIGNAL(activated(int)), this, SIGNAL(settingsCodeChanged()));
+                QObject::connect(chkBox, SIGNAL(clicked()), this, SIGNAL(settingsCodeChanged()));
             }
 
         }

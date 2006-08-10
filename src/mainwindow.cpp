@@ -137,6 +137,7 @@ void MainWindow::selectIndenter(int indenterID) {
         callIndenter();
     }
     previewToggled = true;
+    indentSettingsChanged = true;
     updateSourceView();
     QApplication::restoreOverrideCursor();
 }
@@ -336,6 +337,7 @@ void MainWindow::turnHighlightOnOff(bool turnOn) {
     else {
         highlighter->turnHighlightOff();
     }
+    previewToggled = true;
     updateSourceView();
 }
 

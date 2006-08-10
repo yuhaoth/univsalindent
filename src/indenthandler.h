@@ -107,7 +107,6 @@ private:
     QToolBox *toolBox;
     QSettings *gcSettings;
     QStringList gcParamters;
-    QString parameterString;
 	QByteArray cfgFileData;
     // the indenters name in a descriptive form
     QString indenterName;
@@ -124,9 +123,8 @@ private:
     QString fileTypes;
     QString useCfgFileParameter;
     bool noIndenterExecExistDialogAlreadyShown;
+    QString generateParameterString();
 
-private slots:
-    void generateParameterString();
 public slots:
     void setIndenter(int indenterID);
 
