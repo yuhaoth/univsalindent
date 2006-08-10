@@ -48,6 +48,10 @@ public:
 
 	QString getPossibleIndenterFileExtensions();
 
+    QString getParameterString();
+
+    QString getIndenterCfgFile();
+
 private:
     void writeConfigFile(QString parameterString);
     void readIndentIniFile(QString iniFilePath);
@@ -123,7 +127,6 @@ private:
     QString fileTypes;
     QString useCfgFileParameter;
     bool noIndenterExecExistDialogAlreadyShown;
-    QString generateParameterString();
 
 public slots:
     void setIndenter(int indenterID);

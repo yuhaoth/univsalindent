@@ -78,7 +78,7 @@ IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *pa
 QString IndentHandler::callIndenter(QString sourceCode, QString inputFileExtension) {
 
     // generate the parameter string that will be save to the indenters config file
-    writeConfigFile( generateParameterString() );
+    writeConfigFile( getParameterString() );
 
     QString formattedSourceCode;
     inputFileExtension = "." + inputFileExtension;
@@ -190,7 +190,7 @@ QString IndentHandler::callIndenter(QString sourceCode, QString inputFileExtensi
 }
 
 //! Generates and returns a string with all parameters needed to call GreatCode
-QString IndentHandler::generateParameterString() {
+QString IndentHandler::getParameterString() {
 
     QString parameterString = "";
 
@@ -694,6 +694,13 @@ void IndentHandler::setIndenter(int indenterID) {
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
 }
 
+//! Returns a string containing by the indenter supported file types/extensions devided by a space
 QString IndentHandler::getPossibleIndenterFileExtensions() {
-	return this->fileTypes;
+	return fileTypes;
+}
+
+//! Returns the path and filename of the current indenter config file
+QString IndentHandler::getIndenterCfgFile() {
+    QFileInfo fileInfo( dataDirctoryStr + configFilename );
+    return fileInfo.absoluteFilePath();
 }
