@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/aboutDialog" >
-        <file>banner.jpg</file>
+        <file>banner.png</file>
     </qresource>
     <qresource prefix="/mainWindow" >
         <file>Icon1.png</file>
