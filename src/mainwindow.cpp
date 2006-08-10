@@ -41,8 +41,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setupUi(this);
 
 	// set the program version, which is shown in the main window title
-    QString version = "0.2.4 Alpha revision 102";
-    this->setWindowTitle( this->windowTitle() +"  "+ version );
+    version = "UniversalIndentGUI 0.2.4 Alpha rev. 102";
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
@@ -57,6 +56,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     currentSourceFile = fileInfo.absoluteFilePath();
     sourceFileContent = loadFile(currentSourceFile);
     currentSourceFileExtension = fileInfo.suffix();
+
+    updateWindowTitle();
 
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
     textEdit2VScrollBar = txtedLineNumbers->verticalScrollBar();
@@ -187,6 +188,7 @@ void MainWindow::openSourceFileDialog() {
         sourceCodeChanged = true;
         previewToggled = true;
         updateSourceView();
+        updateWindowTitle();
         textEditLastScrollPos = 0;
         textEditVScrollBar->setValue( textEditLastScrollPos );
     }
@@ -214,6 +216,7 @@ void MainWindow::saveasSourceFileDialog() {
 
         QFileInfo fileInfo(fileName);
         currentSourceFileExtension = fileInfo.suffix();
+        updateWindowTitle();
     }
 }
 
@@ -444,4 +447,8 @@ void MainWindow::previewTurnedOnOff(bool turnOn) {
         sourceCodeChanged = false;
     }
     indentSettingsChanged = false;
+}
+
+void MainWindow::updateWindowTitle() {
+    this->setWindowTitle( version +" "+ currentSourceFile);
 }

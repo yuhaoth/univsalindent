@@ -33,6 +33,7 @@ public:
     MainWindow(QWidget *parent = 0);
 
 private:
+    QString version;
     QString sourceFileContent;
     QString sourceFormattedContent;
     QString sourceViewContent;
@@ -56,6 +57,8 @@ private:
     QString loadFile(QString filePath);
     
     QString openFileDialog(QString dialogHeaderStr, QString startPath, QString fileMaskStr);
+
+    void updateWindowTitle();
     
 public slots:
     void openConfigFileDialog();
