@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setupUi(this);
 
 	// set the program version, which is shown in the main window title
-    version = "UniversalIndentGUI 0.2.4 Alpha rev. 102";
+    version = "UniversalIndentGUI 0.2.5 Alpha";
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
