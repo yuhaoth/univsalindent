@@ -26,6 +26,6 @@ rem copy .\mingwm10.dll .\UniversalIndentGUI_win32\
 copy .\readme.txt .\UniversalIndentGUI_win32\
 copy .\release\UniversalIndentGUI.exe .\UniversalIndentGUI_win32\
 cd UniversalIndentGUI_win32
-7z.exe a -tzip UniversalIndentGUI_0.2.4_Alpha_win32.zip
+7z.exe a -tzip UniversalIndentGUI_0.2.5_Alpha_win32.zip
 cd ..
 pause
