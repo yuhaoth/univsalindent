@@ -254,6 +254,7 @@ void IndentHandler::writeConfigFile(QString paramString) {
 
 //! Load a GC config file
 void IndentHandler::loadConfigFile(QString filePathName) {
+    Q_ASSERT( filePathName.isEmpty() );
 
 	QFile cfgFile(filePathName);
 	int index;
