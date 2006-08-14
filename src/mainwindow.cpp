@@ -12,12 +12,6 @@
 
 #include "mainwindow.h"
 
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QTextStream>
-
-#include <QtGui/QCheckBox>
-
 /*!
 	\class MainWindow
 	\brief Is the main window of UniversalIndentGUI
@@ -67,7 +61,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( textEdit2VScrollBar, SIGNAL(valueChanged(int)), textEditVScrollBar, SLOT(setValue(int)));
 
     connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
-    connect( textEditVScrollBar, SIGNAL(valueChanged(int)), this, SLOT(scrollPositionChangedSlot()));
     connect( cbLivePreview, SIGNAL(clicked(bool)), this, SLOT(previewTurnedOnOff(bool)) );
 
     highlighter = new CppHighlighter(txtedSourceCode->document());
@@ -349,7 +342,7 @@ void MainWindow::callIndenter() {
 }
 
 /*!
-	Switches the syntax highlightning corresponding to the value \a turnOn either on or off.
+	Switches the syntax highlighting corresponding to the value \a turnOn either on or off.
  */
 void MainWindow::turnHighlightOnOff(bool turnOn) {
     if ( turnOn ) {
@@ -415,12 +408,7 @@ void MainWindow::sourceCodeChangedSlot() {
     }
 }
 
-void MainWindow::scrollPositionChangedSlot() {
-    //scrollPositionChanged = true;
-    //if ( sourceCodeChanged ) {
-    //    sourceCodeChanged = false;
-    //}
-}
+
 
 void MainWindow::indentSettingsChangedSlot() {
     indentSettingsChanged = true;

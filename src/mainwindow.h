@@ -23,6 +23,8 @@
 #include <QString>
 #include <QScrollBar>
 #include <QTextCursor>
+#include <QFileDialog>
+#include <QTextStream>
 
 class MainWindow : public QMainWindow, private Ui::IndentGui
 {
@@ -71,7 +73,6 @@ public slots:
     void turnHighlightOnOff(bool turnOn);
 	void selectIndenter(int indenterID);
     void sourceCodeChangedSlot();
-    void scrollPositionChangedSlot();
     void indentSettingsChangedSlot();
     void previewTurnedOnOff(bool turnOn);
 };
