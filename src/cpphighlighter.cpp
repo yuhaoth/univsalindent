@@ -14,6 +14,14 @@
 
 #include "cpphighlighter.h"
 
+/*!
+\class CppHighlighter
+\brief Highlighter used by QTextEdit fields to syntax highlight cpp source code
+*/
+
+/*!
+    The constructor initializes some regular expressions and keywords to identify cpp tokens
+ */
 CppHighlighter::CppHighlighter(QTextDocument *parent)
 : QSyntaxHighlighter(parent)
 {
@@ -69,6 +77,11 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
 	commentEndExpression = QRegExp("\\*/");
 }
 
+/*!
+    This function is automatically called by the connected QTextEdit object if needed. \a text 
+    is a pointer to the QString which is parsed for keywords and other syntax elements to highlight.
+    This function needs to be optimized because it scans the whole text for each keyword/RegExp
+*/
 void CppHighlighter::highlightBlock(const QString &text)
 {
     if ( highlightningIsOn ) {
@@ -104,10 +117,16 @@ void CppHighlighter::highlightBlock(const QString &text)
     }
 }
 
+/*!
+    Turns the syntax parser on.
+*/
 void CppHighlighter::turnHighlightOn() {
     highlightningIsOn = true;
 }
 
+/*!
+    Turns the syntax parser off.
+*/
 void CppHighlighter::turnHighlightOff() {
     highlightningIsOn = false;
 }
