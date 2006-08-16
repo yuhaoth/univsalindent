@@ -343,9 +343,11 @@
  </widget>
  <pixmapfunction></pixmapfunction>
  <tabstops>
+  <tabstop>cmbBoxIndenters</tabstop>
   <tabstop>pbOpenFile</tabstop>
   <tabstop>cbLivePreview</tabstop>
   <tabstop>cbHighlight</tabstop>
+  <tabstop>pbAbout</tabstop>
   <tabstop>pbExit</tabstop>
   <tabstop>txtedLineNumbers</tabstop>
   <tabstop>txtedSourceCode</tabstop>
