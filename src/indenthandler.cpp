@@ -12,6 +12,7 @@
 
 #include "indenthandler.h"
 
+
 /*!
     Constructor of the GreatCode handler. This is a widget that is
     loaded into the main window if GreatCode is selected as indenter.
@@ -20,7 +21,8 @@
     Calls GreatCode each time a setting has been changed and informs
     the main window about the reformatted source code.
  */
-IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent) : QWidget(parent)
+IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent)
+    : QWidget(parent)
 {
     // define this widgets size and resize behavior
     this->setMaximumWidth(263);
@@ -47,8 +49,20 @@ IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent) : QWidget(
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.first() );
 }
 
-IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent) : QWidget(parent)
+
+/*!
+    Constructor of the GreatCode handler. This is a widget that is
+    loaded into the main window if GreatCode is selected as indenter.
+    Handles GreatCode config file read/write and calls GreatCode
+    to reformat source text.
+    Calls GreatCode each time a setting has been changed and informs
+    the main window about the reformatted source code.
+ */
+IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent)
+    : QWidget(parent)
 {
+    Q_ASSERT_X( indenterID >= 0, "IndentHandler", "the selected indenterID is < 0" );
+
 	// define this widgets size and resize behavior
 	this->setMaximumWidth(263);
 	this->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -74,11 +88,16 @@ IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *pa
 	readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
 }
 
-//! Format source code with GreatCode
+
+/*! 
+   Format \a sourceCode by calling the indenter. The \a inputFileExtension has to be given as parameter
+   so the called indenter can identify the programming language if needed.
+ */
 QString IndentHandler::callIndenter(QString sourceCode, QString inputFileExtension) {
 
     // generate the parameter string that will be save to the indenters config file
-    writeConfigFile( getParameterString() );
+    QString parameterString = getParameterString();
+    writeConfigFile( parameterString );
 
     QString formattedSourceCode;
     inputFileExtension = "." + inputFileExtension;
@@ -241,20 +260,20 @@ QString IndentHandler::getParameterString() {
 }
 
 
-//! Write config file
+//! Write settings for the indenter to a config file
 void IndentHandler::writeConfigFile(QString paramString) {
 
     QFile::remove( dataDirctoryStr + configFilename );
-    QFile outSrcFile( dataDirctoryStr + configFilename );
+    QFile cfgFile( dataDirctoryStr + configFilename );
 
-    outSrcFile.open( QFile::ReadWrite | QFile::Text );
-    outSrcFile.write( paramString.toAscii() );
-    outSrcFile.close();
+    cfgFile.open( QFile::ReadWrite | QFile::Text );
+    cfgFile.write( paramString.toAscii() );
+    cfgFile.close();
 }
 
 //! Load a GC config file
 void IndentHandler::loadConfigFile(QString filePathName) {
-    Q_ASSERT( filePathName.isEmpty() );
+    Q_ASSERT_X( !filePathName.isEmpty(), "loadConfigFile", "filePathName is empty" );
 
 	QFile cfgFile(filePathName);
 	int index;
