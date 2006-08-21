@@ -203,7 +203,16 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QStatusBar" name="statusbar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>581</y>
+     <width>800</width>
+     <height>19</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QMenuBar" name="menuBar" >
    <property name="geometry" >
     <rect>
@@ -230,9 +239,17 @@
     <property name="title" >
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuExport" >
+     <property name="title" >
+      <string>Export</string>
+     </property>
+     <addaction name="actionExportPDF" />
+     <addaction name="actionExportHTML" />
+    </widget>
     <addaction name="actionOpen_Source_File" />
     <addaction name="actionSave_Source_File" />
     <addaction name="actionSave_Source_File_As" />
+    <addaction name="menuExport" />
     <addaction name="actionExit" />
    </widget>
    <addaction name="menuFile" />
@@ -338,6 +355,28 @@
    </property>
    <property name="shortcut" >
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionExportPDF" >
+   <property name="icon" >
+    <iconset resource="../resources/Icons.qrc" >:/mainWindow/exportpdf.png</iconset>
+   </property>
+   <property name="text" >
+    <string>PDF</string>
+   </property>
+   <property name="statusTip" >
+    <string>Export the currently visible source code as PDF document</string>
+   </property>
+  </action>
+  <action name="actionExportHTML" >
+   <property name="icon" >
+    <iconset resource="../resources/Icons.qrc" >:/mainWindow/exporthtml.png</iconset>
+   </property>
+   <property name="text" >
+    <string>HTML</string>
+   </property>
+   <property name="statusTip" >
+    <string>Export the currently visible source code as HTML document</string>
    </property>
   </action>
  </widget>

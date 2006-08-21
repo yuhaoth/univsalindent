@@ -25,6 +25,8 @@
 #include <QTextCursor>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QPrinter>
+#include <QPrintDialog>
 
 class MainWindow : public QMainWindow, private Ui::IndentGui
 {
@@ -75,6 +77,8 @@ public slots:
     void sourceCodeChangedSlot();
     void indentSettingsChangedSlot();
     void previewTurnedOnOff(bool turnOn);
+    void exportToPDF();
+    void exportToHTML();
 };
 
 #endif // MAINWINDOW_H

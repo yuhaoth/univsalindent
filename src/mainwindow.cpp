@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( actionSave_Source_File_As, SIGNAL(activated()), this, SLOT(saveasSourceFileDialog()) );
     connect( actionSave_Source_File, SIGNAL(activated()), this, SLOT(saveSourceFile()) );
     connect( actionSave_Indenter_Config_File, SIGNAL(activated()), this, SLOT(saveasIndentCfgFileDialog()) );
+    connect( actionExportPDF, SIGNAL(activated()), this, SLOT(exportToPDF()) );
+    connect( actionExportHTML, SIGNAL(activated()), this, SLOT(exportToHTML()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
 
     currentSourceFile = "./data/example.cpp";
@@ -460,6 +462,47 @@ void MainWindow::previewTurnedOnOff(bool turnOn) {
     indentSettingsChanged = false;
 }
 
+
 void MainWindow::updateWindowTitle() {
     this->setWindowTitle( version +" "+ currentSourceFile);
+}
+
+
+void MainWindow::exportToPDF() {
+	QString fileExtensions = "PDF Document (*.pdf)";
+
+    QString fileName = currentSourceFile;
+    QFileInfo fileInfo(fileName);
+    QString fileExtension = fileInfo.suffix();
+
+    fileName.replace( fileName.length()-fileExtension.length(), fileExtension.length(), "pdf" );
+    fileName = QFileDialog::getSaveFileName( this, tr("Export source code file"), fileName, fileExtensions);
+
+    if ( !fileName.isEmpty() ) {
+        QPrinter printer(QPrinter::HighResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName(fileName);
+
+        txtedSourceCode->document()->print(&printer);
+    }
+}
+
+
+void MainWindow::exportToHTML() {
+	QString fileExtensions = "HTML Document (*.html)";
+
+    QString fileName = currentSourceFile;
+    QFileInfo fileInfo(fileName);
+    QString fileExtension = fileInfo.suffix();
+
+    fileName.replace( fileName.length()-fileExtension.length(), fileExtension.length(), "html" );
+    fileName = QFileDialog::getSaveFileName( this, tr("Export source code file"), fileName, fileExtensions);
+
+    if ( !fileName.isEmpty() ) {
+        QFile::remove(fileName);
+        QFile outSrcFile(fileName);
+        outSrcFile.open( QFile::ReadWrite | QFile::Text );
+        outSrcFile.write( txtedSourceCode->toHtml().toAscii() );
+        outSrcFile.close();
+    }
 }
