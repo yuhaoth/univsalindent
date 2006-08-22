@@ -39,7 +39,7 @@ public:
 
 	IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent = 0);
 
-    //! Format source code with GreatCode
+    //! Format source code with the currently selected indenter
     QString callIndenter(QString sourceCode, QString inputFileExtension);
 
 	void loadConfigFile(QString filePathName);
@@ -109,8 +109,8 @@ private:
 
 	QVBoxLayout *vboxLayout;
     QToolBox *toolBox;
-    QSettings *gcSettings;
-    QStringList gcParamters;
+    QSettings *indenterSettings;
+    QStringList indenterParameters;
 	QByteArray cfgFileData;
     // the indenters name in a descriptive form
     QString indenterName;
