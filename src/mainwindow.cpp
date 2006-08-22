@@ -411,7 +411,11 @@ void MainWindow::sourceCodeChangedSlot() {
 }
 
 
-
+/*!
+    This slot is called whenever one of the indenter settings are changed.
+    It calls the selected indenter if the preview is turned on. If preview
+    is not active a flag is set, that the settings have changed.
+ */
 void MainWindow::indentSettingsChangedSlot() {
     indentSettingsChanged = true;
 
@@ -440,6 +444,12 @@ void MainWindow::indentSettingsChangedSlot() {
     }
 }
 
+
+/*!
+    This slot is called whenever the preview button is turned on or off.
+    It calls the selected indenter to format the current source code it
+    the code has been changed since the last indenter call.
+ */
 void MainWindow::previewTurnedOnOff(bool turnOn) {
     previewToggled = true;
     QTextCursor savedCursor = txtedSourceCode->textCursor();
@@ -463,11 +473,18 @@ void MainWindow::previewTurnedOnOff(bool turnOn) {
 }
 
 
+/*!
+    This slot updates the main window title to show the currently opened
+    source code filename.
+ */
 void MainWindow::updateWindowTitle() {
     this->setWindowTitle( version +" "+ currentSourceFile);
 }
 
 
+/*!
+    Opens a dialog to save the current source code as a PDF document.
+ */
 void MainWindow::exportToPDF() {
 	QString fileExtensions = "PDF Document (*.pdf)";
 
@@ -488,6 +505,9 @@ void MainWindow::exportToPDF() {
 }
 
 
+/*!
+    Opens a dialog to save the current source code as a HTML document.
+ */
 void MainWindow::exportToHTML() {
 	QString fileExtensions = "HTML Document (*.html)";
 
