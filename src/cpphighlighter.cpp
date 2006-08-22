@@ -15,8 +15,8 @@
 #include "cpphighlighter.h"
 
 /*!
-\class CppHighlighter
-\brief Highlighter used by QTextEdit fields to syntax highlight cpp source code
+    \class CppHighlighter
+    \brief Highlighter used by QTextEdit fields to syntax highlight cpp source code
 */
 
 /*!

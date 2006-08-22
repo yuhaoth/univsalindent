@@ -13,6 +13,15 @@
 
 #include "aboutdialog.h"
 
+/*!
+    \class AboutDialog
+    \brief Displays a dialog window with information about UniversalIndentGUI
+*/
+
+/*!
+    The constructor calls the setup function for the ui created by uic and adds
+    the GPL text to the text edit.
+ */
 AboutDialog::AboutDialog(QWidget *parent) :
     QDialog(parent)
 {

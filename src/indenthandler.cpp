@@ -12,14 +12,19 @@
 
 #include "indenthandler.h"
 
+/*!
+    \class IndentHandler
+    \brief A widget for handling many indenters that are configured by an ini file.
+
+    This is a widget that is used by the main window. It handles access to the
+    indenter config file and calls the chosen indenter to reformat the source text.
+    Calls the indenter each time a setting has been changed and informs
+    the main window about the reformatted source code.
+*/
 
 /*!
-    Constructor of the GreatCode handler. This is a widget that is
-    loaded into the main window if GreatCode is selected as indenter.
-    Handles GreatCode config file read/write and calls GreatCode
-    to reformat source text.
-    Calls GreatCode each time a setting has been changed and informs
-    the main window about the reformatted source code.
+    Constructor of the indent handler. By calling this constructor allways the first
+    found indenter, configured by an ini file, is loaded
  */
 IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent)
     : QWidget(parent)
@@ -51,12 +56,9 @@ IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent)
 
 
 /*!
-    Constructor of the GreatCode handler. This is a widget that is
-    loaded into the main window if GreatCode is selected as indenter.
-    Handles GreatCode config file read/write and calls GreatCode
-    to reformat source text.
-    Calls GreatCode each time a setting has been changed and informs
-    the main window about the reformatted source code.
+    Constructor of the indent handler. By calling this constructor the indenter
+    to be loaded, can be selected by setting its \a indenterID, which is the number
+    of found indenter ini files in alphabetic order starting at index 0.
  */
 IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent)
     : QWidget(parent)
@@ -225,7 +227,9 @@ QString IndentHandler::callIndenter(QString sourceCode, QString inputFileExtensi
     return formattedSourceCode;
 }
 
-//! Generates and returns a string with all parameters needed to call GreatCode
+/*!
+    Generates and returns a string with all parameters needed to call the indenter.
+ */
 QString IndentHandler::getParameterString() {
 
     QString parameterString = "";
@@ -277,7 +281,9 @@ QString IndentHandler::getParameterString() {
 }
 
 
-//! Write settings for the indenter to a config file
+/*!
+    Write settings for the indenter to a config file.
+ */
 void IndentHandler::writeConfigFile(QString paramString) {
     Q_ASSERT_X( !configFilename.isEmpty(), "writeConfigFile", "configFilename is empty" );
 
@@ -289,7 +295,9 @@ void IndentHandler::writeConfigFile(QString paramString) {
     cfgFile.close();
 }
 
-//! Load a GC config file
+/*!
+    Load the config file for the indenter and apply the settings made there.
+ */
 void IndentHandler::loadConfigFile(QString filePathName) {
     Q_ASSERT_X( !filePathName.isEmpty(), "loadConfigFile", "filePathName is empty" );
 
@@ -451,7 +459,7 @@ void IndentHandler::loadConfigFile(QString filePathName) {
 }
 
 /*!
-    \brief opens and parses an indenter ini file, handed as parameter
+    Opens and parses the indenter ini file that is declarde by \a iniFilePath.
  */
 void IndentHandler::readIndentIniFile(QString iniFilePath) {
     Q_ASSERT_X( !iniFilePath.isEmpty(), "readIndentIniFile", "iniFilePath is empty" );
@@ -720,6 +728,9 @@ QStringList IndentHandler::getAvailableIndenters() {
 }
 
 
+/*!
+    Deletes all elements in the toolbox and initialize the indenter selected by \a indenterID.
+ */
 void IndentHandler::setIndenter(int indenterID) {
     // remove all pages from the toolbox
     for (int i = 0; i < toolBox->count(); i++) {
@@ -741,12 +752,17 @@ void IndentHandler::setIndenter(int indenterID) {
     readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
 }
 
-//! Returns a string containing by the indenter supported file types/extensions devided by a space
+
+/*!
+    Returns a string containing by the indenter supported file types/extensions devided by a space.
+ */
 QString IndentHandler::getPossibleIndenterFileExtensions() {
 	return fileTypes;
 }
 
-//! Returns the path and filename of the current indenter config file
+/*!
+    Returns the path and filename of the current indenter config file.
+ */
 QString IndentHandler::getIndenterCfgFile() {
     QFileInfo fileInfo( dataDirctoryStr + configFilename );
     return fileInfo.absoluteFilePath();
