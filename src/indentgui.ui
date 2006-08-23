@@ -203,16 +203,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>581</y>
-     <width>800</width>
-     <height>19</height>
-    </rect>
-   </property>
-  </widget>
+  <widget class="QStatusBar" name="statusbar" />
   <widget class="QMenuBar" name="menuBar" >
    <property name="geometry" >
     <rect>
@@ -394,38 +385,5 @@
  <resources>
   <include location="../resources/Icons.qrc" />
  </resources>
- <connections>
-  <connection>
-   <sender>pbExit</sender>
-   <signal>clicked()</signal>
-   <receiver>IndentGui</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>793</x>
-     <y>118</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>548</x>
-     <y>17</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionExit</sender>
-   <signal>activated()</signal>
-   <receiver>IndentGui</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>403</x>
-     <y>329</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
