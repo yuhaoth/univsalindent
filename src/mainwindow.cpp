@@ -47,12 +47,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     loadSettings();
 
-    currentSourceFile = "./data/example.cpp";
-    QFileInfo fileInfo(currentSourceFile);
-    currentSourceFile = fileInfo.absoluteFilePath();
-    sourceFileContent = loadFile(currentSourceFile);
-    currentSourceFileExtension = fileInfo.suffix();
-
     updateWindowTitle();
 
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
@@ -533,13 +527,50 @@ void MainWindow::exportToHTML() {
     last loaded config file and so on.
 */
 void MainWindow::loadSettings() {
-    // If no ini file does exist, return without making any settings.
-    if ( !QFile::exists("./UniversalIndentGUI.ini") ) {
-        return;
-    }
-    QSettings settings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
+    QSettings *settings;
+    bool settingsFileExists = true;
 
-    QString lastSourceCodeFile = settings.value("UniversalIndentGUI/lastSourceCodeFile").toString();
+    // If no ini file does exist remember that
+    if ( !QFile::exists("./UniversalIndentGUI.ini") ) {
+        settingsFileExists = false;
+    }
+    // else open the settings file
+    else {
+        settings = new QSettings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
+    }
+
+    // Handle last opened source code file
+    // -----------------------------------
+
+    // read last opened source code file from settings if the settings file exists
+    if ( settingsFileExists ) {
+        currentSourceFile = settings->value("UniversalIndentGUI/lastSourceCodeFile").toString();
+    }
+    else {
+        currentSourceFile = "./data/example.cpp";
+    }
+    
+    
+    // if no file was set use default example
+    if ( currentSourceFile.isEmpty() ) {
+        currentSourceFile = "./data/example.cpp";
+    }
+
+    // if source file exist load it
+    if ( QFile::exists(currentSourceFile) ) {
+        QFileInfo fileInfo(currentSourceFile);
+        currentSourceFile = fileInfo.absoluteFilePath();
+        sourceFileContent = loadFile(currentSourceFile);
+        currentSourceFileExtension = fileInfo.suffix();
+    }
+    // if no source code file exists make some default settings.
+    else {
+        currentSourceFile = "";
+        currentSourceFileExtension = "";
+        sourceFileContent = "if(x==\"y\"){x=z;}";
+    }
+
+    delete settings;
 }
 
 
