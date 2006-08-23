@@ -63,6 +63,12 @@ private:
     QString openFileDialog(QString dialogHeaderStr, QString startPath, QString fileMaskStr);
 
     void updateWindowTitle();
+
+    //! Loads the settings for the main program
+    void loadSettings();
+
+    //! Saves the settings for the main program
+    void saveSettings();
     
 public slots:
     void openConfigFileDialog();
@@ -79,6 +85,7 @@ public slots:
     void previewTurnedOnOff(bool turnOn);
     void exportToPDF();
     void exportToHTML();
+    void exitMainWindow();
 };
 
 #endif // MAINWINDOW_H

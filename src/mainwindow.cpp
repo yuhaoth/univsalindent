@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     version = "UniversalIndentGUI 0.2.5 Alpha";
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
+    connect( pbExit, SIGNAL(clicked()), this, SLOT(exitMainWindow()) );
+    connect( actionExit, SIGNAL(activated()), this, SLOT(exitMainWindow()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
     //connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
     connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
@@ -42,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( actionExportPDF, SIGNAL(activated()), this, SLOT(exportToPDF()) );
     connect( actionExportHTML, SIGNAL(activated()), this, SLOT(exportToHTML()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
+
+    loadSettings();
 
     currentSourceFile = "./data/example.cpp";
     QFileInfo fileInfo(currentSourceFile);
@@ -520,4 +524,41 @@ void MainWindow::exportToHTML() {
         outSrcFile.write( txtedSourceCode->toHtml().toAscii() );
         outSrcFile.close();
     }
+}
+
+
+/*!
+    Loads the settings for the main application out of the file "UniversalIndentGUI.ini",
+    which should exists in the call directory. Settings are for example last selected indenter,
+    last loaded config file and so on.
+*/
+void MainWindow::loadSettings() {
+    // If no ini file does exist, return without making any settings.
+    if ( !QFile::exists("./UniversalIndentGUI.ini") ) {
+        return;
+    }
+    QSettings settings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
+
+    QString lastSourceCodeFile = settings.value("UniversalIndentGUI/lastSourceCodeFile").toString();
+}
+
+
+/*!
+    Saves the settings for the main application to the file "UniversalIndentGUI.ini".
+    Settings are for example last selected indenter, last loaded config file and so on.
+*/
+void MainWindow::saveSettings() {
+    QSettings settings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
+
+    QString lastSourceCodeFile = settings.value("UniversalIndentGUI/lastSourceCodeFile").toString();
+    settings.setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
+}
+
+
+/*!
+    Slot that is called when the program is quit.
+*/
+void MainWindow::exitMainWindow() {
+    saveSettings();
+    close();
 }
