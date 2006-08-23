@@ -26,12 +26,7 @@
  */
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    //QFont font;
-    //font.setFamily("Courier");
-    //font.setFixedPitch(true);
-    //font.setPointSize(10);
-
-	// generate gui a it is build in the file "indentgui.ui"
+	// generate gui as it is build in the file "indentgui.ui"
     setupUi(this);
 
 	// set the program version, which is shown in the main window title
@@ -102,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 void MainWindow::selectIndenter(int indenterID) {
 	IndentHandler *oldIndentHandler = indentHandler;
 
-    // prevent unnecessarry updates if same indenter as current has been selected
+    // prevent unnecessary updates if same indenter as current has been selected
     if ( indenterID == currentIndenterID ) {
         return;
     }
