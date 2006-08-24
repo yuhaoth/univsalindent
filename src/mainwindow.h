@@ -69,6 +69,9 @@ private:
 
     //! Saves the settings for the main program
     void saveSettings();
+
+protected:
+    void closeEvent( QCloseEvent *event );
     
 public slots:
     void openConfigFileDialog();
@@ -85,7 +88,6 @@ public slots:
     void previewTurnedOnOff(bool turnOn);
     void exportToPDF();
     void exportToHTML();
-    void exitMainWindow();
 };
 
 #endif // MAINWINDOW_H

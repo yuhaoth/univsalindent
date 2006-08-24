@@ -33,8 +33,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     version = "UniversalIndentGUI 0.2.5 Alpha";
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
-    connect( pbExit, SIGNAL(clicked()), this, SLOT(exitMainWindow()) );
-    connect( actionExit, SIGNAL(activated()), this, SLOT(exitMainWindow()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
     //connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
     connect( actionLoad_Indenter_Config_File, SIGNAL(activated()), this, SLOT(openConfigFileDialog()) );
@@ -101,16 +99,16 @@ void MainWindow::selectIndenter(int indenterID) {
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
-    indentHandler->hide();
-    vboxLayout1->insertWidget(0, indentHandler);
-    oldIndentHandler->hide();
-    indentHandler->show();
-	vboxLayout1->removeWidget(oldIndentHandler);
-	delete oldIndentHandler;
-    cmbBoxIndenters->clear();
+	//indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
+ //   indentHandler->hide();
+ //   vboxLayout1->insertWidget(0, indentHandler);
+ //   oldIndentHandler->hide();
+ //   indentHandler->show();
+	//vboxLayout1->removeWidget(oldIndentHandler);
+	//delete oldIndentHandler;
+ //   cmbBoxIndenters->clear();
 
-	cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
+	//cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
 
     // Take care if the selected indenterID is smaller or greater than the number of existing indenters
     if ( indenterID < 0 ) {
@@ -119,9 +117,9 @@ void MainWindow::selectIndenter(int indenterID) {
     if ( indenterID >= indentHandler->getAvailableIndenters().count() ) {
         indenterID = indentHandler->getAvailableIndenters().count() - 1;
     }
-
+    indentHandler->setIndenter(indenterID);
 	cmbBoxIndenters->setCurrentIndex(indenterID);
-	QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
+	//QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
 
     currentIndenterID = indenterID;
     if ( cbLivePreview->isChecked() ) {
@@ -621,9 +619,9 @@ void MainWindow::saveSettings() {
 
 
 /*!
-    Slot that is called when the program is quit.
+    Is allways called when the program is quit. Calls the saveSettings function before really quits.
 */
-void MainWindow::exitMainWindow() {
+void MainWindow::closeEvent( QCloseEvent *event ) {
     saveSettings();
-    close();
+    this->close();
 }
