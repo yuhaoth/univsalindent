@@ -19,6 +19,7 @@
         <file>save_indent_cfg.png</file>
         <file>syntax-highlight.png</file>
         <file>system-log-out.png</file>
+        <file>tooltip.png</file>
         <file>view-refresh.png</file>
     </qresource>
 </RCC>

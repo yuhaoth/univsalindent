@@ -252,8 +252,15 @@
     <addaction name="menuExport" />
     <addaction name="actionExit" />
    </widget>
+   <widget class="QMenu" name="menuSettings" >
+    <property name="title" >
+     <string>Settings</string>
+    </property>
+    <addaction name="actionParameter_Tooltips" />
+   </widget>
    <addaction name="menuFile" />
    <addaction name="menuIndenter" />
+   <addaction name="menuSettings" />
    <addaction name="menuHelp" />
   </widget>
   <action name="actionOpen_Source_File" >
@@ -377,6 +384,23 @@
    </property>
    <property name="statusTip" >
     <string>Export the currently visible source code as HTML document</string>
+   </property>
+  </action>
+  <action name="actionParameter_Tooltips" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="checked" >
+    <bool>true</bool>
+   </property>
+   <property name="icon" >
+    <iconset resource="../resources/Icons.qrc" >:/mainWindow/tooltip.png</iconset>
+   </property>
+   <property name="text" >
+    <string>Parameter Tooltips</string>
+   </property>
+   <property name="statusTip" >
+    <string>If checked, tool tips will show up if the mouse cursor remains over an indenter parameter for a while.</string>
    </property>
   </action>
  </widget>
