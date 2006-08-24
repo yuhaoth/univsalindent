@@ -754,6 +754,8 @@ QStringList IndentHandler::getAvailableIndenters() {
     Deletes all elements in the toolbox and initialize the indenter selected by \a indenterID.
  */
 void IndentHandler::setIndenter(int indenterID) {
+    // TODO: This function is never called because out of the mainwindow object a new indenthandler object is created if another indenter is selected.
+
     // Take care if the selected indenterID is smaller or greater than the number of existing indenters
     if ( indenterID < 0 ) {
         indenterID = 0;

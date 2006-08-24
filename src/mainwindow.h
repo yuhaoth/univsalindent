@@ -27,6 +27,7 @@
 #include <QTextStream>
 #include <QPrinter>
 #include <QPrintDialog>
+#include <QCloseEvent>
 
 class MainWindow : public QMainWindow, private Ui::IndentGui
 {

@@ -99,16 +99,13 @@ void MainWindow::selectIndenter(int indenterID) {
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	//indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
- //   indentHandler->hide();
- //   vboxLayout1->insertWidget(0, indentHandler);
- //   oldIndentHandler->hide();
- //   indentHandler->show();
-	//vboxLayout1->removeWidget(oldIndentHandler);
-	//delete oldIndentHandler;
- //   cmbBoxIndenters->clear();
-
-	//cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
+	indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
+    indentHandler->hide();
+    vboxLayout1->insertWidget(0, indentHandler);
+    oldIndentHandler->hide();
+    indentHandler->show();
+	vboxLayout1->removeWidget(oldIndentHandler);
+	delete oldIndentHandler;
 
     // Take care if the selected indenterID is smaller or greater than the number of existing indenters
     if ( indenterID < 0 ) {
@@ -117,9 +114,9 @@ void MainWindow::selectIndenter(int indenterID) {
     if ( indenterID >= indentHandler->getAvailableIndenters().count() ) {
         indenterID = indentHandler->getAvailableIndenters().count() - 1;
     }
-    indentHandler->setIndenter(indenterID);
+
 	cmbBoxIndenters->setCurrentIndex(indenterID);
-	//QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
+	QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
 
     currentIndenterID = indenterID;
     if ( cbLivePreview->isChecked() ) {
@@ -622,6 +619,7 @@ void MainWindow::saveSettings() {
     Is allways called when the program is quit. Calls the saveSettings function before really quits.
 */
 void MainWindow::closeEvent( QCloseEvent *event ) {
+    // TODO: if the source code file has been changed ask for saving before quit. See "Application Example" in assistant
     saveSettings();
-    this->close();
+    event->accept();
 }
