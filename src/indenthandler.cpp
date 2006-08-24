@@ -86,6 +86,14 @@ IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *pa
 	indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
     noIndenterExecExistDialogAlreadyShown = false;
 
+    // Take care if the selected indenterID is smaller or greater than the number of existing indenters
+    if ( indenterID < 0 ) {
+        indenterID = 0;
+    }
+    if ( indenterID >= indenterIniFileList.count() ) {
+        indenterID = indenterIniFileList.count() - 1;
+    }
+
 	// reads and parses first found indent ini file and creates toolbox entries
 	readIndentIniFile( dataDirctoryStr + indenterIniFileList.at(indenterID) );
 }
@@ -716,13 +724,27 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
     and reads the there defined real name of the indenter. These names are being returned as QStringList
  */
 QStringList IndentHandler::getAvailableIndenters() {
-    QSettings *indenterSettings;
     QStringList indenterNamesList;
 
+    // Loop for every existing uigui ini file
     foreach (QString indenterIniFile, indenterIniFileList) {
-        indenterSettings = new QSettings(dataDirctoryStr + indenterIniFile, QSettings::IniFormat, NULL);
-        indenterNamesList << indenterSettings->value(" header/indenterName").toString();
-        delete indenterSettings;
+        
+        // Open the ini file and search for the indenter name
+        QFile file(dataDirctoryStr + indenterIniFile);
+        if ( file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+            int index = -1;
+            QByteArray line;
+            // Search for the string "indenterName=" and get the following string until line end.
+            while ( index == -1 &&  !file.atEnd() ) {
+                line = file.readLine();
+                index = line.indexOf( "indenterName=", 0);
+            }
+
+            if ( index == 0 ) {
+                line = line.remove(0, 13);
+                indenterNamesList << line;
+            }
+        }
     }
     return indenterNamesList;
 }
@@ -732,6 +754,14 @@ QStringList IndentHandler::getAvailableIndenters() {
     Deletes all elements in the toolbox and initialize the indenter selected by \a indenterID.
  */
 void IndentHandler::setIndenter(int indenterID) {
+    // Take care if the selected indenterID is smaller or greater than the number of existing indenters
+    if ( indenterID < 0 ) {
+        indenterID = 0;
+    }
+    if ( indenterID >= indenterIniFileList.count() ) {
+        indenterID = indenterIniFileList.count() - 1;
+    }
+
     // remove all pages from the toolbox
     for (int i = 0; i < toolBox->count(); i++) {
         toolBox->removeItem(i);
