@@ -99,7 +99,7 @@ void MainWindow::selectIndenter(int indenterID) {
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
+	indentHandler = new IndentHandler("./data/", indenterID, this);
     indentHandler->hide();
     vboxLayout1->insertWidget(0, indentHandler);
     oldIndentHandler->hide();
