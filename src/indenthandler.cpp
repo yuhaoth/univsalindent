@@ -561,6 +561,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 spinBox->setToolTip( paramToolTip );
                 spinBox->setMaximumWidth(50);
                 spinBox->setMinimumWidth(50);
+                spinBox->installEventFilter( this->parentWidget() );
 				if ( indenterSettings->value(indenterParameter + "/MinVal").toString() != "" ) {
 					spinBox->setMinimum( indenterSettings->value(indenterParameter + "/MinVal").toInt() );
 				}
@@ -579,6 +580,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 label->setText(indenterParameter);
                 label->setBuddy(spinBox);
                 label->setToolTip( paramToolTip );
+                label->installEventFilter( this->parentWidget() );
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
@@ -607,6 +609,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 chkBox->setChecked( indenterSettings->value(indenterParameter + "/Value").toBool() );
 				paramToolTip = indenterSettings->value(indenterParameter + "/Description").toString();
 				chkBox->setToolTip( paramToolTip );
+                chkBox->installEventFilter( this->parentWidget() );
 				toolBoxPages.at(category).vboxLayout->addWidget(chkBox);
 
                 // remember parameter name and reference to its checkbox
@@ -641,6 +644,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 lineEdit->setToolTip( paramToolTip );
 				lineEdit->setMaximumWidth(50);
 				lineEdit->setMinimumWidth(50);
+                lineEdit->installEventFilter( this->parentWidget() );
 
                 // create the label
                 QLabel *label = new QLabel( toolBoxPages.at(category).page );
@@ -648,6 +652,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
 				label->setBuddy(lineEdit);
 				label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
                 label->setToolTip( paramToolTip );
+                label->installEventFilter( this->parentWidget() );
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
@@ -689,6 +694,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 comboBox->setCurrentIndex( indenterSettings->value(indenterParameter + "/Value").toInt() );
                 paramToolTip = indenterSettings->value(indenterParameter + "/Description").toString();
                 comboBox->setToolTip( paramToolTip );
+                comboBox->installEventFilter( this->parentWidget() );
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();

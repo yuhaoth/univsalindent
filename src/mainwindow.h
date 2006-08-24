@@ -28,6 +28,8 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QCloseEvent>
+#include <QHelpEvent>
+#include <QToolTip>
 
 class MainWindow : public QMainWindow, private Ui::IndentGui
 {
@@ -73,6 +75,7 @@ private:
 
 protected:
     void closeEvent( QCloseEvent *event );
+    bool eventFilter(QObject *obj, QEvent *event);
     
 public slots:
     void openConfigFileDialog();

@@ -579,7 +579,7 @@ void MainWindow::loadSettings() {
         indenterID = 0;
     }
 
-	indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
+	indentHandler = new IndentHandler("./data/", indenterID, this);
     vboxLayout1->addWidget(indentHandler);
 
 	cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
@@ -597,6 +597,18 @@ void MainWindow::loadSettings() {
     currentIndenterID = indenterID;
 
 
+    // Handle if indenter parameter tool tips are enabled
+    // --------------------------------------------------
+
+    // read if indenter parameter tool tips are enabled
+    if ( settingsFileExists ) {
+        bool indenterParameterTooltipsEnabled = settings->value("UniversalIndentGUI/indenterParameterTooltipsEnabled").toBool();
+        actionParameter_Tooltips->setChecked( indenterParameterTooltipsEnabled );
+    }
+    else {
+        actionParameter_Tooltips->setChecked( true );
+    }
+
     if ( settingsFileExists ) {
         delete settings;
     }
@@ -612,6 +624,7 @@ void MainWindow::saveSettings() {
 
     settings.setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
     settings.setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
+    settings.setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
 }
 
 
@@ -622,4 +635,27 @@ void MainWindow::closeEvent( QCloseEvent *event ) {
     // TODO: if the source code file has been changed ask for saving before quit. See "Application Example" in assistant
     saveSettings();
     event->accept();
+}
+
+
+/*!
+    This function is setup to capture tooltip events. All widgets that are created by the
+    indentHandler object and are responsible for indenter paramters are connected with
+    this eventfilter. So depending on the settings the tooltips can be enabled and
+    disabled for these widgets.
+ */
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( event->type() == QEvent::ToolTip) {
+        if ( actionParameter_Tooltips->isChecked() ) {
+            return QMainWindow::eventFilter(obj, event);
+        }
+        else {
+            //QToolTip::showText( QPoint(100,100) , "Test1");
+            return true;            
+        }
+    } else {
+        // pass the event on to the parent class
+        return QMainWindow::eventFilter(obj, event);
+    }
 }
