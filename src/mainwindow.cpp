@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( actionExportHTML, SIGNAL(activated()), this, SLOT(exportToHTML()) );
     connect( cbHighlight, SIGNAL(clicked(bool)), this, SLOT(turnHighlightOnOff(bool)) );
 
+    indentHandler = 0;
+
     loadSettings();
 
     updateWindowTitle();
@@ -60,15 +62,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     highlighter = new CppHighlighter(txtedSourceCode->document());
 
-    indentHandler = 0;
-    currentIndenterID = -1;
     sourceCodeChanged = false;
     scrollPositionChanged = false;
     indentSettingsChanged = false;
     previewToggled = true;
-
-    // selects the first found indenter
-    selectIndenter(0);
 
     connect( cmbBoxIndenters, SIGNAL(activated(int)), this, SLOT(selectIndenter(int)) );
 
@@ -86,6 +83,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //actionAStyle->setObjectName(QString::fromUtf8("actionAStyle"));
     //menuSelect_Indenter->addAction(actionAStyle);
     //retranslateUi(this);
+
+    updateSourceView();
 }
 
 
@@ -102,22 +101,25 @@ void MainWindow::selectIndenter(int indenterID) {
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	if ( oldIndentHandler != 0 ) {
-		indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
-        indentHandler->hide();
-        vboxLayout1->insertWidget(0, indentHandler);
-        oldIndentHandler->hide();
-        indentHandler->show();
-		vboxLayout1->removeWidget(oldIndentHandler);
-		delete oldIndentHandler;
-        cmbBoxIndenters->clear();
-	}
-	else {
-		indentHandler = new IndentHandler("./data/", centralwidget);
-        vboxLayout1->addWidget(indentHandler);
-	}
+	indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
+    indentHandler->hide();
+    vboxLayout1->insertWidget(0, indentHandler);
+    oldIndentHandler->hide();
+    indentHandler->show();
+	vboxLayout1->removeWidget(oldIndentHandler);
+	delete oldIndentHandler;
+    cmbBoxIndenters->clear();
 
 	cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
+
+    // Take care if the selected indenterID is smaller or greater than the number of existing indenters
+    if ( indenterID < 0 ) {
+        indenterID = 0;
+    }
+    if ( indenterID >= indentHandler->getAvailableIndenters().count() ) {
+        indenterID = indentHandler->getAvailableIndenters().count() - 1;
+    }
+
 	cmbBoxIndenters->setCurrentIndex(indenterID);
 	QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
 
@@ -529,6 +531,7 @@ void MainWindow::exportToHTML() {
 void MainWindow::loadSettings() {
     QSettings *settings;
     bool settingsFileExists = true;
+    int indenterID;
 
     // If no ini file does exist remember that
     if ( !QFile::exists("./UniversalIndentGUI.ini") ) {
@@ -545,14 +548,12 @@ void MainWindow::loadSettings() {
     // read last opened source code file from settings if the settings file exists
     if ( settingsFileExists ) {
         currentSourceFile = settings->value("UniversalIndentGUI/lastSourceCodeFile").toString();
+        // if no file was set use default example
+        if ( currentSourceFile.isEmpty() ) {
+            currentSourceFile = "./data/example.cpp";
+        }
     }
     else {
-        currentSourceFile = "./data/example.cpp";
-    }
-    
-    
-    // if no file was set use default example
-    if ( currentSourceFile.isEmpty() ) {
         currentSourceFile = "./data/example.cpp";
     }
 
@@ -565,12 +566,45 @@ void MainWindow::loadSettings() {
     }
     // if no source code file exists make some default settings.
     else {
-        currentSourceFile = "";
+        QFileInfo fileInfo(currentSourceFile);
+        currentSourceFile = fileInfo.absolutePath();
         currentSourceFileExtension = "";
         sourceFileContent = "if(x==\"y\"){x=z;}";
     }
 
-    delete settings;
+
+    // Handle last selected indenter
+    // -----------------------------
+
+    // read last selected indenter from settings if the settings file exists
+    if ( settingsFileExists ) {
+        indenterID = settings->value("UniversalIndentGUI/lastSelectedIndenter").toInt();
+    }
+    else {
+        indenterID = 0;
+    }
+
+	indentHandler = new IndentHandler("./data/", indenterID, centralwidget);
+    vboxLayout1->addWidget(indentHandler);
+
+	cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
+
+    // Take care if the selected indenterID is smaller or greater than the number of existing indenters
+    if ( indenterID < 0 ) {
+        indenterID = 0;
+    }
+    if ( indenterID >= indentHandler->getAvailableIndenters().count() ) {
+        indenterID = indentHandler->getAvailableIndenters().count() - 1;
+    }
+
+	cmbBoxIndenters->setCurrentIndex(indenterID);
+	QObject::connect(indentHandler, SIGNAL(settingsCodeChanged()), this, SLOT(indentSettingsChangedSlot()));
+    currentIndenterID = indenterID;
+
+
+    if ( settingsFileExists ) {
+        delete settings;
+    }
 }
 
 
@@ -581,8 +615,8 @@ void MainWindow::loadSettings() {
 void MainWindow::saveSettings() {
     QSettings settings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
 
-    QString lastSourceCodeFile = settings.value("UniversalIndentGUI/lastSourceCodeFile").toString();
     settings.setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
+    settings.setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
 }
 
 
