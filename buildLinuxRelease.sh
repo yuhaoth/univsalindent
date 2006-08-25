@@ -38,6 +38,6 @@ cp ./data/example.cpp ./UniversalIndentGUI_linux32/data/
 cd UniversalIndentGUI_linux32
 echo compressing UniversalIndentGUI_linux32
 echo ----------------------------------------
-tar czf UniversalIndentGUI_0.2.5_Alpha_linux32.tgz *
+tar czf UniversalIndentGUI_0.3_Beta_linux32.tgz *
 cd ..
 read -p "press any key to continue"
