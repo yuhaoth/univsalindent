@@ -52,12 +52,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
     textEdit2VScrollBar = txtedLineNumbers->verticalScrollBar();
 
-    connect( textEditVScrollBar, SIGNAL(valueChanged(int)), textEdit2VScrollBar, SLOT(setValue(int)));
-    connect( textEdit2VScrollBar, SIGNAL(valueChanged(int)), textEditVScrollBar, SLOT(setValue(int)));
-
-    connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
-    connect( cbLivePreview, SIGNAL(clicked(bool)), this, SLOT(previewTurnedOnOff(bool)) );
-
     highlighter = new CppHighlighter(txtedSourceCode->document());
 
     sourceCodeChanged = false;
@@ -83,6 +77,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //retranslateUi(this);
 
     updateSourceView();
+
+    connect( textEditVScrollBar, SIGNAL(valueChanged(int)), textEdit2VScrollBar, SLOT(setValue(int)));
+    connect( textEdit2VScrollBar, SIGNAL(valueChanged(int)), textEditVScrollBar, SLOT(setValue(int)));
+
+    connect( txtedSourceCode, SIGNAL(textChanged()), this, SLOT(sourceCodeChangedSlot()) );
+    connect( cbLivePreview, SIGNAL(clicked(bool)), this, SLOT(previewTurnedOnOff(bool)) );
 }
 
 
@@ -155,6 +155,11 @@ QString MainWindow::loadFile(QString filePath) {
 	If the file was successfully loaded the indenter will be called to generate the formatted source code.
  */
 void MainWindow::openSourceFileDialog() {
+    // If the source code file is changed and the shown dialog for saving the file
+    // is canceled, also stop opening another source file.
+    if ( !maybeSave() ) {
+        return;
+    }
     QString openedSourceFileContent = "";
 	QString fileExtensions = "Supported by indenter ("+indentHandler->getPossibleIndenterFileExtensions()+
                              ");;All files (*.*)";
@@ -178,6 +183,10 @@ void MainWindow::openSourceFileDialog() {
         updateWindowTitle();
         textEditLastScrollPos = 0;
         textEditVScrollBar->setValue( textEditLastScrollPos );
+
+        savedSourceContent = openedSourceFileContent;
+        txtedSourceCode->document()->setModified( false );
+        setWindowModified( txtedSourceCode->document()->isModified() );
     }
 }
 
@@ -186,25 +195,35 @@ void MainWindow::openSourceFileDialog() {
 	Calls the source file save as dialog to save a source file under a choosen name.
 	If the file already exists and it should be overwritten, a warning is shown before.
  */
-void MainWindow::saveasSourceFileDialog() {
+bool MainWindow::saveasSourceFileDialog() {
 	QString fileExtensions = "Supported by indenter ("+indentHandler->getPossibleIndenterFileExtensions()+
                              ");;All files (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
     QString fileName = QFileDialog::getSaveFileName( this, tr("Save source code file"), currentSourceFile, fileExtensions);
 
-    if (fileName != "") {
-        currentSourceFile = fileName;
-        QFile::remove(fileName);
-        QFile outSrcFile(fileName);
-        outSrcFile.open( QFile::ReadWrite | QFile::Text );
-        outSrcFile.write( txtedSourceCode->toPlainText().toAscii() );
-        outSrcFile.close();
-
-        QFileInfo fileInfo(fileName);
-        currentSourceFileExtension = fileInfo.suffix();
-        updateWindowTitle();
+    // Saveing has been canceled if the filename is empty
+    if ( fileName.isEmpty() ) {
+        return false;
     }
+
+    savedSourceContent = txtedSourceCode->toPlainText();
+
+    currentSourceFile = fileName;
+    QFile::remove(fileName);
+    QFile outSrcFile(fileName);
+    outSrcFile.open( QFile::ReadWrite | QFile::Text );
+    outSrcFile.write( savedSourceContent.toAscii() );
+    outSrcFile.close();
+
+    QFileInfo fileInfo(fileName);
+    currentSourceFileExtension = fileInfo.suffix();
+
+    txtedSourceCode->document()->setModified( false );
+    setWindowModified( txtedSourceCode->document()->isModified() );
+
+    updateWindowTitle();
+    return true;
 }
 
 
@@ -213,17 +232,22 @@ void MainWindow::saveasSourceFileDialog() {
     If no source file has been opened, because only the static example has been loaded,
     the save as file dialog will be shown.
  */
-void MainWindow::saveSourceFile() {
+bool MainWindow::saveSourceFile() {
     if ( currentSourceFile.isEmpty() ) {
-        saveasSourceFileDialog();
+        return saveasSourceFileDialog();
     }
     else {
         QFile::remove(currentSourceFile);
         QFile outSrcFile(currentSourceFile);
+        savedSourceContent = txtedSourceCode->toPlainText();
         outSrcFile.open( QFile::ReadWrite | QFile::Text );
-        outSrcFile.write( txtedSourceCode->toPlainText().toAscii() );
+        outSrcFile.write( savedSourceContent.toAscii() );
         outSrcFile.close();
+
+        txtedSourceCode->document()->setModified( false );
+        setWindowModified( txtedSourceCode->document()->isModified() );
     }
+    return true;
 }
 
 
@@ -308,8 +332,8 @@ void MainWindow::updateSourceView()
 #endif
 
         txtedSourceCode->setPlainText(sourceViewContent);
-        connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
         previewToggled = false;
+        connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
     }
 
     numberOfLines = sourceViewContent.count(QRegExp("\n"));
@@ -398,6 +422,15 @@ void MainWindow::sourceCodeChangedSlot() {
     if ( cbLivePreview->isChecked() ) {
         sourceCodeChanged = false;
     }
+
+    if ( savedSourceContent == txtedSourceCode->toPlainText() ) {
+        txtedSourceCode->document()->setModified( false );
+        setWindowModified( txtedSourceCode->document()->isModified() );
+    }
+    else {
+        txtedSourceCode->document()->setModified( true );
+        setWindowModified( txtedSourceCode->document()->isModified() );
+    }
 }
 
 
@@ -432,12 +465,21 @@ void MainWindow::indentSettingsChangedSlot() {
     else {
         updateSourceView();
     }
+
+    if ( savedSourceContent == txtedSourceCode->toPlainText() ) {
+        txtedSourceCode->document()->setModified( false );
+        setWindowModified( txtedSourceCode->document()->isModified() );
+    }
+    else {
+        txtedSourceCode->document()->setModified( true );
+        setWindowModified( txtedSourceCode->document()->isModified() );
+    }
 }
 
 
 /*!
     This slot is called whenever the preview button is turned on or off.
-    It calls the selected indenter to format the current source code it
+    It calls the selected indenter to format the current source code if
     the code has been changed since the last indenter call.
  */
 void MainWindow::previewTurnedOnOff(bool turnOn) {
@@ -460,6 +502,15 @@ void MainWindow::previewTurnedOnOff(bool turnOn) {
         sourceCodeChanged = false;
     }
     indentSettingsChanged = false;
+
+    if ( savedSourceContent == txtedSourceCode->toPlainText() ) {
+        txtedSourceCode->document()->setModified( false );
+        setWindowModified( txtedSourceCode->document()->isModified() );
+    }
+    else {
+        txtedSourceCode->document()->setModified( true );
+        setWindowModified( txtedSourceCode->document()->isModified() );
+    }
 }
 
 
@@ -468,7 +519,7 @@ void MainWindow::previewTurnedOnOff(bool turnOn) {
     source code filename.
  */
 void MainWindow::updateWindowTitle() {
-    this->setWindowTitle( version +" "+ currentSourceFile);
+    this->setWindowTitle( version +" [*]"+ currentSourceFile);
 }
 
 
@@ -566,6 +617,7 @@ void MainWindow::loadSettings() {
         currentSourceFileExtension = "";
         sourceFileContent = "if(x==\"y\"){x=z;}";
     }
+    savedSourceContent = sourceFileContent;
 
 
     // Handle last selected indenter
@@ -632,9 +684,13 @@ void MainWindow::saveSettings() {
     Is allways called when the program is quit. Calls the saveSettings function before really quits.
 */
 void MainWindow::closeEvent( QCloseEvent *event ) {
-    // TODO: if the source code file has been changed ask for saving before quit. See "Application Example" in assistant
-    saveSettings();
-    event->accept();
+    if ( maybeSave() ) {
+        saveSettings();
+        event->accept();
+    }
+    else {
+        event->ignore();
+    }
 }
 
 
@@ -658,4 +714,27 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         // pass the event on to the parent class
         return QMainWindow::eventFilter(obj, event);
     }
+}
+
+
+/*!
+    Is called at application exit and asks whether to save the source code file, if it has been changed.
+ */
+bool MainWindow::maybeSave()
+{
+    if ( txtedSourceCode->document()->isModified() ) {
+        int ret = QMessageBox::warning(this, tr("Application"),
+            tr("The source code has been modified.\n"
+            "Do you want to save your changes?"),
+            QMessageBox::Yes | QMessageBox::Default,
+            QMessageBox::No,
+            QMessageBox::Cancel | QMessageBox::Escape);
+        if (ret == QMessageBox::Yes) {
+            return saveSourceFile();
+        }
+        else if (ret == QMessageBox::Cancel) {
+            return false;
+        }
+    }
+    return true;
 }

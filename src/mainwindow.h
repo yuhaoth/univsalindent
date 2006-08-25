@@ -52,6 +52,7 @@ private:
     int currentIndenterID;
     QString currentSourceFile;
     QString currentSourceFileExtension;
+    QString savedSourceContent;
 
     bool sourceCodeChanged;
     bool scrollPositionChanged;
@@ -73,6 +74,8 @@ private:
     //! Saves the settings for the main program
     void saveSettings();
 
+    bool maybeSave();
+
 protected:
     void closeEvent( QCloseEvent *event );
     bool eventFilter(QObject *obj, QEvent *event);
@@ -80,8 +83,8 @@ protected:
 public slots:
     void openConfigFileDialog();
     void openSourceFileDialog();
-    void saveasSourceFileDialog();
-    void saveSourceFile();
+    bool saveasSourceFileDialog();
+    bool saveSourceFile();
     void saveasIndentCfgFileDialog();
     void callIndenter();
     void updateSourceView();
