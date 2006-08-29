@@ -12,6 +12,9 @@
 
 #include "mainwindow.h"
 #include <QApplication>
+#include <QTranslator>
+#include <QLocale>
+#include <QSettings>
 
 
 /*!
@@ -20,19 +23,30 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    MainWindow ui;
-/*
-    // set another style for the window and its widgets
-    QStyle *arthurStyle = new ArthurStyle();
-    //ui.setStyle(arthurStyle);
-    QList<QWidget *> widgets = qFindChildren<QWidget *>(&ui);
-    foreach (QWidget *w, widgets) {
-        if ( qobject_cast<QPushButton *>(w) ) {
-            w->setStyle(arthurStyle);
-        }
+    QTranslator translator;
+    QSettings *settings;
+    QString language;
+
+    // read last selected language from settings if the settings file exists
+    if ( QFile::exists("./UniversalIndentGUI.ini") ) {
+        settings = new QSettings("./UniversalIndentGUI.ini", QSettings::IniFormat);
+        language = settings->value("UniversalIndentGUI/language").toString();
+
+        // if no language was set use the system language
+        if ( language.isEmpty() ) {
+            language = QLocale::system().name();
+            language.truncate(2);
+        }        
+
+        // load the translation file and set it for the application
+        translator.load( QString("universalindent_") + language );
+        app.installTranslator(&translator);
+        delete settings;
     }
-*/
-    ui.show();
+
+    MainWindow mainWindow;
+
+    mainWindow.show();
 	
     return app.exec();
 }
