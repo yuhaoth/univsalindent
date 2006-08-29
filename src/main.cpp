@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         delete settings;
     }
 
-    MainWindow mainWindow;
+    MainWindow mainWindow( language );
 
     mainWindow.show();
 	

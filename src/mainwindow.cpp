@@ -24,13 +24,16 @@
 /*!
 	Constructs the main window.
  */
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(QString language, QWidget *parent) : QMainWindow(parent)
 {
 	// generate gui as it is build in the file "indentgui.ui"
     setupUi(this);
 
 	// set the program version, which is shown in the main window title
     version = "UniversalIndentGUI 0.3 Beta";
+
+    // set the program language
+    this->language = language;
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
@@ -677,6 +680,7 @@ void MainWindow::saveSettings() {
     settings.setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
     settings.setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
     settings.setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
+    settings.setValue( "UniversalIndentGUI/language", language );
 }
 
 

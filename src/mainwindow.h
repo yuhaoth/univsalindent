@@ -37,10 +37,11 @@ class MainWindow : public QMainWindow, private Ui::IndentGui
 
 public:
     //! Constructor
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QString language, QWidget *parent = 0);
 
 private:
     QString version;
+    QString language;
     QString sourceFileContent;
     QString sourceFormattedContent;
     QString sourceViewContent;
