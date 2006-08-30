@@ -1,8 +1,11 @@
+lrelease .\translations\universalindent_de.ts -qm .\translations\universalindent_de.qm
 rd UniversalIndentGUI_win32 /S /Q
 md UniversalIndentGUI_win32
 cd UniversalIndentGUI_win32
+md translations
 md data
 cd ..
+copy .\translations\*.qm .\UniversalIndentGUI_win32\translations
 copy .\data\.astylerc .\UniversalIndentGUI_win32\data
 copy .\data\AStyle.exe .\UniversalIndentGUI_win32\data
 copy .\data\astyle.html .\UniversalIndentGUI_win32\data
