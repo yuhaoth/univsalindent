@@ -6,6 +6,9 @@ rm -r debug
 echo calling qmake
 echo -------------
 qmake
+echo calling lrelease release
+echo ------------------------
+lrelease ./translations/universalindent_de.ts -qm ./translations/universalindent_de.qm
 echo calling make release
 echo --------------------
 make release
@@ -16,6 +19,7 @@ echo calling mkdir UniversalIndentGUI_linux32
 echo ----------------------------------------
 mkdir UniversalIndentGUI_linux32
 mkdir UniversalIndentGUI_linux32/data
+mkdir UniversalIndentGUI_linux32/translations
 echo copying files to UniversalIndentGUI_linux32
 echo ----------------------------------------
 cp ./changelog.txt ./UniversalIndentGUI_linux32/
@@ -35,6 +39,7 @@ cp ./data/uigui_astyle.ini ./UniversalIndentGUI_linux32/data/
 cp ./data/uigui_greatcode.ini ./UniversalIndentGUI_linux32/data/
 cp ./data/uigui_gnuindent.ini ./UniversalIndentGUI_linux32/data/
 cp ./data/example.cpp ./UniversalIndentGUI_linux32/data/
+cp ./translations/*.qm ./UniversalIndentGUI_linux32/translations
 cd UniversalIndentGUI_linux32
 echo compressing UniversalIndentGUI_linux32
 echo ----------------------------------------
