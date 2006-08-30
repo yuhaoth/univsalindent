@@ -32,17 +32,18 @@ int main(int argc, char *argv[])
         settings = new QSettings("./UniversalIndentGUI.ini", QSettings::IniFormat);
         language = settings->value("UniversalIndentGUI/language").toString();
 
-        // if no language was set use the system language
-        if ( language.isEmpty() ) {
-            language = QLocale::system().name();
-            language.truncate(2);
-        }        
-
-        // load the translation file and set it for the application
-        translator.load( QString("universalindent_") + language );
-        app.installTranslator(&translator);
         delete settings;
     }
+
+    // if no language was set use the system language
+    if ( language.isEmpty() ) {
+        language = QLocale::system().name();
+        language.truncate(2);
+    }        
+
+    // load the translation file and set it for the application
+    translator.load( QString("./translations/universalindent_") + language );
+    app.installTranslator(&translator);
 
     MainWindow mainWindow( language );
 
