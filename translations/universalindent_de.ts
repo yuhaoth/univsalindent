@@ -158,7 +158,7 @@
     </message>
     <message>
         <source>About UniversalIndentGUI</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Über UniversalIndentGUI</translation>
     </message>
     <message>
         <source>Shows info about UniversalIndentGUI.</source>
@@ -201,78 +201,97 @@
     <name>IndentHandler</name>
     <message>
         <source>No indenter executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine ausführbare Formatierer Datei</translation>
     </message>
     <message>
         <source>There exists no indenter executable with the name &quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Es existiert keine ausführbare Datei mit dem Namen &quot;</translation>
     </message>
     <message>
         <source>&quot; in the directory &quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot; in dem Verzeichnis &quot;</translation>
     </message>
     <message>
         <source>Error calling Indenter</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Aufruf des Formatierers</translation>
     </message>
     <message>
         <source>
 Callstring was: </source>
-        <translation type="unfinished"></translation>
+        <translation>Der Aufruf lautete:</translation>
     </message>
     <message>
         <source>Indenter returned error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Ausführen des Formatierers</translation>
     </message>
     <message>
         <source>Indenter returned with exit code </source>
-        <translation type="unfinished"></translation>
+        <translation> Zurückgegebener Exit Code ist </translation>
     </message>
     <message>
         <source>.
 Indent console output was: 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>.
+ Ausgabe des Formatierers war:
+</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
         <source>Error opening file</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Dateiöffnen</translation>
     </message>
     <message>
         <source>Cannot read the file </source>
-        <translation type="unfinished"></translation>
+        <translation> Kann folgende Datei nicht lesen</translation>
     </message>
     <message>
         <source>Choose source code file</source>
-        <translation type="unfinished"></translation>
+        <translation>Quellcodedatei wählen</translation>
     </message>
     <message>
         <source>Save source code file</source>
-        <translation type="unfinished"></translation>
+        <translation>Quellcodedatei speichern</translation>
     </message>
     <message>
         <source>Save indent config file</source>
-        <translation type="unfinished"></translation>
+        <translation>Formatierer Konfiguration speichern</translation>
     </message>
     <message>
         <source>Choose indenter config file</source>
-        <translation type="unfinished"></translation>
+        <translation>Formatierer Konfigurationsdatei wählen</translation>
     </message>
     <message>
         <source>Export source code file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Quellcode exportieren</translation>
     </message>
     <message>
         <source>The source code has been modified.
 Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Quellcodedatei wurde geändert.
+Möchten Sie die Änderungen speichern?</translation>
+    </message>
+    <message>
+        <source>Supported by indenter</source>
+        <translation>Von Formatierer unterstützt</translation>
+    </message>
+    <message>
+        <source>All files</source>
+        <translation>Alle Dateien</translation>
+    </message>
+    <message>
+        <source>PDF Document</source>
+        <translation>PDF Dokument</translation>
+    </message>
+    <message>
+        <source>HTML Document</source>
+        <translation>HTML Dokument</translation>
+    </message>
+    <message>
+        <source>Modified code</source>
+        <translation>Geänderter Quellcode</translation>
     </message>
 </context>
 </TS>

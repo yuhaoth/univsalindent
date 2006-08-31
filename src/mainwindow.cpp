@@ -164,8 +164,8 @@ void MainWindow::openSourceFileDialog() {
         return;
     }
     QString openedSourceFileContent = "";
-	QString fileExtensions = "Supported by indenter ("+indentHandler->getPossibleIndenterFileExtensions()+
-                             ");;All files (*.*)";
+	QString fileExtensions = tr("Supported by indenter")+" ("+indentHandler->getPossibleIndenterFileExtensions()+
+                             ");;"+tr("All files")+" (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
     QString fileName = QFileDialog::getOpenFileName( this, tr("Choose source code file"), currentSourceFile, fileExtensions);
@@ -199,8 +199,8 @@ void MainWindow::openSourceFileDialog() {
 	If the file already exists and it should be overwritten, a warning is shown before.
  */
 bool MainWindow::saveasSourceFileDialog() {
-	QString fileExtensions = "Supported by indenter ("+indentHandler->getPossibleIndenterFileExtensions()+
-                             ");;All files (*.*)";
+	QString fileExtensions = tr("Supported by indenter")+" ("+indentHandler->getPossibleIndenterFileExtensions()+
+                             ");;"+tr("All files")+" (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
     QString fileName = QFileDialog::getSaveFileName( this, tr("Save source code file"), currentSourceFile, fileExtensions);
@@ -259,7 +259,7 @@ bool MainWindow::saveSourceFile() {
 	If the file already exists and it should be overwritten, a warning is shown before.
  */
 void MainWindow::saveasIndentCfgFileDialog() {
-	QString fileExtensions = "All files (*.*)";
+	QString fileExtensions = tr("All files")+" (*.*)";
 
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
     QString fileName = QFileDialog::getSaveFileName( this, tr("Save indent config file"), indentHandler->getIndenterCfgFile(), fileExtensions);
@@ -530,7 +530,7 @@ void MainWindow::updateWindowTitle() {
     Opens a dialog to save the current source code as a PDF document.
  */
 void MainWindow::exportToPDF() {
-	QString fileExtensions = "PDF Document (*.pdf)";
+	QString fileExtensions = tr("PDF Document")+" (*.pdf)";
 
     QString fileName = currentSourceFile;
     QFileInfo fileInfo(fileName);
@@ -553,7 +553,7 @@ void MainWindow::exportToPDF() {
     Opens a dialog to save the current source code as a HTML document.
  */
 void MainWindow::exportToHTML() {
-	QString fileExtensions = "HTML Document (*.html)";
+	QString fileExtensions = tr("HTML Document")+" (*.html)";
 
     QString fileName = currentSourceFile;
     QFileInfo fileInfo(fileName);
@@ -727,7 +727,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 bool MainWindow::maybeSave()
 {
     if ( txtedSourceCode->document()->isModified() ) {
-        int ret = QMessageBox::warning(this, tr("Application"),
+        int ret = QMessageBox::warning(this, tr("Modified code"),
             tr("The source code has been modified.\n"
             "Do you want to save your changes?"),
             QMessageBox::Yes | QMessageBox::Default,
