@@ -22,48 +22,18 @@
     the main window about the reformatted source code.
 */
 
-/*!
-    Constructor of the indent handler. By calling this constructor allways the first
-    found indenter, configured by an ini file, is loaded
- */
-IndentHandler::IndentHandler(QString dataDirPathStr, QWidget *parent)
-    : QWidget(parent)
-{
-    // define this widgets size and resize behavior
-    this->setMaximumWidth(263);
-    this->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-
-    // create vertical layout box, into which the toolbox will be added
-	vboxLayout = new QVBoxLayout(this);
-
-    // create a toolbox and set its resize behavior
-    toolBox = new QToolBox(this);
-	toolBox->setObjectName(QString::fromUtf8("toolBox"));
-	toolBox->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-    toolBox->setMaximumSize(QSize(16777215, 16777215));
-    // insert the toolbox into the vlayout
-	vboxLayout->addWidget(toolBox);
-
-    dataDirctoryStr = dataDirPathStr;
-    QDir dataDirctory = QDir(dataDirPathStr);
-
-    indenterIniFileList = dataDirctory.entryList( QStringList("uigui_*.ini") );
-    noIndenterExecExistDialogAlreadyShown = false;
-
-    // reads and parses first found indent ini file and creates toolbox entries
-    readIndentIniFile( dataDirctoryStr + indenterIniFileList.first() );
-}
-
 
 /*!
     Constructor of the indent handler. By calling this constructor the indenter
     to be loaded, can be selected by setting its \a indenterID, which is the number
     of found indenter ini files in alphabetic order starting at index 0.
  */
-IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent)
+IndentHandler::IndentHandler(QString dataDirPathStr, int indenterID, QMainWindow *mainWindow, QWidget *parent)
     : QWidget(parent)
 {
     Q_ASSERT_X( indenterID >= 0, "IndentHandler", "the selected indenterID is < 0" );
+
+    this->mainWindow = mainWindow;
 
 	// define this widgets size and resize behavior
 	this->setMaximumWidth(263);
@@ -561,7 +531,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 spinBox->setToolTip( paramToolTip );
                 spinBox->setMaximumWidth(50);
                 spinBox->setMinimumWidth(50);
-                spinBox->installEventFilter( this->parentWidget() );
+                spinBox->installEventFilter( mainWindow );
 				if ( indenterSettings->value(indenterParameter + "/MinVal").toString() != "" ) {
 					spinBox->setMinimum( indenterSettings->value(indenterParameter + "/MinVal").toInt() );
 				}
@@ -580,7 +550,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 label->setText(indenterParameter);
                 label->setBuddy(spinBox);
                 label->setToolTip( paramToolTip );
-                label->installEventFilter( this->parentWidget() );
+                label->installEventFilter( mainWindow );
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
@@ -609,7 +579,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 chkBox->setChecked( indenterSettings->value(indenterParameter + "/Value").toBool() );
 				paramToolTip = indenterSettings->value(indenterParameter + "/Description").toString();
 				chkBox->setToolTip( paramToolTip );
-                chkBox->installEventFilter( this->parentWidget() );
+                chkBox->installEventFilter( mainWindow );
 				toolBoxPages.at(category).vboxLayout->addWidget(chkBox);
 
                 // remember parameter name and reference to its checkbox
@@ -644,7 +614,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 lineEdit->setToolTip( paramToolTip );
 				lineEdit->setMaximumWidth(50);
 				lineEdit->setMinimumWidth(50);
-                lineEdit->installEventFilter( this->parentWidget() );
+                lineEdit->installEventFilter( mainWindow );
 
                 // create the label
                 QLabel *label = new QLabel( toolBoxPages.at(category).page );
@@ -652,7 +622,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
 				label->setBuddy(lineEdit);
 				label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
                 label->setToolTip( paramToolTip );
-                label->installEventFilter( this->parentWidget() );
+                label->installEventFilter( mainWindow );
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();
@@ -694,7 +664,7 @@ void IndentHandler::readIndentIniFile(QString iniFilePath) {
                 comboBox->setCurrentIndex( indenterSettings->value(indenterParameter + "/Value").toInt() );
                 paramToolTip = indenterSettings->value(indenterParameter + "/Description").toString();
                 comboBox->setToolTip( paramToolTip );
-                comboBox->installEventFilter( this->parentWidget() );
+                comboBox->installEventFilter( mainWindow );
 
                 // put all into a layout and add it to the toolbox page
                 QHBoxLayout *hboxLayout = new QHBoxLayout();

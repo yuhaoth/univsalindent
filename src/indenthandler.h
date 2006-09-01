@@ -29,15 +29,14 @@
 #include <QByteArray>
 #include <QDir>
 #include <QMessageBox>
+#include <QMainWindow>
 
 class IndentHandler : public QWidget
 {
     Q_OBJECT
 
 public:
-    IndentHandler(QString dataDirPathStr, QWidget *parent = 0);
-
-	IndentHandler(QString dataDirPathStr, int indenterID, QWidget *parent = 0);
+	IndentHandler(QString dataDirPathStr, int indenterID, QMainWindow *mainWindow = 0, QWidget *parent = 0);
 
     //! Format source code with the currently selected indenter
     QString callIndenter(QString sourceCode, QString inputFileExtension);
@@ -127,6 +126,7 @@ private:
     QString fileTypes;
     QString useCfgFileParameter;
     bool noIndenterExecExistDialogAlreadyShown;
+    QMainWindow *mainWindow;
 
 public slots:
     void setIndenter(int indenterID);
