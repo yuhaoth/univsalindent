@@ -36,6 +36,7 @@ MainWindow::MainWindow(QString language, QWidget *parent) : QMainWindow(parent)
     this->language = language;
 
     createLanguageMenu();
+    connect( languageActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(languageChanged(QAction*)) );
 
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
@@ -753,8 +754,9 @@ void MainWindow::createLanguageMenu() {
     QString languageShort;
     QStringList languageFileList;
     QAction *languageAction;
-    QActionGroup *languageActionGroup = new QActionGroup(this);
     LanguageInfo languageInfo;
+
+    languageActionGroup = new QActionGroup(this);
 
     // English is the default language. A translation file does not exist but to have a menu entry, added here
     languageFileList << "universalindent_en.qm";
@@ -801,4 +803,19 @@ void MainWindow::createLanguageMenu() {
     QMenu *languageMenu = menuSettings->addMenu( tr("Language") );
 
     languageMenu->addActions( languageActionGroup->actions() );
+}
+
+
+/*!
+    This slot is called whenever a language is selected in the menu. It tries to find the
+    corresponding action in the languageInfoList and set the language for the next program start.
+ */
+void MainWindow::languageChanged(QAction *languageAction) {
+    // Search for the activated action
+    foreach ( LanguageInfo languageInfo, languageInfos ) {
+        // Set the new language if found in list
+        if ( languageInfo.languageAction == languageAction ) {
+            language = languageInfo.languageShort;
+        }
+    }
 }

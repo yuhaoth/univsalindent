@@ -54,6 +54,7 @@ private:
     QString currentSourceFile;
     QString currentSourceFileExtension;
     QString savedSourceContent;
+    QActionGroup *languageActionGroup;
 
     bool sourceCodeChanged;
     bool scrollPositionChanged;
@@ -107,6 +108,7 @@ private slots:
     void previewTurnedOnOff(bool turnOn);
     void exportToPDF();
     void exportToHTML();
+    void languageChanged(QAction *languageAction);
 };
 
 #endif // MAINWINDOW_H
