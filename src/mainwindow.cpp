@@ -35,6 +35,8 @@ MainWindow::MainWindow(QString language, QWidget *parent) : QMainWindow(parent)
     // set the program language
     this->language = language;
 
+    createLanguageMenu();
+
     connect( pbOpenFile, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
     //connect( pbLoadIndentCfg, SIGNAL(clicked()), this, SLOT(openConfigFileDialog()) );
@@ -102,7 +104,7 @@ void MainWindow::selectIndenter(int indenterID) {
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	indentHandler = new IndentHandler("./data/", indenterID, this);
+	indentHandler = new IndentHandler("./data/", indenterID, this, centralwidget);
     indentHandler->hide();
     vboxLayout1->insertWidget(0, indentHandler);
     oldIndentHandler->hide();
@@ -634,7 +636,7 @@ void MainWindow::loadSettings() {
         indenterID = 0;
     }
 
-	indentHandler = new IndentHandler("./data/", indenterID, this);
+    indentHandler = new IndentHandler("./data/", indenterID, this, centralwidget);
     vboxLayout1->addWidget(indentHandler);
 
 	cmbBoxIndenters->addItems( indentHandler->getAvailableIndenters() );
@@ -741,4 +743,62 @@ bool MainWindow::maybeSave()
         }
     }
     return true;
+}
+
+
+/*!
+    Searches for available translation files and adds a menu entry for each.
+ */
+void MainWindow::createLanguageMenu() {
+    QString languageShort;
+    QStringList languageFileList;
+    QAction *languageAction;
+    QActionGroup *languageActionGroup = new QActionGroup(this);
+    LanguageInfo languageInfo;
+
+    // English is the default language. A translation file does not exist but to have a menu entry, added here
+    languageFileList << "universalindent_en.qm";
+
+    // Find all translation files in the "translations" directory
+    QDir dataDirctory = QDir("./translations");
+    languageFileList << dataDirctory.entryList( QStringList("universalindent_*.qm") );
+
+    // Loop for each found translation file
+    foreach ( languageShort, languageFileList ) {
+        // remove the leading string "universalindent_" from the filename
+        languageShort.remove(0,16);
+        // remove trailing file extension ".qm"
+        languageShort.chop(3);
+        languageShort = languageShort.toLower();
+
+        languageInfo.languageShort = languageShort;
+
+        // Identify the language mnemonic and set the full name
+        if ( languageShort == "en" ) {
+            languageInfo.languageName = tr("English");
+        }
+        else if ( languageShort == "de" ) {
+            languageInfo.languageName = tr("German");
+        }
+        else {
+            languageInfo.languageName = tr("Unknown language mnemonic ") + languageShort;
+        }
+
+        languageAction = new QAction(languageInfo.languageName, languageActionGroup);
+        languageAction->setStatusTip(languageInfo.languageName + tr(" as user interface language. (Available after program restart.)"));
+        languageAction->setCheckable(true);
+
+        // if the language selected in the ini file or no ini exists the system locale is
+        // equal to the current language mnemonic set this menu entry checked
+        if ( languageShort == language ) {
+            languageAction->setChecked(true);
+        }
+
+        languageInfo.languageAction = languageAction;
+        languageInfos.append( languageInfo );
+    }    
+
+    QMenu *languageMenu = menuSettings->addMenu( tr("Language") );
+
+    languageMenu->addActions( languageActionGroup->actions() );
 }

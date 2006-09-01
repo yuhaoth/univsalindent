@@ -62,6 +62,15 @@ private:
 
     IndentHandler *indentHandler;
 
+    // Stores info about a language, like the full name, mnemonic and a reference to its menu action
+    struct LanguageInfo
+	{
+        QString languageName;
+        QString languageShort;
+		QAction *languageAction;
+	};
+	QVector<LanguageInfo> languageInfos;
+
     //! Tries to load a file and returns its content as QString
     QString loadFile(QString filePath);
     
@@ -77,11 +86,13 @@ private:
 
     bool maybeSave();
 
+    void createLanguageMenu();
+
 protected:
     void closeEvent( QCloseEvent *event );
     bool eventFilter(QObject *obj, QEvent *event);
     
-public slots:
+private slots:
     void openConfigFileDialog();
     void openSourceFileDialog();
     bool saveasSourceFileDialog();
