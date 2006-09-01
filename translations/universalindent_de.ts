@@ -38,7 +38,7 @@
     </message>
     <message>
         <source> Open Source File </source>
-        <translation> Quellcodedateo öffnen</translation>
+        <translation> Quellcodedatei öffnen</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;/head&gt;&lt;body style=&quot; white-space: pre-wrap; font-family:MS Shell Dlg 2; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg; font-size:8pt;&quot;&gt;Turns the preview of the reformatted source code on and off.&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:MS Shell Dlg; font-size:8pt;&quot;&gt;In other words it switches between formatted and nonformatted code. (Strg+P)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -292,6 +292,26 @@ Möchten Sie die Änderungen speichern?</translation>
     <message>
         <source>Modified code</source>
         <translation>Geänderter Quellcode</translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation>Englisch</translation>
+    </message>
+    <message>
+        <source>German</source>
+        <translation>Deutsch</translation>
+    </message>
+    <message>
+        <source>Unknown language mnemonic </source>
+        <translation>Unbekanntes Sprachkürzel </translation>
+    </message>
+    <message>
+        <source> as user interface language. (Available after program restart.)</source>
+        <translation> als Programmsprache verwenden. (Nach Neustart aktiv.)</translation>
+    </message>
+    <message>
+        <source>Language</source>
+        <translation>Sprache</translation>
     </message>
 </context>
 </TS>
