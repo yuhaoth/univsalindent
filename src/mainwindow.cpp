@@ -30,7 +30,7 @@ MainWindow::MainWindow(QString language, QWidget *parent) : QMainWindow(parent)
     setupUi(this);
 
 	// set the program version, which is shown in the main window title
-    version = "UniversalIndentGUI 0.3 Beta";
+    version = "UniversalIndentGUI 0.3.1 Beta";
 
     // set the program language
     this->language = language;

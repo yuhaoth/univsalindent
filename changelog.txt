@@ -1,3 +1,6 @@
+2006-09-04 Version 0.3.1 Beta
+[add] Language selector and german translation added.
+
 2006-08-25 Version 0.3 Beta
 [add] A message box will show up at opening a source file or program exit, if the source code has been changed, and ask whether to save the file or not.
 [add] The symbol "*" will be shown in the window title in front of the source file name if the source code has been changed.

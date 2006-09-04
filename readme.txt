@@ -9,7 +9,7 @@ This application is released under the GPL. Read the file "license.gpl" in the s
 
 The UniversalIndentGUI is supposed to be a universal graphical user interface for source code respective text formatter, beautifier and indenter. This is manly reached by a flexible ini file for each indenter.
 
-One of the main features and the reason why this tool was (better is being right now ;-) ) developed is to see how the indent parameter affects the source code style directly while changing the parameter. It always bothered me to change one option of a tool like GNU Indent or GreatCode and have to run it to see what my code would look like afterward. Often the result was not what I expected from the parameters description. So these times are gone.
+One of the main features and the reason why this tool was (better is being right now) developed is to see how the indent parameter affects the source code style directly while changing the parameter. It always bothered me to change one option of a tool like GNU Indent or GreatCode and have to run it to see what my code would look like afterward. Often the result was not what I expected from the parameters description. So these times are gone.
 
 
 2. Features (also planned features)
@@ -19,20 +19,18 @@ One of the main features and the reason why this tool was (better is being right
 
 - Load a source code file of your choice as test file
 
-- Indenter settings are directly saved into its very own config file (in case of GreatCode, which is the only supported right now, that is the file "gc.cfg")
+- Indenter settings are directly saved into its very own config file (in case of GreatCode that is the file "gc.cfg")
 
-- Not yet known indenters can be added by creating a ini file for it, that is used by UniversalIndentGUI (this file has the prefix "uigui_" and ends with ".ini". Right now only a "uigui_greatcode.ini" exists and also the ini file format will undergo many changes. The format of the ini file will be documented soon)
+- Not yet known indenters can be added by creating a ini file for it, that is used by UniversalIndentGUI (this file has the prefix "uigui_" and ends with ".ini"). Have a look at the file "iniFileFormat.txt" for explanations about the ini file format. If you want to extend or create a new ini file for a new indenter, you are sincerely invited to do so and I would be thankful for telling me.
 
 
 3. Starting UniversalIndentGUI (needed files)
 ---------------------------------------------
 
-To start UniversalIndentGUI some runtime libraries from the Qt4 framework are needed. Any version from 4.0 and later will do it. Since I am not sure, whether I am allowed to distribute them along with UniversalIndentGUI I have left them out of the release package. Please leave me a message if you know more about this.
+The windows version does not need any further files, because it is linked to Qt statically. Thats why the executalbe is nearly 7 mb large.
 
-Under Windows the following dlls are needed: QtCore4.dll and QtGui4.dll. Either you compile the GPL open source Qt on your own or try to get the dlls elsewhere. I will try to figure out, if its ok to bundle them along with one of the next releases.
-
-Under Linux the files libQtCore.so and libQtGui.so are needed. These come along with the package "libqt4-core". Download and install this.
-Right now only GreatCode for windows is shipped along with the Linux version of UniversalIndentGUI, because I was unable to compile GreatCode under Linux. UniversalIndentGUI tries to start GreatCode via wine. So wine has to be installed in order to use GreatCode.
+Under Linux the files libQtCore.so and libQtGui.so are needed. These come along with the package "libqt4-core". Download and install this package with your preferred package manager.
+Right now the windows version of GreatCode is shipped along with the Linux version of UniversalIndentGUI, because I was unable to compile GreatCode under Linux. UniversalIndentGUI tries to start GreatCode via wine. So wine has to be installed in order to use GreatCode.
 
 Since I have no access to any other systems I would be thankful for info how to run it there.
 
@@ -64,3 +62,8 @@ Feel happily invited to try out and comment UniversalIndentGUI. Good and bad cri
 -------------
 
 You may use this software on your own risk. I am not responsible for any system damage or loss of data. Respect the GPL!
+
+
+So long,
+
+   Thomas
