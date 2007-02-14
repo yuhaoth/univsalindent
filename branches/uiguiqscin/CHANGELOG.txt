@@ -1,0 +1,99 @@
+2007-02-11 Version 0.4.1 Beta
+[add] Support for the indenter Uncrustify has been added.
+[add] Feature Request ID 1651719: A binary release for Linux AMD64 is now available.
+[add] Feature Request ID 1657251: If only a win32 executable exists under Linux, wine will be used to call it. Now a test will be mad if wine is installed and an error message will show up if not installed.
+[change] Some changes mad to the Artistic Styler ini file as suggested by its author Jim Pattee.
+[change] Put the file open button at first position in the toolbar, because normally this is the first step one would do, if he tries to find the optimal indenter and settings for himself.
+[change] The background in the about dialog has been changed to look equal on all systems.
+[change] The error message dialogs had small optical enhancements to be more readable.
+[fix] Bug ID 1657255: If an error occurred during the try to call the indenter, a message box is being shown, but the mouse cursor still indicated that the application is being busy.
+[fix] Bug ID 1651071: Changing the file encoding did not affect the code sent to the indenter, so the code while preview turned on, had wrong encoding (still seems to have some encoding problems under Linux).
+[fix] Bug ID 1650222: On Windows systems there were two DLLs missing to run GNU Indent ("libiconv-2.dll" and "libintl-2.dll")
+[fix] Bug ID 1649918: The indenter was not called after first program start, so preview updated first after changing a setting or the code.
+
+2007-02-01 Version 0.4 Beta
+[add] All parameters of GNU Indent have been added.
+[add] From now on the indenter BCPP is included.
+[add] The loaded source file encoding is now convertable by the menu entry "Reopen File with other Encoding". This way chinese encoding etc. is possible to load. (Suggest for this submitted by Nelson, Bug ID 1643541)
+[add] A subdirectory "doc" has been added, containing the file "iniFileFormat.html" with info how to write ini files for new indenters.
+[change] Updated the astyle executable and the ini file to version 1.20.1
+[change] Restructured the gui design a little bit. Using a moveable dock widget for the indenter settings now. Using a toolbar that can also be placed at the bottom.
+[change] Made it possible to change the language without the need to restart the application.
+[change] Line numbers are now geyed out, because this is more decent and selecting the numbers is no longer possible.
+[change] The link to the homepage in the about dialog now really opens the website.
+[change] The linux version is now statically linked against Qt so there should be no problems with wrong Qt versions installed or even no Qt libraries installed.
+[fix] Bug ID 1553601: If no uigui ini file was found the application stopped with an exception.
+
+2006-09-04 Version 0.3.1 Beta
+[add] Language selector and german translation added.
+
+2006-08-25 Version 0.3 Beta
+[add] A message box will show up at opening a source file or program exit, if the source code has been changed, and ask whether to save the file or not.
+[add] The symbol "*" will be shown in the window title in front of the source file name if the source code has been changed.
+[add] By a settings menu entry the tool tips for the indenter parameter settings can be en/disabled because they can be annoying.
+[add] A settings file is from now on used to remember the last selected indenter and last opened source code file.
+[add] The source code can now be exported as a PDF or HTML document.
+[add] Some commands are now faster available by keyboard shortcuts.
+[fix] The calling name in the indenter ini file for GreatCode was written lower case while the real file name was upper case, which resulted in a program calling error.
+[fix] Corrected the tab order for the gui elements.
+[change] Optimized speed when switching between the available indenters. If the indenters ini file is large, this still takes some time.
+
+2006-08-11 Version 0.2.5 Alpha
+[add] when loading or saving either a source code or config file the load/save dialog will open in the files directory and not allways in the UniversalIndentGUI dir
+[add] currently made settings for the indenter can be saved to any file
+[add] the menue entries for loading and saving the indenter config file have now icons
+[add] the currently opened source code file name and path will be shown in the window title bar
+[add] a error dialog that will be shown once if the indenter executable for the selected indenter does not exist
+[fix] turning syntax highlight on/off did first take effect after toggle of preview
+[fix] the image in the about dialog box was not allways visible
+
+2006-08-03 Version 0.2.4 Alpha
+[change] the windows version does no longer need any dlls due to static linking and removing bind to mingwm10.dll
+[change] the windows version of the GNU Indent is replaced by a DJGPP compiled GNU Indent version, that needs no further DLLs
+[add] possibility to save the shown/indented source code
+[fix] the file extension used to call the selected indenter. It is now equal to the loaded source file extension so the indenter recognizes the source code language
+[fix] unnecessary calls of the indenter removed
+[fix] indenter was not called if preview was activated and indenter changed
+[fix] under linux the file mask for the open source file dialog did not work correctly 
+
+2006-07-16 Version 0.2.3 Alpha
+[add] possibility to edit the source code while preview is active and see how it is formatted. So that is real live ;-)
+
+2006-07-14 Version 0.2.2 Alpha
+[add] ini file for GNU Indent with some first settings (if any one wants to write more in it let me know)
+[add] a menu bar for more pleasent and common use of the program (some not yet used menu items are disabled)
+[add] an about dialog
+[add] some icons for better look and feel (can you feel it ;-) )
+[fix] a bug under linux which caused an endless loop if text was edited
+
+2006-07-07 Version 0.2.1.1 Alpha (win32 only)
+- previously compiled using Visual Studio 2005 Express, whereby an additional installation of a redistributable package was needed to run UniversalIndentGUI. To avoid this and not force the user to install anything, now using mingw to compile.
+
+2006-07-04 Version 0.2.1 Alpha
+[add] function to load config file (not the uigui ini file) of every indenter (and reenabled load config file button)
+[add] use of a default value when loading a indenter config file and not all parameters are set.
+[add] all documented default parameters of GreatCode and Astyle to their ini files.
+[fix] loading of file mask for source code file after changing indenter
+[fix] call of indenter failed under win32 if a linux binary exists.
+
+2006-06-30 Version 0.2.0 Alpha
+[add] missing parameters for flexible indenter ini file format
+[add] complete Astyle ini file
+[add] multiple choice combobox for parameters
+[add] checkbox in front of numeric and string parameters to enable/disable them. If disabled indenters default value is used
+
+2006-06-28
+[add] working ini file for Astyle (right now only few boolean parameters)
+[change] ini file format for booleans to reach the planned flexibility
+
+2006-06-23
+[add] combobox in the upper left showing available indenters (found by searching for uigui_*.ini file). at the moment only GreatCode and testwise Astyle
+[add] more detailed info if the indenter call results in an error
+[add] icon for executable
+[change] style/format of the ini file. Still not all planned features implemented
+- some bugfixes, as you can say this in a preAlpha
+
+2006-06-07
+[change] unnecessary gui menu removed
+[fix] corrected ini file for great code (only in executable release)
+[add] made call of windows version of GreatCode under Linux possible by using wine
