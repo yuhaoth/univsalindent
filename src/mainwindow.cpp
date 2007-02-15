@@ -36,6 +36,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // generate gui as it is build in the file "indentgui.ui"
     setupUi(this);
 
+	txtedSourceCode = new QsciScintilla;
+	hboxLayout1->addWidget(txtedSourceCode);
+	QsciLexerCPP* lexerCPP = new QsciLexerCPP(txtedSourceCode);
+	txtedSourceCode->setLexer(lexerCPP);
+
     // set the program version, which is shown in the main window title
     version = "UniversalIndentGUI 0.4.1 Beta";
 
@@ -57,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
     textEdit2VScrollBar = txtedLineNumbers->verticalScrollBar();
 
-    highlighter = new CppHighlighter(txtedSourceCode);
+    //highlighter = new CppHighlighter(txtedSourceCode);
 
     sourceCodeChanged = false;
     scrollPositionChanged = false;
@@ -87,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     //toolBar->addWidget(pbExit);
 
     updateSourceView();
+    txtedSourceCode->setModified(false);
 
     connect( toolBarWidget->pbOpen_Source_File, SIGNAL(clicked()), this, SLOT(openSourceFileDialog()) );
     connect( actionOpen_Source_File, SIGNAL(activated()), this, SLOT(openSourceFileDialog()) );
@@ -222,8 +228,8 @@ void MainWindow::openSourceFileDialog() {
         textEditVScrollBar->setValue( textEditLastScrollPos );
 
         savedSourceContent = openedSourceFileContent;
-        txtedSourceCode->document()->setModified( false );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+        txtedSourceCode->setModified( false );
+        setWindowModified( txtedSourceCode->isModified() );
     }
 }
 
@@ -244,7 +250,7 @@ bool MainWindow::saveasSourceFileDialog() {
         return false;
     }
 
-    savedSourceContent = txtedSourceCode->toPlainText();
+    savedSourceContent = txtedSourceCode->text();
 
     currentSourceFile = fileName;
     QFile::remove(fileName);
@@ -256,8 +262,8 @@ bool MainWindow::saveasSourceFileDialog() {
     QFileInfo fileInfo(fileName);
     currentSourceFileExtension = fileInfo.suffix();
 
-    txtedSourceCode->document()->setModified( false );
-    setWindowModified( txtedSourceCode->document()->isModified() );
+    txtedSourceCode->setModified( false );
+    setWindowModified( txtedSourceCode->isModified() );
 
     updateWindowTitle();
     return true;
@@ -276,13 +282,13 @@ bool MainWindow::saveSourceFile() {
     else {
         QFile::remove(currentSourceFile);
         QFile outSrcFile(currentSourceFile);
-        savedSourceContent = txtedSourceCode->toPlainText();
+        savedSourceContent = txtedSourceCode->text();
         outSrcFile.open( QFile::ReadWrite | QFile::Text );
         outSrcFile.write( savedSourceContent.toUtf8() );
         outSrcFile.close();
 
-        txtedSourceCode->document()->setModified( false );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+        txtedSourceCode->setModified( false );
+        setWindowModified( txtedSourceCode->isModified() );
     }
     return true;
 }
@@ -368,7 +374,7 @@ void MainWindow::updateSourceView()
         txtedLineNumbers->setFontFamily("freemono");
 #endif
 
-        txtedSourceCode->setPlainText(sourceViewContent);
+        txtedSourceCode->setText(sourceViewContent);
         previewToggled = false;
         connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
     }
@@ -420,10 +426,11 @@ void MainWindow::sourceCodeChangedSlot() {
         scrollPositionChanged = false;
     }
 
-    QTextCursor savedCursor = txtedSourceCode->textCursor();
-    int cursorPos = savedCursor.position();
+	int cursorLine, cursorPos;
+    txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
+    
 
-    sourceFileContent = txtedSourceCode->toPlainText();
+    sourceFileContent = txtedSourceCode->text();
 
     if ( sourceFileContent.count() == 0 || sourceFileContent.at(sourceFileContent.count()-1) != '\n' ) {
         sourceFileContent += "\n";
@@ -440,7 +447,7 @@ void MainWindow::sourceCodeChangedSlot() {
     }
     updateSourceView();
 
-    QString text = txtedSourceCode->toPlainText();
+    QString text = txtedSourceCode->text();
     int lineBreakCounter = 0;
     while ( cursorPos <= text.count() && text.at(cursorPos-1) != enteredCharacter && lineBreakCounter < 5 ) {
         if ( text.at(cursorPos-1) == '\n' ) {
@@ -449,24 +456,24 @@ void MainWindow::sourceCodeChangedSlot() {
         cursorPos++;
     }
 
-    savedCursor = txtedSourceCode->textCursor();
-    if ( cursorPos > txtedSourceCode->toPlainText().count() ) {
-        cursorPos = txtedSourceCode->toPlainText().count() - 1;
+/*    savedCursor = txtedSourceCode->textCursor();
+    if ( cursorPos > txtedSourceCode->text().count() ) {
+        cursorPos = txtedSourceCode->text().count() - 1;
     }
     savedCursor.setPosition( cursorPos );
     txtedSourceCode->setTextCursor( savedCursor );
-
+*/
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         sourceCodeChanged = false;
     }
 
-    if ( savedSourceContent == txtedSourceCode->toPlainText() ) {
-        txtedSourceCode->document()->setModified( false );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+    if ( savedSourceContent == txtedSourceCode->text() ) {
+        txtedSourceCode->setModified( false );
+        setWindowModified( txtedSourceCode->isModified() );
     }
     else {
-        txtedSourceCode->document()->setModified( true );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+        txtedSourceCode->setModified( true );
+        setWindowModified( txtedSourceCode->isModified() );
     }
 }
 
@@ -479,8 +486,8 @@ void MainWindow::sourceCodeChangedSlot() {
 void MainWindow::indentSettingsChangedSlot() {
     indentSettingsChanged = true;
 
-    QTextCursor savedCursor = txtedSourceCode->textCursor();
-    int cursorPos = savedCursor.position();
+	int cursorLine, cursorPos;
+	txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         callIndenter();
@@ -488,13 +495,13 @@ void MainWindow::indentSettingsChangedSlot() {
 
         updateSourceView();
         if (sourceCodeChanged) {
-            savedCursor = txtedSourceCode->textCursor();
-            if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
-                cursorPos = txtedSourceCode->toPlainText().count() - 1;
+/*            savedCursor = txtedSourceCode->textCursor();
+            if ( cursorPos >= txtedSourceCode->text().count() ) {
+                cursorPos = txtedSourceCode->text().count() - 1;
             }
             savedCursor.setPosition( cursorPos );
             txtedSourceCode->setTextCursor( savedCursor );
-
+*/
             sourceCodeChanged = false;
         }
         indentSettingsChanged = false;
@@ -503,13 +510,13 @@ void MainWindow::indentSettingsChangedSlot() {
         updateSourceView();
     }
 
-    if ( savedSourceContent == txtedSourceCode->toPlainText() ) {
-        txtedSourceCode->document()->setModified( false );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+    if ( savedSourceContent == txtedSourceCode->text() ) {
+        txtedSourceCode->setModified( false );
+        setWindowModified( txtedSourceCode->isModified() );
     }
     else {
-        txtedSourceCode->document()->setModified( true );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+        txtedSourceCode->setModified( true );
+        setWindowModified( txtedSourceCode->isModified() );
     }
 }
 
@@ -521,32 +528,33 @@ void MainWindow::indentSettingsChangedSlot() {
  */
 void MainWindow::previewTurnedOnOff(bool turnOn) {
     previewToggled = true;
-    QTextCursor savedCursor = txtedSourceCode->textCursor();
-    int cursorPos = savedCursor.position();
+
+	int cursorLine, cursorPos;
+	txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
 
     if ( turnOn && (indentSettingsChanged || sourceCodeChanged) ) {
         callIndenter();
     }
     updateSourceView();
     if (sourceCodeChanged) {
-        savedCursor = txtedSourceCode->textCursor();
-        if ( cursorPos >= txtedSourceCode->toPlainText().count() ) {
-            cursorPos = txtedSourceCode->toPlainText().count() - 1;
+/*        savedCursor = txtedSourceCode->textCursor();
+        if ( cursorPos >= txtedSourceCode->text().count() ) {
+            cursorPos = txtedSourceCode->text().count() - 1;
         }
         savedCursor.setPosition( cursorPos );
         txtedSourceCode->setTextCursor( savedCursor );
-
+*/
         sourceCodeChanged = false;
     }
     indentSettingsChanged = false;
 
-    if ( savedSourceContent == txtedSourceCode->toPlainText() ) {
-        txtedSourceCode->document()->setModified( false );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+    if ( savedSourceContent == txtedSourceCode->text() ) {
+        txtedSourceCode->setModified( false );
+        setWindowModified( txtedSourceCode->isModified() );
     }
     else {
-        txtedSourceCode->document()->setModified( true );
-        setWindowModified( txtedSourceCode->document()->isModified() );
+        txtedSourceCode->setModified( true );
+        setWindowModified( txtedSourceCode->isModified() );
     }
 }
 
@@ -578,7 +586,7 @@ void MainWindow::exportToPDF() {
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(fileName);
 
-        txtedSourceCode->document()->print(&printer);
+        //txtedSourceCode->document()->print(&printer);
     }
 }
 
@@ -597,12 +605,12 @@ void MainWindow::exportToHTML() {
     fileName = QFileDialog::getSaveFileName( this, tr("Export source code file"), fileName, fileExtensions);
 
     if ( !fileName.isEmpty() ) {
-        QFile::remove(fileName);
+/*        QFile::remove(fileName);
         QFile outSrcFile(fileName);
         outSrcFile.open( QFile::ReadWrite | QFile::Text );
         syntaxHighlightCPP(txtedSourceCode);
         outSrcFile.write( txtedSourceCode->toHtml().toAscii() );
-        outSrcFile.close();
+        outSrcFile.close(); */
     }
 }
 
@@ -787,7 +795,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
  */
 bool MainWindow::maybeSave()
 {
-    if ( txtedSourceCode->document()->isModified() ) {
+    if ( txtedSourceCode->isModified() ) {
         int ret = QMessageBox::warning(this, tr("Modified code"),
             tr("The source code has been modified.\n"
             "Do you want to save your changes?"),
@@ -971,7 +979,7 @@ void MainWindow::encodingChanged(QAction* encodingAction) {
             fileContent = inSrcStrm.readAll();
             QApplication::restoreOverrideCursor();
             inSrcFile.close();
-            txtedSourceCode->setPlainText( fileContent );
+            txtedSourceCode->setText( fileContent );
         }
     }
 }
