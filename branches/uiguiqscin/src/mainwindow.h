@@ -42,6 +42,9 @@
 #include <QLocale>
 #include <QTextCodec>
 
+#include <Qsci/qsciscintilla.h>
+#include <Qsci/qscilexercpp.h>
+
 class MainWindow : public QMainWindow, private Ui::IndentGui
 {
     Q_OBJECT
@@ -51,6 +54,8 @@ public:
     MainWindow(QWidget *parent = 0);
 
 private:
+	QsciScintilla *txtedSourceCode;
+
     QString version;
     QString language;
     QString sourceFileContent;
