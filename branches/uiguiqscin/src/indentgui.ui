@@ -32,42 +32,6 @@
       <property name="spacing" >
        <number>0</number>
       </property>
-      <item>
-       <widget class="QTextEdit" name="txtedLineNumbers" >
-        <property name="enabled" >
-         <bool>false</bool>
-        </property>
-        <property name="maximumSize" >
-         <size>
-          <width>50</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font" >
-         <font>
-          <family>Courier New</family>
-          <pointsize>10</pointsize>
-          <weight>50</weight>
-          <italic>false</italic>
-          <bold>false</bold>
-          <underline>false</underline>
-          <strikeout>false</strikeout>
-         </font>
-        </property>
-        <property name="contextMenuPolicy" >
-         <enum>Qt::NoContextMenu</enum>
-        </property>
-        <property name="verticalScrollBarPolicy" >
-         <enum>Qt::ScrollBarAlwaysOff</enum>
-        </property>
-        <property name="lineWrapMode" >
-         <enum>QTextEdit::NoWrap</enum>
-        </property>
-        <property name="readOnly" >
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
@@ -356,9 +320,6 @@
    </property>
   </action>
  </widget>
- <tabstops>
-  <tabstop>txtedLineNumbers</tabstop>
- </tabstops>
  <resources>
   <include location="../resources/Icons.qrc" />
  </resources>

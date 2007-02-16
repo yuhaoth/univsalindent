@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	hboxLayout1->addWidget(txtedSourceCode);
 	QsciLexerCPP* lexerCPP = new QsciLexerCPP(txtedSourceCode);
 	txtedSourceCode->setLexer(lexerCPP);
+	txtedSourceCode->setMarginLineNumbers(1, true);
+	txtedSourceCode->setMarginWidth(1, QString("10000") );
 
     // set the program version, which is shown in the main window title
     version = "UniversalIndentGUI 0.4.1 Beta";
@@ -60,7 +62,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     updateWindowTitle();
 
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
-    textEdit2VScrollBar = txtedLineNumbers->verticalScrollBar();
 
     //highlighter = new CppHighlighter(txtedSourceCode);
 
@@ -119,9 +120,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( encodingActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(encodingChanged(QAction*)) );
 
     connect( toolBarWidget->cmbBoxIndenters, SIGNAL(activated(int)), this, SLOT(selectIndenter(int)) );
-
-    connect( textEditVScrollBar, SIGNAL(valueChanged(int)), textEdit2VScrollBar, SLOT(setValue(int)));
-    connect( textEdit2VScrollBar, SIGNAL(valueChanged(int)), textEditVScrollBar, SLOT(setValue(int)));
 
     connect( txtedSourceCode, SIGNAL(textChanged()), this, SLOT(sourceCodeChangedSlot()) );
 
@@ -352,12 +350,7 @@ QString MainWindow::openFileDialog(QString dialogHeaderStr, QString startPath, Q
  */
 void MainWindow::updateSourceView()
 {
-    QString lineNumbers = "";
-    int i;
-    int numberOfLines = 0;
-
     textEditLastScrollPos = textEditVScrollBar->value();
-
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         sourceViewContent = sourceFormattedContent;
@@ -368,23 +361,10 @@ void MainWindow::updateSourceView()
 
     if (previewToggled) {
         disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
-        // because under linux the courier font is always set bold
-#if defined(Q_OS_LINUX)
-        txtedSourceCode->setFontFamily("freemono");
-        txtedLineNumbers->setFontFamily("freemono");
-#endif
-
         txtedSourceCode->setText(sourceViewContent);
         previewToggled = false;
         connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
     }
-
-    numberOfLines = sourceViewContent.count(QRegExp("\n"));
-    for (i = 1; i <= numberOfLines+1; i++) {
-        lineNumbers.append(QString::number(i)+"\n");
-    }
-    txtedLineNumbers->setPlainText(lineNumbers);
-    txtedLineNumbers->setAlignment(Qt::AlignRight);
 
     textEditVScrollBar->setValue( textEditLastScrollPos );
 }
