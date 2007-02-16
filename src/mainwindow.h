@@ -63,7 +63,6 @@ private:
     QString sourceViewContent;
     CppHighlighter *highlighter;
     QScrollBar *textEditVScrollBar;
-    QScrollBar *textEdit2VScrollBar;
     AboutDialog *aboutDialog;
     int textEditLastScrollPos;
     int currentIndenterID;
