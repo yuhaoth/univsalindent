@@ -344,7 +344,9 @@ void MainWindow::updateSourceView()
 
     if (previewToggled) {
         disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
+		bool textIsModified = txtedSourceCode->isModified();
         txtedSourceCode->setText(sourceViewContent);
+		txtedSourceCode->setModified(textIsModified);
         previewToggled = false;
         connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
     }
@@ -421,7 +423,7 @@ void MainWindow::sourceCodeChangedSlot() {
     if ( cursorPos > txtedSourceCode->text().count() ) {
         cursorPos = txtedSourceCode->text().count() - 1;
     }
-    txtedSourceCode->setCursorPosition( cursorLine, cursorPos );
+    //txtedSourceCode->setCursorPosition( cursorLine, cursorPos );
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         sourceCodeChanged = false;
