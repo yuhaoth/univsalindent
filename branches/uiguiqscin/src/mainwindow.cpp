@@ -38,10 +38,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 	txtedSourceCode = new QsciScintilla;
 	hboxLayout1->addWidget(txtedSourceCode);
-	QsciLexerCPP* lexerCPP = new QsciLexerCPP(txtedSourceCode);
-	txtedSourceCode->setLexer(lexerCPP);
-	txtedSourceCode->setMarginLineNumbers(1, true);
+
+    txtedSourceCode->setMarginLineNumbers(1, true);
 	txtedSourceCode->setMarginWidth(1, QString("10000") );
+	txtedSourceCode->setBraceMatching(txtedSourceCode->SloppyBraceMatch);
+	txtedSourceCode->setMatchedBraceForegroundColor( QColor("red") );
 
     // set the program version, which is shown in the main window title
     version = "UniversalIndentGUI 0.4.1 Beta";
@@ -63,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
 
-    //highlighter = new CppHighlighter(txtedSourceCode);
+    highlighter = new CppHighlighter(txtedSourceCode);
 
     sourceCodeChanged = false;
     scrollPositionChanged = false;
@@ -73,24 +74,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     // generate about dialog box
     aboutDialog = new AboutDialog(this);
-
-    //QAction *actionAStyle;
-    //QMenu *menuSelect_Indenter;
-    //menuSelect_Indenter = new QMenu(menuIndenter);
-    //menuSelect_Indenter->setObjectName(QString::fromUtf8("menuSelect_Indenter"));
-    //menuIndenter->addAction(menuSelect_indenter->menuAction());
-    //actionAStyle = new QAction(this);
-    //actionAStyle->setObjectName(QString::fromUtf8("actionAStyle"));
-    //menuSelect_Indenter->addAction(actionAStyle);
-    //retranslateUi(this);
-
-    //toolBar->addWidget(cmbBoxIndenters);
-    //toolBar->addWidget(pbOpenFile);
-    //toolBar->addWidget(cbLivePreview);
-    //toolBar->addWidget(cbHighlight);
-    ////toolBar->addWidget(spacerItem);
-    //toolBar->addWidget(pbAbout);
-    //toolBar->addWidget(pbExit);
 
     updateSourceView();
     txtedSourceCode->setModified(false);
@@ -233,7 +216,7 @@ void MainWindow::openSourceFileDialog() {
 
 
 /*!
-    Calls the source file save as dialog to save a source file under a choosen name.
+    Calls the source file save as dialog to save a source file under a chosen name.
     If the file already exists and it should be overwritten, a warning is shown before.
  */
 bool MainWindow::saveasSourceFileDialog() {
@@ -243,7 +226,7 @@ bool MainWindow::saveasSourceFileDialog() {
     //QString openedSourceFileContent = openFileDialog( tr("Choose source code file"), "./", fileExtensions );
     QString fileName = QFileDialog::getSaveFileName( this, tr("Save source code file"), currentSourceFile, fileExtensions);
 
-    // Saveing has been canceled if the filename is empty
+    // Saving has been canceled if the filename is empty
     if ( fileName.isEmpty() ) {
         return false;
     }
@@ -293,7 +276,7 @@ bool MainWindow::saveSourceFile() {
 
 
 /*!
-    Calls the indenter config file save as dialog to save the config file under a choosen name.
+    Calls the indenter config file save as dialog to save the config file under a chosen name.
     If the file already exists and it should be overwritten, a warning is shown before.
  */
 void MainWindow::saveasIndentCfgFileDialog() {
@@ -400,15 +383,14 @@ void MainWindow::turnHighlightOnOff(bool turnOn) {
  */
 void MainWindow::sourceCodeChangedSlot() {
     QChar enteredCharacter;
+	int cursorLine, cursorPos;
 
     sourceCodeChanged = true;
     if ( scrollPositionChanged ) {
         scrollPositionChanged = false;
     }
-
-	int cursorLine, cursorPos;
+	
     txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
-    
 
     sourceFileContent = txtedSourceCode->text();
 
@@ -436,13 +418,11 @@ void MainWindow::sourceCodeChangedSlot() {
         cursorPos++;
     }
 
-/*    savedCursor = txtedSourceCode->textCursor();
     if ( cursorPos > txtedSourceCode->text().count() ) {
         cursorPos = txtedSourceCode->text().count() - 1;
     }
-    savedCursor.setPosition( cursorPos );
-    txtedSourceCode->setTextCursor( savedCursor );
-*/
+    txtedSourceCode->setCursorPosition( cursorLine, cursorPos );
+
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         sourceCodeChanged = false;
     }
@@ -712,7 +692,6 @@ void MainWindow::loadSettings() {
     retranslateUi(this);
     toolBarWidget->retranslateUi(toolBar);
 
-
     if ( settingsFileExists ) {
         delete settings;
     }
@@ -962,31 +941,4 @@ void MainWindow::encodingChanged(QAction* encodingAction) {
             txtedSourceCode->setText( fileContent );
         }
     }
-}
-
-
-void MainWindow::syntaxHighlightCPP( QTextEdit *textEdit ) {
-    QString sourceCode = textEdit->toPlainText();
-    QStringList keywordPatterns;
-    keywordPatterns << "\\bchar\\b" << "\\bclass\\b" << "\\bconst\\b"
-        << "\\bdouble\\b" << "\\benum\\b" << "\\bexplicit\\b"
-        << "\\bfriend\\b" << "\\binline\\b" << "\\bint\\b"
-        << "\\blong\\b" << "\\bnamespace\\b" << "\\boperator\\b"
-        << "\\bprivate\\b" << "\\bprotected\\b" << "\\bpublic\\b"
-        << "\\bshort\\b" << "\\bsignals\\b" << "\\bsigned\\b"
-        << "\\bslots\\b" << "\\bstatic\\b" << "\\bstruct\\b"
-        << "\\btemplate\\b" << "\\btypedef\\b" << "\\btypename\\b"
-        << "\\bunion\\b" << "\\bunsigned\\b" << "\\bvirtual\\b"
-        << "\\bvoid\\b" << "\\bvolatile\\b" << "\\belse\\b"
-        << "\\bif\\b" << "\\bwhile\\b";
-
-    QRegExp expression("[a-zA-Z][a-zA-Z0-9_]*");
-    int index = sourceCode.indexOf(expression);
-    int length = 0;
-    while (index >= 0) {
-        length = expression.matchedLength();
-        //setFormat(index, length, rule.format);
-        index = sourceCode.indexOf(expression, index + length);
-    }
-    sourceCode.replace(QRegExp("([a-zA-Z][a-zA-Z0-9_]*)"), "<b>\\1</b>");
 }

@@ -43,7 +43,6 @@
 #include <QTextCodec>
 
 #include <Qsci/qsciscintilla.h>
-#include <Qsci/qscilexercpp.h>
 
 class MainWindow : public QMainWindow, private Ui::IndentGui
 {
@@ -109,7 +108,6 @@ private:
 
     void createLanguageMenu();
     void createEncodingMenu();
-    void syntaxHighlightCPP( QTextEdit *textEdit );
 
 protected:
     void closeEvent( QCloseEvent *event );

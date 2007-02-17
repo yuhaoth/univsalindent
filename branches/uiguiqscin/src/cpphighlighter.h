@@ -20,44 +20,24 @@
 #ifndef CPPHIGHLIGHTER_H
 #define CPPHIGHLIGHTER_H
 
-#include <QSyntaxHighlighter>
+#include <QObject>
+#include <Qsci/qscilexer.h>
+#include <Qsci/qscilexercpp.h>
+#include <Qsci/qsciscintilla.h>
 
-#include <QHash>
-#include <QTextCharFormat>
-
-class QTextDocument;
-
-class CppHighlighter : public QSyntaxHighlighter
+class CppHighlighter : public QObject
 {
     Q_OBJECT
 
 public:
-    CppHighlighter(QTextEdit *parent);
+    CppHighlighter(QsciScintilla *parent);
     void turnHighlightOff();
     void turnHighlightOn();
 
-protected:
-    void highlightBlock(const QString &text);
-
 private:
     bool highlightningIsOn;
-    QTextEdit *parent;
-
-    struct HighlightingRule {
-        QRegExp pattern;
-        QTextCharFormat format;
-    };
-    QVector<HighlightingRule> highlightingRules;
-
-    QRegExp commentStartExpression;
-    QRegExp commentEndExpression;
-
-    QTextCharFormat keywordFormat;
-    QTextCharFormat classFormat;
-    QTextCharFormat singleLineCommentFormat;
-    QTextCharFormat multiLineCommentFormat;
-    QTextCharFormat quotationFormat;
-    QTextCharFormat functionFormat;
+    QsciScintilla *parent;
+	QsciLexer* lexer;
 };
 
 #endif
