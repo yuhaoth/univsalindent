@@ -82,13 +82,17 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent)
     //commentStartExpression = QRegExp("/\\*");
     //commentEndExpression = QRegExp("\\*/");
 
-	lexer = new QsciLexerCPP(parent);
-	parent->setLexer(lexer);
+	lexer = new QsciLexerCPP();
 
 	lexer->setDefaultFont( QFont("Courier", 10) );
+	parent->setLexer(lexer);
 	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::CommentLine );
 	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::Comment );
 	lexer->refreshProperties();
+
+	
+	lexer2 = new QsciLexerHTML();
+	lexer2->setDefaultFont( QFont("Courier", 10) );
 }
 
 /*!
@@ -97,6 +101,8 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent)
 void CppHighlighter::turnHighlightOn() {
     highlightningIsOn = true;
 	parent->setLexer(lexer);
+	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::CommentLine );
+	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::Comment );
 }
 
 /*!
@@ -104,5 +110,5 @@ void CppHighlighter::turnHighlightOn() {
 */
 void CppHighlighter::turnHighlightOff() {
     highlightningIsOn = false;
-	parent->setLexer(0);
+	parent->setLexer(lexer2);
 }

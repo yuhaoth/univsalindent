@@ -23,6 +23,7 @@
 #include <QObject>
 #include <Qsci/qscilexer.h>
 #include <Qsci/qscilexercpp.h>
+#include <Qsci/qscilexerhtml.h>
 #include <Qsci/qsciscintilla.h>
 
 class CppHighlighter : public QObject
@@ -38,6 +39,7 @@ private:
     bool highlightningIsOn;
     QsciScintilla *parent;
 	QsciLexer* lexer;
+	QsciLexer* lexer2;
 };
 
 #endif
