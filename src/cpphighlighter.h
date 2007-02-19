@@ -36,6 +36,9 @@ public:
     void turnHighlightOn();
 
 private:
+    bool readCurrentSettings(QSettings &qs,const char *prefix);
+    void writeCurrentSettings(QSettings &qs,const char *prefix);
+
     bool highlightningIsOn;
     QsciScintilla *parent;
 	QsciLexer* lexer;

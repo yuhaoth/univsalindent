@@ -112,3 +112,131 @@ void CppHighlighter::turnHighlightOff() {
     highlightningIsOn = false;
 	parent->setLexer(lexer2);
 }
+
+
+/*!
+    Read the settings for the current lexer from the settings file.
+ */
+bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
+{
+    bool ok, flag, rc = true;
+    int num;
+    QString key;
+
+    // Read the styles.
+    for (int i = 0; i < 128; ++i)
+    {
+        // Ignore invalid styles.
+        if ( lexer->description(i).isEmpty() )
+            continue;
+
+        key.sprintf( "%s/%s/style%d/", prefix, lexer->language(), i );
+
+        // Read the foreground colour.
+        ok = qs.contains(key + "color");
+        num = qs.value(key + "color", 0).toInt();
+
+        if (ok)
+            lexer->setColor( QColor((num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xff), i );
+        else
+            rc = false;
+
+        // Read the end-of-line fill.
+        ok = qs.contains(key + "eolfill");
+        flag = qs.value(key + "eolfill", false).toBool();
+
+        if (ok)
+            lexer->setEolFill( flag, i );
+        else
+            rc = false;
+
+        // Read the font
+        QStringList fdesc;
+
+        ok = qs.contains(key + "font");
+        fdesc = qs.value(key + "font").toStringList();
+
+        if (ok && fdesc.count() == 5)
+        {
+            QFont f;
+
+            f.setFamily(fdesc[0]);
+            f.setPointSize(fdesc[1].toInt());
+            f.setBold(fdesc[2].toInt());
+            f.setItalic(fdesc[3].toInt());
+            f.setUnderline(fdesc[4].toInt());
+
+            lexer->setFont(f, i);
+        }
+        else
+            rc = false;
+
+        // Read the background colour.
+        ok = qs.contains(key + "paper");
+        num = qs.value(key + "paper", 0).toInt();
+
+        if (ok)
+            lexer->setPaper( QColor((num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xff), i );
+        else
+            rc = false;
+    }
+
+    // Read the properties.
+    key.sprintf( "%s/%s/properties/", prefix, lexer->language() );
+
+    lexer->refreshProperties();
+
+    return rc;
+}
+
+
+/*!
+    Write the settings for the current lexer to the settings file.
+ */
+void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
+    QString key;
+
+    // Write the styles.
+    for (int i = 0; i < 128; ++i) {
+        // Ignore invalid styles.
+        if ( lexer->description(i).isEmpty() )
+            continue;
+
+        int num;
+        QColor c;
+
+        key.sprintf( "%s/%s/style%d/", prefix, lexer->language(), i );
+
+        // Write the foreground colour.
+        c = lexer->color(i);
+        num = (c.red() << 16) | (c.green() << 8) | c.blue();
+
+        qs.setValue(key + "color", num);
+
+        // Write the end-of-line fill.
+        qs.setValue( key + "eolfill", lexer->eolFill(i) );
+
+        // Write the font
+        QStringList fdesc;
+        QString fmt("%1");
+        QFont f;
+
+        f = lexer->font(i);
+
+        fdesc += f.family();
+        fdesc += fmt.arg( f.pointSize() );
+
+        // The casts are for Borland.
+        fdesc += fmt.arg( (int)f.bold() );
+        fdesc += fmt.arg( (int)f.italic() );
+        fdesc += fmt.arg( (int)f.underline() );
+
+        qs.setValue(key + "font", fdesc);
+
+        // Write the background colour.
+        c = lexer->paper(i);
+        num = (c.red() << 16) | (c.green() << 8) | c.blue();
+
+        qs.setValue(key + "paper", num);
+    }
+}
