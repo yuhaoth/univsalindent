@@ -34,65 +34,13 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent)
 {
     this->parent = parent;
     highlightningIsOn = true;
-/*
-    keywordFormat.setForeground(Qt::darkBlue);
-    keywordFormat.setFontWeight(QFont::Bold);
-    QStringList keywordPatterns;
-    keywordPatterns << "\\bchar\\b" << "\\bclass\\b" << "\\bconst\\b"
-        << "\\bdouble\\b" << "\\benum\\b" << "\\bexplicit\\b"
-        << "\\bfriend\\b" << "\\binline\\b" << "\\bint\\b"
-        << "\\blong\\b" << "\\bnamespace\\b" << "\\boperator\\b"
-        << "\\bprivate\\b" << "\\bprotected\\b" << "\\bpublic\\b"
-        << "\\bshort\\b" << "\\bsignals\\b" << "\\bsigned\\b"
-        << "\\bslots\\b" << "\\bstatic\\b" << "\\bstruct\\b"
-        << "\\btemplate\\b" << "\\btypedef\\b" << "\\btypename\\b"
-        << "\\bunion\\b" << "\\bunsigned\\b" << "\\bvirtual\\b"
-        << "\\bvoid\\b" << "\\bvolatile\\b" << "\\belse\\b"
-        << "\\bif\\b" << "\\bwhile\\b";
-    foreach (QString pattern, keywordPatterns) {
-        rule.pattern = QRegExp(pattern);
-        rule.format = keywordFormat;
-        highlightingRules.append(rule);
-    }
-
-    classFormat.setFontWeight(QFont::Bold);
-    classFormat.setForeground(Qt::darkMagenta);
-    rule.pattern = QRegExp("\\bQ[A-Za-z]+\\b");
-    rule.format = classFormat;
-    highlightingRules.append(rule);
-
-    singleLineCommentFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp("//[^\n]*");
-    rule.format = singleLineCommentFormat;
-    highlightingRules.append(rule);
-
-    multiLineCommentFormat.setForeground(Qt::darkGreen);
-
-    quotationFormat.setForeground(Qt::darkRed);
-    rule.pattern = QRegExp("\".*\"");
-    rule.format = quotationFormat;
-    highlightingRules.append(rule);
-
-    //functionFormat.setFontItalic(true);
-    functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp("\\b[A-Za-z0-9_]+(?=\\()");
-    rule.format = functionFormat;
-    highlightingRules.append(rule);
-*/
-    //commentStartExpression = QRegExp("/\\*");
-    //commentEndExpression = QRegExp("\\*/");
 
 	lexer = new QsciLexerCPP();
 
-	lexer->setDefaultFont( QFont("Courier", 10) );
 	parent->setLexer(lexer);
 	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::CommentLine );
 	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::Comment );
-	lexer->refreshProperties();
-
-	
-	lexer2 = new QsciLexerHTML();
-	lexer2->setDefaultFont( QFont("Courier", 10) );
+	//lexer->refreshProperties();
 }
 
 /*!
@@ -110,7 +58,7 @@ void CppHighlighter::turnHighlightOn() {
 */
 void CppHighlighter::turnHighlightOff() {
     highlightningIsOn = false;
-	parent->setLexer(lexer2);
+	parent->setLexer();
 }
 
 
@@ -135,6 +83,7 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
             continue;
 
         key.sprintf( "%s/%s/style%d/", prefix, lexer->language(), i );
+		key.replace("+", "p");
 
         // Read the foreground colour.
         ok = qs.contains(key + "color");
@@ -210,9 +159,18 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
         QColor c;
 
         key.sprintf( "%s/%s/style%d/", prefix, lexer->language(), i );
+		key.replace("+", "p");
+
+		// Write style name
+		qs.setValue( key + "", lexer->description(i) );
 
         // Write the foreground colour.
-        c = colorForStyles[i];
+		if ( colorForStyles.contains(i) ) {
+			c = colorForStyles[i];
+		}
+		else {
+			c = lexer->color(i);
+		}
         num = (c.red() << 16) | (c.green() << 8) | c.blue();
 
         qs.setValue(key + "color", num);
@@ -225,7 +183,12 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
         QString fmt("%1");
         QFont f;
 
-        f = fontForStyles[i];
+		if ( fontForStyles.contains(i) ) {
+			f = fontForStyles[i];
+		}
+		else {
+			f = lexer->font(i);
+		}
 
         fdesc += f.family();
         fdesc += fmt.arg( f.pointSize() );
@@ -255,4 +218,8 @@ void CppHighlighter::setColor(const QColor &color, int style) {
 void CppHighlighter::setFont(const QFont &font, int style) {
     fontForStyles[style] = font;
     lexer->setFont( font, style );
+}
+
+
+void CppHighlighter::setLexerForExtension( QString extension ) {
 }

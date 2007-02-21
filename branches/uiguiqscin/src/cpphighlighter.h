@@ -22,10 +22,27 @@
 
 #include <QObject>
 #include <QMap>
-#include <Qsci/qscilexer.h>
-#include <Qsci/qscilexercpp.h>
-#include <Qsci/qscilexerhtml.h>
 #include <Qsci/qsciscintilla.h>
+#include <Qsci/qscilexer.h>
+#include <Qsci/qscilexerbatch.h>
+#include <Qsci/qscilexercpp.h>
+#include <Qsci/qscilexercsharp.h>
+#include <Qsci/qscilexercss.h>
+#include <Qsci/qscilexerdiff.h>
+#include <Qsci/qscilexerhtml.h>
+#include <Qsci/qscilexeridl.h>
+#include <Qsci/qscilexerjava.h>
+#include <Qsci/qscilexerjavascript.h>
+#include <Qsci/qscilexerlua.h>
+#include <Qsci/qscilexermakefile.h>
+#include <Qsci/qscilexerperl.h>
+#include <Qsci/qscilexerpov.h>
+#include <Qsci/qscilexerproperties.h>
+#include <Qsci/qscilexerpython.h>
+#include <Qsci/qscilexerruby.h>
+#include <Qsci/qscilexersql.h>
+#include <Qsci/qscilexertex.h>
+
 
 class CppHighlighter : public QObject
 {
@@ -36,24 +53,27 @@ public:
     void turnHighlightOff();
     void turnHighlightOn();
 
-private:
     bool readCurrentSettings(QSettings &qs,const char *prefix);
     void writeCurrentSettings(QSettings &qs,const char *prefix);
 
+private:
     bool highlightningIsOn;
     QsciScintilla *parent;
     QMap<int, QFont> fontForStyles;
     QMap<int, QColor> colorForStyles;
 	QsciLexer* lexer;
-	QsciLexer* lexer2;
+
 public slots:
-    //! The foreground colour for style number \a style is set to \a color.  If
-    //! \a style is -1 then the colour is set for all styles.
+    //! The foreground color for style number \a style is set to \a color.  If
+    //! \a style is -1 then the color is set for all styles.
     void setColor(const QColor &color, int style = -1);
 
     //! The font for style number \a style is set to \a font.  If \a style is
     //! -1 then the font is set for all styles.
     void setFont(const QFont &font, int style = -1);
+
+	//! Sets the lexer that is responsible for the given \a extension.
+	void setLexerForExtension( QString extension );
 };
 
 #endif
