@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	txtedSourceCode->setMarginWidth(1, QString("10000") );
 	txtedSourceCode->setBraceMatching(txtedSourceCode->SloppyBraceMatch);
 	txtedSourceCode->setMatchedBraceForegroundColor( QColor("red") );
+	txtedSourceCode->setFolding(QsciScintilla::BoxedTreeFoldStyle);
 
     // set the program version, which is shown in the main window title
     version = "UniversalIndentGUI 0.4.1 Beta";
@@ -53,7 +54,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     toolBar->addWidget(helpWidget);
     toolBar->setAllowedAreas( Qt::TopToolBarArea | Qt::BottomToolBarArea );
 
+	highlighter = new CppHighlighter(txtedSourceCode);
+
     indentHandler = 0;
+
+	// Create or open the settings file.
+	settings = new QSettings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
 
     loadSettings();
 
@@ -63,8 +69,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     updateWindowTitle();
 
     textEditVScrollBar = txtedSourceCode->verticalScrollBar();
-
-    highlighter = new CppHighlighter(txtedSourceCode);
 
     sourceCodeChanged = false;
     scrollPositionChanged = false;
@@ -548,7 +552,6 @@ void MainWindow::exportToPDF() {
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(fileName);
 		printer.printRange(txtedSourceCode);
-        //txtedSourceCode->document()->print(&printer);
     }
 }
 
@@ -583,18 +586,8 @@ void MainWindow::exportToHTML() {
     last loaded config file and so on.
 */
 void MainWindow::loadSettings() {
-    QSettings *settings;
     bool settingsFileExists = true;
     int indenterID;
-
-    // If no ini file does exist remember that
-    if ( !QFile::exists("./UniversalIndentGUI.ini") ) {
-        settingsFileExists = false;
-    }
-    // else open the settings file
-    else {
-        settings = new QSettings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
-    }
 
     // Handle last opened source code file
     // -----------------------------------
@@ -687,16 +680,14 @@ void MainWindow::loadSettings() {
         language.truncate(2);
     }
 
+	highlighter->readCurrentSettings(*settings, "");
+
     // load the translation file and set it for the application
     translator = new QTranslator();
     translator->load( QString("./translations/universalindent_") + language );
     qApp->installTranslator(translator);
     retranslateUi(this);
     toolBarWidget->retranslateUi(toolBar);
-
-    if ( settingsFileExists ) {
-        delete settings;
-    }
 }
 
 
@@ -705,12 +696,11 @@ void MainWindow::loadSettings() {
     Settings are for example last selected indenter, last loaded config file and so on.
 */
 void MainWindow::saveSettings() {
-    QSettings settings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
-
-    settings.setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
-    settings.setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
-    settings.setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
-    settings.setValue( "UniversalIndentGUI/language", language );
+    settings->setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
+    settings->setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
+    settings->setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
+    settings->setValue( "UniversalIndentGUI/language", language );
+	highlighter->writeCurrentSettings(*settings, "");
 }
 
 
