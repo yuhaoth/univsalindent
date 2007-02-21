@@ -24,6 +24,7 @@
 #include <QMap>
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexer.h>
+#include <Qsci/qscilexerbash.h>
 #include <Qsci/qscilexerbatch.h>
 #include <Qsci/qscilexercpp.h>
 #include <Qsci/qscilexercsharp.h>
@@ -49,12 +50,12 @@ class CppHighlighter : public QObject
     Q_OBJECT
 
 public:
-    CppHighlighter(QsciScintilla *parent);
+    CppHighlighter(QsciScintilla *parent, QSettings *settings);
     void turnHighlightOff();
     void turnHighlightOn();
 
-    bool readCurrentSettings(QSettings &qs,const char *prefix);
-    void writeCurrentSettings(QSettings &qs,const char *prefix);
+	bool readCurrentSettings(const char *prefix);
+	void writeCurrentSettings(const char *prefix);
 
 private:
     bool highlightningIsOn;
@@ -62,6 +63,7 @@ private:
     QMap<int, QFont> fontForStyles;
     QMap<int, QColor> colorForStyles;
 	QsciLexer* lexer;
+	QSettings *settings;
 
 public slots:
     //! The foreground color for style number \a style is set to \a color.  If

@@ -29,18 +29,14 @@
 /*!
     The constructor initializes some regular expressions and keywords to identify cpp tokens
  */
-CppHighlighter::CppHighlighter(QsciScintilla *parent)
+CppHighlighter::CppHighlighter(QsciScintilla *parent, QSettings *settings)
 : QObject(parent)
 {
     this->parent = parent;
+	this->settings = settings;
     highlightningIsOn = true;
 
-	lexer = new QsciLexerCPP();
-
-	parent->setLexer(lexer);
-	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::CommentLine );
-	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::Comment );
-	//lexer->refreshProperties();
+	lexer = 0;
 }
 
 /*!
@@ -49,8 +45,6 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent)
 void CppHighlighter::turnHighlightOn() {
     highlightningIsOn = true;
 	parent->setLexer(lexer);
-	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::CommentLine );
-	lexer->setFont( QFont("Courier", 10), QsciLexerCPP::Comment );
 }
 
 /*!
@@ -65,7 +59,7 @@ void CppHighlighter::turnHighlightOff() {
 /*!
     Read the settings for the current lexer from the settings file.
  */
-bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
+bool CppHighlighter::readCurrentSettings( const char *prefix )
 {
     bool ok, flag, rc = true;
     int num;
@@ -85,9 +79,9 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
         key.sprintf( "%s/%s/style%d/", prefix, lexer->language(), i );
 		key.replace("+", "p");
 
-        // Read the foreground colour.
-        ok = qs.contains(key + "color");
-        num = qs.value(key + "color", 0).toInt();
+        // Read the foreground color.
+        ok = settings->contains(key + "color");
+        num = settings->value(key + "color", 0).toInt();
 
         if (ok)
             setColor( QColor((num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xff), i );
@@ -95,8 +89,8 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
             rc = false;
 
         // Read the end-of-line fill.
-        ok = qs.contains(key + "eolfill");
-        flag = qs.value(key + "eolfill", false).toBool();
+        ok = settings->contains(key + "eolfill");
+        flag = settings->value(key + "eolfill", false).toBool();
 
         if (ok)
             lexer->setEolFill( flag, i );
@@ -106,8 +100,8 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
         // Read the font
         QStringList fdesc;
 
-        ok = qs.contains(key + "font");
-        fdesc = qs.value(key + "font").toStringList();
+        ok = settings->contains(key + "font");
+        fdesc = settings->value(key + "font").toStringList();
 
         if (ok && fdesc.count() == 5)
         {
@@ -124,9 +118,9 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
         else
             rc = false;
 
-        // Read the background colour.
-        ok = qs.contains(key + "paper");
-        num = qs.value(key + "paper", 0).toInt();
+        // Read the background color.
+        ok = settings->contains(key + "paper");
+        num = settings->value(key + "paper", 0).toInt();
 
         if (ok)
             lexer->setPaper( QColor((num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xff), i );
@@ -146,7 +140,8 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
 /*!
     Write the settings for the current lexer to the settings file.
  */
-void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
+void CppHighlighter::writeCurrentSettings( const char *prefix )
+{
     QString key;
 
     // Write the styles.
@@ -162,9 +157,9 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
 		key.replace("+", "p");
 
 		// Write style name
-		qs.setValue( key + "", lexer->description(i) );
+		settings->setValue( key + "", lexer->description(i) );
 
-        // Write the foreground colour.
+        // Write the foreground color.
 		if ( colorForStyles.contains(i) ) {
 			c = colorForStyles[i];
 		}
@@ -173,10 +168,10 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
 		}
         num = (c.red() << 16) | (c.green() << 8) | c.blue();
 
-        qs.setValue(key + "color", num);
+        settings->setValue(key + "color", num);
 
         // Write the end-of-line fill.
-        qs.setValue( key + "eolfill", lexer->eolFill(i) );
+        settings->setValue( key + "eolfill", lexer->eolFill(i) );
 
         // Write the font
         QStringList fdesc;
@@ -198,13 +193,13 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
         fdesc += fmt.arg( (int)f.italic() );
         fdesc += fmt.arg( (int)f.underline() );
 
-        qs.setValue(key + "font", fdesc);
+        settings->setValue(key + "font", fdesc);
 
-        // Write the background colour.
+        // Write the background color.
         c = lexer->paper(i);
         num = (c.red() << 16) | (c.green() << 8) | c.blue();
 
-        qs.setValue(key + "paper", num);
+        settings->setValue(key + "paper", num);
     }
 }
 
@@ -222,4 +217,71 @@ void CppHighlighter::setFont(const QFont &font, int style) {
 
 
 void CppHighlighter::setLexerForExtension( QString extension ) {
+	extension = extension.toLower();
+
+	if ( lexer ) {
+		writeCurrentSettings("");
+		delete lexer;
+	}
+
+	if ( extension == "cpp" || extension == "hpp" || extension == "c" || extension == "h" || extension == "cxx" || extension == "hxx" ) {
+		lexer = new QsciLexerCPP();
+	} 
+	else if ( extension == "sh" ) {
+		lexer = new QsciLexerBash();
+	}
+	else if ( extension == "bat" ) {
+		lexer = new QsciLexerBatch();
+	}
+	else if ( extension == "cs" ) {
+		lexer = new QsciLexerCSharp();
+	}
+	else if ( extension == "css" ) {
+		lexer = new QsciLexerCSS();
+	}
+	else if ( extension == "diff" ) {
+		lexer = new QsciLexerDiff();
+	}
+	else if ( extension == "html" ) {
+		lexer = new QsciLexerHTML();
+	}
+	else if ( extension == "idl" ) {
+		lexer = new QsciLexerIDL();
+	}
+	else if ( extension == "java" ) {
+		lexer = new QsciLexerJava();
+	}
+	else if ( extension == "js" ) {
+		lexer = new QsciLexerJavaScript();
+	}
+	else if ( extension == "lua" ) {
+		lexer = new QsciLexerLua();
+	}
+	else if ( extension == "perl" ) {
+		lexer = new QsciLexerPerl();
+	}
+	else if ( extension == "pov" ) {
+		lexer = new QsciLexerPOV();
+	}
+	else if ( extension == "ini" ) {
+		lexer = new QsciLexerProperties();
+	}
+	else if ( extension == "py" ) {
+		lexer = new QsciLexerPython();
+	}
+	else if ( extension == "rub" ) {
+		lexer = new QsciLexerRuby();
+	}
+	else if ( extension == "sql" ) {
+		lexer = new QsciLexerSQL();
+	}
+	else if ( extension == "tex" ) {
+		lexer = new QsciLexerTeX();
+	}
+	else {
+		lexer = new QsciLexerCPP();
+	}
+
+	parent->setLexer(lexer);
+	readCurrentSettings("");
 }
