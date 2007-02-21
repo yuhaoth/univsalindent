@@ -544,10 +544,10 @@ void MainWindow::exportToPDF() {
     fileName = QFileDialog::getSaveFileName( this, tr("Export source code file"), fileName, fileExtensions);
 
     if ( !fileName.isEmpty() ) {
-        QPrinter printer(QPrinter::HighResolution);
+        QsciPrinter printer(QPrinter::HighResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);
         printer.setOutputFileName(fileName);
-
+		printer.printRange(txtedSourceCode);
         //txtedSourceCode->document()->print(&printer);
     }
 }
