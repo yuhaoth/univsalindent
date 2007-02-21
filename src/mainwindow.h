@@ -43,6 +43,7 @@
 #include <QTextCodec>
 
 #include <Qsci/qsciscintilla.h>
+#include <Qsci/qsciprinter.h>
 
 class MainWindow : public QMainWindow, private Ui::IndentGui
 {
