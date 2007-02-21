@@ -55,6 +55,7 @@ public:
 
 private:
 	QsciScintilla *txtedSourceCode;
+	QSettings *settings;
 
     QString version;
     QString language;
