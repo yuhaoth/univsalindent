@@ -123,6 +123,10 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
     int num;
     QString key;
 
+    // Reset lists containing fonts and colors for each style
+    fontForStyles.clear();
+    colorForStyles.clear();
+
     // Read the styles.
     for (int i = 0; i < 128; ++i)
     {
@@ -137,7 +141,7 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
         num = qs.value(key + "color", 0).toInt();
 
         if (ok)
-            lexer->setColor( QColor((num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xff), i );
+            setColor( QColor((num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xff), i );
         else
             rc = false;
 
@@ -166,7 +170,7 @@ bool CppHighlighter::readCurrentSettings(QSettings &qs, const char *prefix)
             f.setItalic(fdesc[3].toInt());
             f.setUnderline(fdesc[4].toInt());
 
-            lexer->setFont(f, i);
+            setFont(f, i);
         }
         else
             rc = false;
@@ -208,7 +212,7 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
         key.sprintf( "%s/%s/style%d/", prefix, lexer->language(), i );
 
         // Write the foreground colour.
-        c = lexer->color(i);
+        c = colorForStyles[i];
         num = (c.red() << 16) | (c.green() << 8) | c.blue();
 
         qs.setValue(key + "color", num);
@@ -221,7 +225,7 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
         QString fmt("%1");
         QFont f;
 
-        f = lexer->font(i);
+        f = fontForStyles[i];
 
         fdesc += f.family();
         fdesc += fmt.arg( f.pointSize() );
@@ -239,4 +243,16 @@ void CppHighlighter::writeCurrentSettings(QSettings &qs, const char *prefix) {
 
         qs.setValue(key + "paper", num);
     }
+}
+
+
+void CppHighlighter::setColor(const QColor &color, int style) {
+    colorForStyles[style] = color;
+    lexer->setColor( color, style );
+}
+
+
+void CppHighlighter::setFont(const QFont &font, int style) {
+    fontForStyles[style] = font;
+    lexer->setFont( font, style );
 }

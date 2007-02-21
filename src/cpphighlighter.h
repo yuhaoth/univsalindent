@@ -21,6 +21,7 @@
 #define CPPHIGHLIGHTER_H
 
 #include <QObject>
+#include <QMap>
 #include <Qsci/qscilexer.h>
 #include <Qsci/qscilexercpp.h>
 #include <Qsci/qscilexerhtml.h>
@@ -41,8 +42,18 @@ private:
 
     bool highlightningIsOn;
     QsciScintilla *parent;
+    QMap<int, QFont> fontForStyles;
+    QMap<int, QColor> colorForStyles;
 	QsciLexer* lexer;
 	QsciLexer* lexer2;
+public slots:
+    //! The foreground colour for style number \a style is set to \a color.  If
+    //! \a style is -1 then the colour is set for all styles.
+    void setColor(const QColor &color, int style = -1);
+
+    //! The font for style number \a style is set to \a font.  If \a style is
+    //! -1 then the font is set for all styles.
+    void setFont(const QFont &font, int style = -1);
 };
 
 #endif
