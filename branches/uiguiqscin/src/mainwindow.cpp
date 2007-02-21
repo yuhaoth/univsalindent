@@ -54,12 +54,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     toolBar->addWidget(helpWidget);
     toolBar->setAllowedAreas( Qt::TopToolBarArea | Qt::BottomToolBarArea );
 
-	highlighter = new CppHighlighter(txtedSourceCode);
-
-    indentHandler = 0;
-
 	// Create or open the settings file.
 	settings = new QSettings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
+
+	highlighter = new CppHighlighter(txtedSourceCode, settings);
+
+    indentHandler = 0;
 
     loadSettings();
 
@@ -174,6 +174,10 @@ QString MainWindow::loadFile(QString filePath) {
         fileContent = inSrcStrm.readAll();
         QApplication::restoreOverrideCursor();
         inSrcFile.close();
+
+		QFileInfo fileInfo(filePath);
+		currentSourceFileExtension = fileInfo.suffix();
+		highlighter->setLexerForExtension( currentSourceFileExtension );
     }
     return fileContent;
 }
@@ -609,7 +613,6 @@ void MainWindow::loadSettings() {
         QFileInfo fileInfo(currentSourceFile);
         currentSourceFile = fileInfo.absoluteFilePath();
         sourceFileContent = loadFile(currentSourceFile);
-        currentSourceFileExtension = fileInfo.suffix();
     }
     // if no source code file exists make some default settings.
     else {
@@ -680,7 +683,7 @@ void MainWindow::loadSettings() {
         language.truncate(2);
     }
 
-	highlighter->readCurrentSettings(*settings, "");
+	highlighter->readCurrentSettings("");
 
     // load the translation file and set it for the application
     translator = new QTranslator();
@@ -700,7 +703,7 @@ void MainWindow::saveSettings() {
     settings->setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
     settings->setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
     settings->setValue( "UniversalIndentGUI/language", language );
-	highlighter->writeCurrentSettings(*settings, "");
+	highlighter->writeCurrentSettings("");
 }
 
 
