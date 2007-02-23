@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QMenu>
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexer.h>
 #include <Qsci/qscilexerbash.h>
@@ -54,6 +55,7 @@ public:
     void turnHighlightOff();
     void turnHighlightOn();
 
+	QMenu *createHighlighterMenu();
 	bool readCurrentSettings(const char *prefix);
 	void writeCurrentSettings(const char *prefix);
 
@@ -64,6 +66,7 @@ private:
     QMap<int, QColor> colorForStyles;
 	QsciLexer* lexer;
 	QSettings *settings;
+	QStringList highlighterList;
 
 public slots:
     //! The foreground color for style number \a style is set to \a color.  If
@@ -76,6 +79,8 @@ public slots:
 
 	//! Sets the lexer that is responsible for the given \a extension.
 	void setLexerForExtension( QString extension );
+
+	void highlighterChanged(QAction* highlighterAction);
 };
 
 #endif

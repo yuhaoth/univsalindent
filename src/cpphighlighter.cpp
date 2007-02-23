@@ -36,8 +36,43 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent, QSettings *settings)
 	this->settings = settings;
     highlightningIsOn = true;
 
+	highlighterList = QStringList() << "bash" << "batch" << "cpp" << "csharp"
+		<< "css" << "diff" << "html" << "idl" << "java" << "javascript" << "lua" << "makefile"
+		<< "perl" << "pov" << "ini" << "python" << "ruby" << "sql" << "tex";
+
 	lexer = 0;
 }
+
+
+/*!
+	Creates a menu entry under the settings menu for all available text encodings.
+*/
+QMenu *CppHighlighter::createHighlighterMenu() {
+	QAction *highlighterAction;
+	QString highlighterName;
+
+	QActionGroup *highlighterActionGroup = new QActionGroup(this);
+
+	// Loop for each found translation file
+	foreach ( highlighterName, highlighterList ) {
+		highlighterAction = new QAction(highlighterName, highlighterActionGroup);
+		highlighterAction->setStatusTip( tr("Set the syntax highlightning to ") + highlighterName );
+		//encodingAction->setCheckable(true);
+	}
+	//encodingActionGroup->actions().first()->setChecked(true);
+	QMenu *highlighterMenu = new QMenu( tr("Set Syntax Highlighter") );
+	highlighterMenu->addActions( highlighterActionGroup->actions() );
+
+	connect( highlighterActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(highlighterChanged(QAction*)) );
+
+	return highlighterMenu;
+}
+
+void CppHighlighter::highlighterChanged(QAction* highlighterAction) {
+	QString highlighterName = highlighterAction->text();
+	setLexerForExtension(highlighterName);
+}
+
 
 /*!
     Turns the syntax parser on.
