@@ -709,7 +709,7 @@ void MainWindow::saveSettings() {
 
 
 /*!
-    Is allways called when the program is quit. Calls the saveSettings function before really quits.
+    Is always called when the program is quit. Calls the saveSettings function before really quits.
 */
 void MainWindow::closeEvent( QCloseEvent *event ) {
     if ( maybeSave() ) {
@@ -724,8 +724,8 @@ void MainWindow::closeEvent( QCloseEvent *event ) {
 
 /*!
     This function is setup to capture tooltip events. All widgets that are created by the
-    indentHandler object and are responsible for indenter paramters are connected with
-    this eventfilter. So depending on the settings the tooltips can be enabled and
+    indentHandler object and are responsible for indenter parameters are connected with
+    this event filter. So depending on the settings the tooltips can be enabled and
     disabled for these widgets.
  */
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
