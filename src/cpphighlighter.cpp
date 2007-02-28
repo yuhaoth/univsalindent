@@ -57,7 +57,7 @@ QMenu *CppHighlighter::createHighlighterMenu() {
 	foreach ( highlighterName, highlighterList ) {
 		highlighterAction = new QAction(highlighterName, highlighterActionGroup);
 		highlighterAction->setStatusTip( tr("Set the syntax highlightning to ") + highlighterName );
-		//encodingAction->setCheckable(true);
+		highlighterAction->setCheckable(true);
 	}
 	//encodingActionGroup->actions().first()->setChecked(true);
 	QMenu *highlighterMenu = new QMenu( tr("Set Syntax Highlighter") );
