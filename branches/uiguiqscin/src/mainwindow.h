@@ -41,6 +41,7 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QTextCodec>
+#include <QDate>
 
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qsciprinter.h>
@@ -58,6 +59,8 @@ private:
 	QSettings *settings;
 
     QString version;
+    QString revision;
+    QString buildDateStr;
     QString language;
     QString sourceFileContent;
     QString sourceFormattedContent;
@@ -75,6 +78,7 @@ private:
     QTranslator *translator;
     QMenu *languageMenu;
     QMenu *encodingMenu;
+    bool isFirstRunOfThisVersion;
 
     bool sourceCodeChanged;
     bool scrollPositionChanged;
