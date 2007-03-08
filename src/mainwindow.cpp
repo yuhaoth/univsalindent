@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // generate gui as it is build in the file "indentgui.ui"
     setupUi(this);
 
-	txtedSourceCode = new QsciScintilla;
+	txtedSourceCode = new QsciScintilla(this);
 	hboxLayout1->addWidget(txtedSourceCode);
 
     txtedSourceCode->setMarginLineNumbers(1, true);
@@ -45,8 +45,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	txtedSourceCode->setMatchedBraceForegroundColor( QColor("red") );
 	txtedSourceCode->setFolding(QsciScintilla::BoxedTreeFoldStyle);
 
-    // set the program version, which is shown in the main window title
-    version = "UniversalIndentGUI 0.4.1 Beta";
+    // set the program version, revision and date, which is shown in the main window title and in the about dialog.
+    version = "0.4.2 Beta";
+    revision = "250";
+    QDate buildDate(2007, 2, 28);
+    buildDateStr = buildDate.toString("d. MMMM yyyy");
 
     toolBarWidget = new Ui::toolBarWidget();
     QWidget* helpWidget = new QWidget();
@@ -62,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     indentHandler = 0;
 
+    isFirstRunOfThisVersion = false;
     loadSettings();
 
     createLanguageMenu();
@@ -78,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     previewToggled = true;
 
     // generate about dialog box
-    aboutDialog = new AboutDialog(this);
+    aboutDialog = new AboutDialog(this, version, revision, buildDateStr);
 
     updateSourceView();
     txtedSourceCode->setModified(false);
@@ -535,7 +539,7 @@ void MainWindow::previewTurnedOnOff(bool turnOn) {
     source code filename.
  */
 void MainWindow::updateWindowTitle() {
-    this->setWindowTitle( version +" [*]"+ currentSourceFile);
+    this->setWindowTitle( "UniversalIndentGUI " + version +" [*]"+ currentSourceFile);
 }
 
 
@@ -594,16 +598,50 @@ void MainWindow::loadSettings() {
     bool settingsFileExists = true;
     int indenterID;
 
+
+    // Handle if first run of this version
+    // -----------------------------------
+
+    // read the version string from settings if the settings file exists
+    if ( settingsFileExists ) {
+        QString readVersion = settings->value("UniversalIndentGUI/version", "").toString();
+        // if version strings are not equal set first run true.
+        if ( readVersion != version ) {
+            isFirstRunOfThisVersion = true;
+        }
+        else {
+            isFirstRunOfThisVersion = false;
+        }
+    }
+    else {
+        currentSourceFile = "./data/example.cpp";
+    }
+
+
+	// Handle last opened window size
+	// ------------------------------
+
+	// read windows last size and position from settings if the settings file exists
+	if ( settingsFileExists ) {
+		bool maximized = settings->value( "UniversalIndentGUI/maximized", false ).toBool();
+		QPoint pos = settings->value( "UniversalIndentGUI/position", QPoint(0, 0) ).toPoint();
+		QSize size = settings->value( "UniversalIndentGUI/size", QSize(800, 600) ).toSize();
+		resize(size);
+		move(pos);
+		if ( maximized ) {
+			showMaximized();
+		}
+	}
+	else {
+		currentSourceFile = "./data/example.cpp";
+	}
+
     // Handle last opened source code file
     // -----------------------------------
 
     // read last opened source code file from settings if the settings file exists
     if ( settingsFileExists ) {
-        currentSourceFile = settings->value("UniversalIndentGUI/lastSourceCodeFile").toString();
-        // if no file was set use default example
-        if ( currentSourceFile.isEmpty() ) {
-            currentSourceFile = "./data/example.cpp";
-        }
+        currentSourceFile = settings->value("UniversalIndentGUI/lastSourceCodeFile", "./data/example.cpp").toString();
     }
     else {
         currentSourceFile = "./data/example.cpp";
@@ -630,7 +668,7 @@ void MainWindow::loadSettings() {
 
     // read last selected indenter from settings if the settings file exists
     if ( settingsFileExists ) {
-        indenterID = settings->value("UniversalIndentGUI/lastSelectedIndenter").toInt();
+        indenterID = settings->value("UniversalIndentGUI/lastSelectedIndenter", 0).toInt();
     }
     else {
         indenterID = 0;
@@ -659,7 +697,7 @@ void MainWindow::loadSettings() {
 
     // read if indenter parameter tool tips are enabled
     if ( settingsFileExists ) {
-        bool indenterParameterTooltipsEnabled = settings->value("UniversalIndentGUI/indenterParameterTooltipsEnabled").toBool();
+        bool indenterParameterTooltipsEnabled = settings->value("UniversalIndentGUI/indenterParameterTooltipsEnabled", true).toBool();
         actionParameter_Tooltips->setChecked( indenterParameterTooltipsEnabled );
     }
     else {
@@ -672,7 +710,7 @@ void MainWindow::loadSettings() {
 
     // read the selected language
     if ( settingsFileExists ) {
-        language = settings->value("UniversalIndentGUI/language").toString();
+        language = settings->value("UniversalIndentGUI/language", "").toString();
     }
     else {
         language = "";
@@ -705,6 +743,12 @@ void MainWindow::saveSettings() {
     settings->setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
     settings->setValue( "UniversalIndentGUI/language", language );
 	highlighter->writeCurrentSettings("");
+    settings->setValue( "UniversalIndentGUI/version", version );
+	settings->setValue( "UniversalIndentGUI/maximized", isMaximized() );
+	if ( !isMaximized() ) {
+		settings->setValue( "UniversalIndentGUI/position", pos() );
+		settings->setValue( "UniversalIndentGUI/size", size() );
+	}
 }
 
 
@@ -803,6 +847,9 @@ void MainWindow::createLanguageMenu() {
         else if ( languageShort == "de" ) {
             languageInfo.languageName = tr("German");
         }
+		else if ( languageShort == "tw" ) {
+			languageInfo.languageName = tr("Taiwan (Chinese)");
+		}
         else {
             languageInfo.languageName = tr("Unknown language mnemonic ") + languageShort;
         }
@@ -859,6 +906,9 @@ void MainWindow::languageChanged(QAction* languageAction) {
                 else if ( languageInfo.languageShort == "de" ) {
                     languageInfo.languageName = tr("German");
                 }
+				else if ( languageInfo.languageShort == "tw" ) {
+					languageInfo.languageName = tr("Taiwan (Chinese)");
+				}
                 else {
                     languageInfo.languageName = tr("Unknown language mnemonic ") + languageInfo.languageShort;
                 }
@@ -905,9 +955,9 @@ void MainWindow::createEncodingMenu() {
     foreach ( encodingName, encodingsList ) {
             encodingAction = new QAction(encodingName, encodingActionGroup);
             encodingAction->setStatusTip( tr("Reopen the currently opened source code file by using the text encoding scheme ") + encodingName );
-            //encodingAction->setCheckable(true);
+            encodingAction->setCheckable(true);
     }
-    //encodingActionGroup->actions().first()->setChecked(true);
+    encodingActionGroup->actions().first()->setChecked(true);
     encodingMenu = new QMenu( tr("Reopen File with other Encoding") );
     menuFile->insertMenu(actionSave_Source_File, encodingMenu);
 
