@@ -41,6 +41,8 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent, QSettings *settings)
 		<< "perl" << "pov" << "ini" << "python" << "ruby" << "sql" << "tex";
 
 	lexer = 0;
+    // Set default highlighter to C++ highlighter.
+    setLexerForExtension( "cpp" );
 }
 
 
