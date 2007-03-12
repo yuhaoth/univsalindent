@@ -738,17 +738,20 @@ void MainWindow::loadSettings() {
     Settings are for example last selected indenter, last loaded config file and so on.
 */
 void MainWindow::saveSettings() {
-    settings->setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
+    QFileInfo fileInfo(currentSourceFile);
+    if ( fileInfo.isFile() ) {
+        settings->setValue( "UniversalIndentGUI/lastSourceCodeFile", currentSourceFile );
+    }
     settings->setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
     settings->setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
     settings->setValue( "UniversalIndentGUI/language", language );
-	highlighter->writeCurrentSettings("");
     settings->setValue( "UniversalIndentGUI/version", version );
 	settings->setValue( "UniversalIndentGUI/maximized", isMaximized() );
 	if ( !isMaximized() ) {
 		settings->setValue( "UniversalIndentGUI/position", pos() );
 		settings->setValue( "UniversalIndentGUI/size", size() );
 	}
+    highlighter->writeCurrentSettings("");
 }
 
 
