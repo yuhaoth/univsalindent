@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	txtedSourceCode->setBraceMatching(txtedSourceCode->SloppyBraceMatch);
 	txtedSourceCode->setMatchedBraceForegroundColor( QColor("red") );
 	txtedSourceCode->setFolding(QsciScintilla::BoxedTreeFoldStyle);
+	txtedSourceCode->setWhitespaceVisibility(QsciScintilla::WsVisible);
 
     // set the program version, revision and date, which is shown in the main window title and in the about dialog.
     version = "0.4.2 Beta";
@@ -103,6 +104,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( toolBarWidget->cbHighlight, SIGNAL(toggled(bool)), this, SLOT(turnHighlightOnOff(bool)) );
     connect( toolBarWidget->cbHighlight, SIGNAL(toggled(bool)), actionSyntax_Highlight, SLOT(setChecked(bool)) );
     connect( actionSyntax_Highlight, SIGNAL(toggled(bool)), toolBarWidget->cbHighlight, SLOT(setChecked(bool)) );
+	connect( actionWhiteSpaceVisible, SIGNAL(toggled(bool)), this, SLOT(setWhiteSpaceVisibility(bool)) );
 
     connect( toolBarWidget->pbExit, SIGNAL(clicked()), this, SLOT(close()));
     connect( actionAbout_UniversalIndentGUI, SIGNAL(activated()), aboutDialog, SLOT(exec()) );
@@ -705,6 +707,26 @@ void MainWindow::loadSettings() {
     currentIndenterID = indenterID;
 
 
+	// Handle if white space is set to be visible
+	// ------------------------------------------
+
+	// read if indenter parameter tool tips are enabled
+	if ( settingsFileExists ) {
+		bool whiteSpaceIsVisible = settings->value( "UniversalIndentGUI/whiteSpaceIsVisible", false ).toBool();
+		actionWhiteSpaceVisible->setChecked( whiteSpaceIsVisible );
+		if ( whiteSpaceIsVisible ) {
+			txtedSourceCode->setWhitespaceVisibility(QsciScintilla::WsVisible);
+		}
+		else {
+			txtedSourceCode->setWhitespaceVisibility(QsciScintilla::WsInvisible);
+		}
+	}
+	else {
+		actionWhiteSpaceVisible->setChecked( false );
+		txtedSourceCode->setWhitespaceVisibility(QsciScintilla::WsInvisible);
+	}
+
+
     // Handle if indenter parameter tool tips are enabled
     // --------------------------------------------------
 
@@ -757,6 +779,7 @@ void MainWindow::saveSettings() {
     }
     settings->setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
     settings->setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
+	settings->setValue( "UniversalIndentGUI/whiteSpaceIsVisible", actionWhiteSpaceVisible->isChecked() );
     settings->setValue( "UniversalIndentGUI/language", language );
 	settings->setValue( "UniversalIndentGUI/encoding", currentEncoding );
     settings->setValue( "UniversalIndentGUI/version", version );
@@ -1007,4 +1030,17 @@ void MainWindow::encodingChanged(QAction* encodingAction) {
             txtedSourceCode->setText( fileContent );
         }
     }
+}
+
+
+/*!
+	Is called whenever the white space visibitlity is being changed in the menue.
+ */
+void MainWindow::setWhiteSpaceVisibility(bool visible) {
+	if ( visible ) {
+		txtedSourceCode->setWhitespaceVisibility(QsciScintilla::WsVisible);
+	}
+	else {
+		txtedSourceCode->setWhitespaceVisibility(QsciScintilla::WsInvisible);
+	}
 }

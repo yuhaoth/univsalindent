@@ -63,6 +63,13 @@
     <addaction name="menuExport" />
     <addaction name="actionExit" />
    </widget>
+   <widget class="QMenu" name="menuIndenter" >
+    <property name="title" >
+     <string>Indenter</string>
+    </property>
+    <addaction name="actionLoad_Indenter_Config_File" />
+    <addaction name="actionSave_Indenter_Config_File" />
+   </widget>
    <widget class="QMenu" name="menuHelp" >
     <property name="title" >
      <string>Help</string>
@@ -75,14 +82,8 @@
     </property>
     <addaction name="actionLive_Indent_Preview" />
     <addaction name="actionSyntax_Highlight" />
+    <addaction name="actionWhiteSpaceVisible" />
     <addaction name="actionParameter_Tooltips" />
-   </widget>
-   <widget class="QMenu" name="menuIndenter" >
-    <property name="title" >
-     <string>Indenter</string>
-    </property>
-    <addaction name="actionLoad_Indenter_Config_File" />
-    <addaction name="actionSave_Indenter_Config_File" />
    </widget>
    <addaction name="menuFile" />
    <addaction name="menuIndenter" />
@@ -267,6 +268,9 @@
    </property>
   </action>
   <action name="actionExportHTML" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
    <property name="icon" >
     <iconset resource="../resources/Icons.qrc" >:/mainWindow/exporthtml.png</iconset>
    </property>
@@ -317,6 +321,14 @@
    </property>
    <property name="text" >
     <string>Syntax Highlight</string>
+   </property>
+  </action>
+  <action name="actionWhiteSpaceVisible" >
+   <property name="checkable" >
+    <bool>true</bool>
+   </property>
+   <property name="text" >
+    <string>WhiteSpaceVisible</string>
    </property>
   </action>
  </widget>

@@ -129,6 +129,7 @@ private slots:
     void callIndenter();
     void updateSourceView();
     void turnHighlightOnOff(bool turnOn);
+	void setWhiteSpaceVisibility(bool visible);
     void selectIndenter(int indenterID);
     void sourceCodeChangedSlot();
     void indentSettingsChangedSlot();
