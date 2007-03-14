@@ -33,7 +33,14 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent, QSettings *settings)
 : QObject(parent)
 {
     this->parent = parent;
-	this->settings = settings;
+    // If a settings file/object is given along with the constructor parameters, use it...
+    if (settings) {
+	    this->settings = settings;
+    }
+    // ... else create a new own one.
+    else {
+        this->settings = new QSettings("./data/highlighter.ini", QSettings::IniFormat, this);
+    }
     highlightningIsOn = true;
 
 	highlighterList = QStringList() << "bash" << "batch" << "cpp" << "csharp"
