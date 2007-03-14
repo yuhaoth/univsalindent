@@ -51,7 +51,7 @@ class CppHighlighter : public QObject
     Q_OBJECT
 
 public:
-    CppHighlighter(QsciScintilla *parent, QSettings *settings);
+    CppHighlighter(QsciScintilla *parent, QSettings *settings=0);
     void turnHighlightOff();
     void turnHighlightOn();
 

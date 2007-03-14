@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	// Create or open the settings file.
 	settings = new QSettings("./UniversalIndentGUI.ini", QSettings::IniFormat, this);
 
-	highlighter = new CppHighlighter(txtedSourceCode, settings);
+	highlighter = new CppHighlighter(txtedSourceCode);
 	menuSettings->insertMenu(actionSyntax_Highlight, highlighter->createHighlighterMenu() );
 
     indentHandler = 0;
