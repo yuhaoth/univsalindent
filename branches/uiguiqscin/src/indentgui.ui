@@ -328,7 +328,16 @@
     <bool>true</bool>
    </property>
    <property name="text" >
-    <string>WhiteSpaceVisible</string>
+    <string>White Space Visible</string>
+   </property>
+   <property name="iconText" >
+    <string>White Space Visible</string>
+   </property>
+   <property name="toolTip" >
+    <string>Set white space visible</string>
+   </property>
+   <property name="statusTip" >
+    <string>Enables or disables diplaying of white space characters in the editor.</string>
    </property>
   </action>
  </widget>
