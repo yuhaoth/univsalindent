@@ -408,6 +408,7 @@ void MainWindow::sourceCodeChangedSlot() {
     }
 	
     txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
+    cursorPos = txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
 
     sourceFileContent = txtedSourceCode->text();
 
@@ -415,10 +416,11 @@ void MainWindow::sourceCodeChangedSlot() {
         sourceFileContent += "\n";
     }
 
-    if ( cursorPos <= 0 ) {
-        cursorPos = 1;
-    }
-    enteredCharacter = sourceFileContent.at(cursorPos-1);
+    //if ( cursorPos <= 0 ) {
+    //    cursorPos = 1;
+    //}
+    enteredCharacter = sourceFileContent.at(cursorPos);
+    const char ch = enteredCharacter.toAscii();
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         callIndenter();
@@ -428,17 +430,18 @@ void MainWindow::sourceCodeChangedSlot() {
 
     QString text = txtedSourceCode->text();
     int lineBreakCounter = 0;
-    while ( cursorPos <= text.count() && text.at(cursorPos-1) != enteredCharacter && lineBreakCounter < 5 ) {
-        if ( text.at(cursorPos-1) == '\n' ) {
-            lineBreakCounter++;
-        }
-        cursorPos++;
-    }
+    //while ( cursorPos <= text.count() && text.at(cursorPos-1) != enteredCharacter && lineBreakCounter < 5 ) {
+    //    if ( text.at(cursorPos-1) == '\n' ) {
+    //        lineBreakCounter++;
+    //    }
+    //    cursorPos++;
+    //}
 
     if ( cursorPos > txtedSourceCode->text().count() ) {
         cursorPos = txtedSourceCode->text().count() - 1;
     }
     //txtedSourceCode->setCursorPosition( cursorLine, cursorPos );
+    txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_SETCURRENTPOS, cursorPos);
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         sourceCodeChanged = false;
