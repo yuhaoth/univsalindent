@@ -779,7 +779,6 @@ void MainWindow::saveSettings() {
     }
     settings->setValue( "UniversalIndentGUI/lastSelectedIndenter", currentIndenterID );
     settings->setValue( "UniversalIndentGUI/indenterParameterTooltipsEnabled", actionParameter_Tooltips->isChecked() );
-	settings->setValue( "UniversalIndentGUI/whiteSpaceIsVisible", actionWhiteSpaceVisible->isChecked() );
     settings->setValue( "UniversalIndentGUI/language", language );
 	settings->setValue( "UniversalIndentGUI/encoding", currentEncoding );
     settings->setValue( "UniversalIndentGUI/version", version );
@@ -788,6 +787,7 @@ void MainWindow::saveSettings() {
 		settings->setValue( "UniversalIndentGUI/position", pos() );
 		settings->setValue( "UniversalIndentGUI/size", size() );
 	}
+    settings->setValue( "UniversalIndentGUI/whiteSpaceIsVisible", actionWhiteSpaceVisible->isChecked() );
     highlighter->writeCurrentSettings("");
 }
 
