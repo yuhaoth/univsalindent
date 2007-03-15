@@ -120,7 +120,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     connect( toolBarWidget->cmbBoxIndenters, SIGNAL(activated(int)), this, SLOT(selectIndenter(int)) );
 
-    connect( txtedSourceCode, SIGNAL(textChanged()), this, SLOT(sourceCodeChangedSlot()) );
+    connect( txtedSourceCode, SIGNAL(textChanged()), this, SLOT(sourceCodeChangedHelperSlot()) );
 }
 
 
@@ -362,12 +362,12 @@ void MainWindow::updateSourceView()
     }
 
     if (previewToggled) {
-        disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
+        disconnect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedHelperSlot()) );
 		bool textIsModified = txtedSourceCode->isModified();
         txtedSourceCode->setText(sourceViewContent);
 		txtedSourceCode->setModified(textIsModified);
         previewToggled = false;
-        connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedSlot()) );
+        connect( txtedSourceCode, SIGNAL(textChanged ()), this, SLOT(sourceCodeChangedHelperSlot()) );
     }
 
     textEditVScrollBar->setValue( textEditLastScrollPos );
@@ -398,32 +398,35 @@ void MainWindow::turnHighlightOnOff(bool turnOn) {
     updateSourceView();
 }
 
+
+void MainWindow::sourceCodeChangedHelperSlot() {
+	QTimer::singleShot(0, this, SLOT(sourceCodeChangedSlot()));
+}
+
 /*!
     Is emitted whenever the text inside the source view window changes. Calls the indenter
     to format the changed source code.
  */
 void MainWindow::sourceCodeChangedSlot() {
     QChar enteredCharacter;
-	int cursorLine, cursorPos;
+	int cursorPos, cursorLine;
+	QString text;
 
     sourceCodeChanged = true;
     if ( scrollPositionChanged ) {
         scrollPositionChanged = false;
     }
 	
-    txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
-    cursorPos = txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
-
+	txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
+    //cursorPos = txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
     sourceFileContent = txtedSourceCode->text();
+	text = txtedSourceCode->text(cursorLine);
 
-    if ( sourceFileContent.count() == 0 || sourceFileContent.at(sourceFileContent.count()-1) != '\n' ) {
+    if ( sourceFileContent.count() == 0 ) {
         sourceFileContent += "\n";
     }
 
-    //if ( cursorPos <= 0 ) {
-    //    cursorPos = 1;
-    //}
-    enteredCharacter = sourceFileContent.at(cursorPos);
+    enteredCharacter = text.at(cursorPos);
     const char ch = enteredCharacter.toAscii();
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
@@ -432,20 +435,36 @@ void MainWindow::sourceCodeChangedSlot() {
     }
     updateSourceView();
 
-    QString text = txtedSourceCode->text();
-    int lineBreakCounter = 0;
-    //while ( cursorPos <= text.count() && text.at(cursorPos-1) != enteredCharacter && lineBreakCounter < 5 ) {
-    //    if ( text.at(cursorPos-1) == '\n' ) {
-    //        lineBreakCounter++;
-    //    }
-    //    cursorPos++;
-    //}
+	//if ( cursorPos <= 0 ) {
+	//	cursorPos = 1;
+	//}
 
-    if ( cursorPos > txtedSourceCode->text().count() ) {
-        cursorPos = txtedSourceCode->text().count() - 1;
-    }
-    //txtedSourceCode->setCursorPosition( cursorLine, cursorPos );
-    txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_SETCURRENTPOS, cursorPos);
+	int saveCursorLine = cursorLine;
+	int saveCursorPos = cursorPos;
+    
+	bool charFound = false;
+    int lineBreakCounter = 0;
+	for ( cursorLine = saveCursorLine; cursorLine-saveCursorLine < 6 && cursorLine < txtedSourceCode->lines(); cursorLine++ ) {
+		text = txtedSourceCode->text(cursorLine);
+		while ( cursorPos < text.count() && enteredCharacter != text.at(cursorPos)) {
+			cursorPos++;
+		}
+		if ( cursorPos >= text.count() ) {
+			cursorPos = 0;
+		} 
+		else {
+			charFound = true;
+			break;
+		}
+	}
+
+    //if ( cursorPos > txtedSourceCode->text().count() ) {
+    //    cursorPos = txtedSourceCode->text().count() - 1;
+    //}
+    //txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_SETCURRENTPOS, cursorPos);
+	if ( charFound ) {
+		txtedSourceCode->setCursorPosition( cursorLine, cursorPos );
+	}
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         sourceCodeChanged = false;
