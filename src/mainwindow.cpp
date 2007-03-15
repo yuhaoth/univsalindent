@@ -70,6 +70,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     isFirstRunOfThisVersion = false;
     loadSettings();
 
+    // Because the language settings are being loaded after creating the highlighter menu
+    // the menu has to be retranslated after loading the language settings
+    highlighter->retranslate();
+
     createLanguageMenu();
     createEncodingMenu();
 
@@ -117,7 +121,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect( toolBarWidget->cmbBoxIndenters, SIGNAL(activated(int)), this, SLOT(selectIndenter(int)) );
 
     connect( txtedSourceCode, SIGNAL(textChanged()), this, SLOT(sourceCodeChangedSlot()) );
-
 }
 
 
@@ -973,8 +976,11 @@ void MainWindow::languageChanged(QAction* languageAction) {
 				encodingActionList.at(i)->setStatusTip( tr("Reopen the currently opened source code file by using the text encoding scheme ") + encodingsList.at(i) );
 			}
 
-			// translate the about dialog
+			// Translate the about dialog.
             aboutDialog->retranslate();
+
+            // Translate the highlighter menue.
+            highlighter->retranslate();
         }
     }
 }

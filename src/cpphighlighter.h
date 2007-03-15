@@ -58,6 +58,7 @@ public:
 	QMenu *createHighlighterMenu();
 	bool readCurrentSettings(const char *prefix);
 	void writeCurrentSettings(const char *prefix);
+    void retranslate();
 
 private:
     bool highlightningIsOn;
@@ -67,6 +68,7 @@ private:
 	QsciLexer* lexer;
 	QSettings *settings;
 	QStringList highlighterList;
+    QMenu *highlighterMenu;
 
 public slots:
     //! The foreground color for style number \a style is set to \a color.  If

@@ -50,6 +50,8 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent, QSettings *settings)
 	lexer = 0;
     // Set default highlighter to C++ highlighter.
     setLexerForExtension( "cpp" );
+
+    highlighterMenu = 0;
 }
 
 
@@ -62,14 +64,14 @@ QMenu *CppHighlighter::createHighlighterMenu() {
 
 	QActionGroup *highlighterActionGroup = new QActionGroup(this);
 
-	// Loop for each found translation file
+	// Loop for each known highlighter
 	foreach ( highlighterName, highlighterList ) {
 		highlighterAction = new QAction(highlighterName, highlighterActionGroup);
 		highlighterAction->setStatusTip( tr("Set the syntax highlightning to ") + highlighterName );
 		highlighterAction->setCheckable(true);
 	}
 	//encodingActionGroup->actions().first()->setChecked(true);
-	QMenu *highlighterMenu = new QMenu( tr("Set Syntax Highlighter") );
+	highlighterMenu = new QMenu( tr("Set Syntax Highlighter") );
 	highlighterMenu->addActions( highlighterActionGroup->actions() );
 
 	connect( highlighterActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(highlighterChanged(QAction*)) );
@@ -77,9 +79,30 @@ QMenu *CppHighlighter::createHighlighterMenu() {
 	return highlighterMenu;
 }
 
+
+/*!
+    This slot handles signals coming from selecting another syntax highlighter.
+ */
 void CppHighlighter::highlighterChanged(QAction* highlighterAction) {
 	QString highlighterName = highlighterAction->text();
 	setLexerForExtension(highlighterName);
+}
+
+
+/*!
+    Retranslates the highlighter menu.
+ */
+void CppHighlighter::retranslate() {
+    if ( highlighterMenu ) {
+        highlighterMenu->setTitle( tr("Set Syntax Highlighter") );
+        QList<QAction *> actionList = highlighterMenu->actions();
+        int i = 0;
+        foreach ( QString highlighterName, highlighterList ) {
+            QAction *highlighterAction = actionList.at(i);
+            highlighterAction->setStatusTip( tr("Set the syntax highlightning to ") + highlighterName );
+            i++;
+        }
+    }
 }
 
 
