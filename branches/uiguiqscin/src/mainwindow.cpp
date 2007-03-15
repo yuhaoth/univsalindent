@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	txtedSourceCode = new QsciScintilla(this);
 	hboxLayout1->addWidget(txtedSourceCode);
 
+    txtedSourceCode->setUtf8(true);
     txtedSourceCode->setMarginLineNumbers(1, true);
 	txtedSourceCode->setMarginWidth(1, QString("10000") );
 	txtedSourceCode->setBraceMatching(txtedSourceCode->SloppyBraceMatch);
