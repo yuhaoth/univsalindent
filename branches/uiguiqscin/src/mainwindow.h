@@ -131,6 +131,7 @@ private slots:
     void turnHighlightOnOff(bool turnOn);
 	void setWhiteSpaceVisibility(bool visible);
     void selectIndenter(int indenterID);
+	void sourceCodeChangedHelperSlot();
     void sourceCodeChangedSlot();
     void indentSettingsChangedSlot();
     void previewTurnedOnOff(bool turnOn);
