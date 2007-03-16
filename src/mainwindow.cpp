@@ -409,25 +409,31 @@ void MainWindow::sourceCodeChangedHelperSlot() {
  */
 void MainWindow::sourceCodeChangedSlot() {
     QChar enteredCharacter;
-	int cursorPos, cursorLine;
+	int cursorPos,cursorPosAbsolut, cursorLine;
 	QString text;
 
     sourceCodeChanged = true;
     if ( scrollPositionChanged ) {
         scrollPositionChanged = false;
     }
-	
-	txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
-    //cursorPos = txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
-    sourceFileContent = txtedSourceCode->text();
-	text = txtedSourceCode->text(cursorLine);
 
+    sourceFileContent = txtedSourceCode->text();
+	
     if ( sourceFileContent.count() == 0 ) {
         sourceFileContent += "\n";
     }
-
-    enteredCharacter = text.at(cursorPos);
-    const char ch = enteredCharacter.toAscii();
+    else {
+        txtedSourceCode->getCursorPosition(&cursorLine, &cursorPos);
+        cursorPosAbsolut = txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
+	    text = txtedSourceCode->text(cursorLine);
+        if ( cursorPosAbsolut > 0 ) {
+            cursorPosAbsolut--;
+        }
+        if ( cursorPos > 0 ) {
+            cursorPos--;
+        }
+        enteredCharacter = sourceFileContent.at(cursorPosAbsolut);
+    }
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         callIndenter();
@@ -435,36 +441,63 @@ void MainWindow::sourceCodeChangedSlot() {
     }
     updateSourceView();
 
-	//if ( cursorPos <= 0 ) {
-	//	cursorPos = 1;
-	//}
+    if ( !enteredCharacter.isNull() ) {
+        //const char ch = enteredCharacter.toAscii();
 
-	int saveCursorLine = cursorLine;
-	int saveCursorPos = cursorPos;
-    
-	bool charFound = false;
-    int lineBreakCounter = 0;
-	for ( cursorLine = saveCursorLine; cursorLine-saveCursorLine < 6 && cursorLine < txtedSourceCode->lines(); cursorLine++ ) {
-		text = txtedSourceCode->text(cursorLine);
-		while ( cursorPos < text.count() && enteredCharacter != text.at(cursorPos)) {
-			cursorPos++;
-		}
-		if ( cursorPos >= text.count() ) {
-			cursorPos = 0;
-		} 
-		else {
-			charFound = true;
-			break;
-		}
-	}
+        int saveCursorLine = cursorLine;
+        int saveCursorPos = cursorPos;
 
-    //if ( cursorPos > txtedSourceCode->text().count() ) {
-    //    cursorPos = txtedSourceCode->text().count() - 1;
-    //}
-    //txtedSourceCode->SendScintilla(QsciScintillaBase::SCI_SETCURRENTPOS, cursorPos);
-	if ( charFound ) {
-		txtedSourceCode->setCursorPosition( cursorLine, cursorPos );
-	}
+        bool charFound = false;
+
+        // Search forward
+        int lineBreakCounter = 0;
+        for ( cursorLine = saveCursorLine; cursorLine-saveCursorLine < 6 && cursorLine < txtedSourceCode->lines(); cursorLine++ ) {
+            text = txtedSourceCode->text(cursorLine);
+            while ( cursorPos < text.count() && enteredCharacter != text.at(cursorPos)) {
+                cursorPos++;
+            }
+            if ( cursorPos >= text.count() ) {
+                cursorPos = 0;
+            } 
+            else {
+                charFound = true;
+                break;
+            }
+        }
+
+        // If foward search did not find the character, search backward
+        if ( !charFound ) {
+            text = txtedSourceCode->text(saveCursorLine);
+            cursorPos = saveCursorPos;
+            if ( cursorPos >= text.count() ) {
+                cursorPos = text.count() - 1;
+            }
+            int lineBreakCounter = 0;
+            for ( cursorLine = saveCursorLine; saveCursorLine-cursorLine < 6 && cursorLine >= 0; cursorLine-- ) {
+                text = txtedSourceCode->text(cursorLine);
+                while ( cursorPos >= 0 && enteredCharacter != text.at(cursorPos)) {
+                    cursorPos--;
+                }
+                if ( cursorPos < 0 ) {
+                    cursorPos = txtedSourceCode->lineLength(cursorLine-1) - 1;
+                } 
+                else {
+                    charFound = true;
+                    break;
+                }
+            }
+        }
+
+        // If the character was found set its new cursor position...
+        if ( charFound ) {
+            txtedSourceCode->setCursorPosition( cursorLine, cursorPos+1 );
+        }
+        // ...if it was not found, set the previous cursor position.
+        else {
+            txtedSourceCode->setCursorPosition( saveCursorLine, saveCursorPos+1 );
+        }
+    }
+
 
     if ( toolBarWidget->cbLivePreview->isChecked() ) {
         sourceCodeChanged = false;
