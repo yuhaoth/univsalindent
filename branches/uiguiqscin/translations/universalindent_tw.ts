@@ -71,12 +71,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>CppHighlighter</name>
     <message>
-        <location filename="../src/cpphighlighter.cpp" line="102"/>
+        <location filename="../src/cpphighlighter.cpp" line="108"/>
         <source>Set the syntax highlightning to </source>
         <translation>將語法高亮度方式設為 </translation>
     </message>
     <message>
-        <location filename="../src/cpphighlighter.cpp" line="97"/>
+        <location filename="../src/cpphighlighter.cpp" line="103"/>
         <source>Set Syntax Highlighter</source>
         <translation>選擇語法高亮度</translation>
     </message>
@@ -340,7 +340,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="982"/>
+        <location filename="../src/mainwindow.cpp" line="1015"/>
         <source> as user interface language.</source>
         <translation> 套用到程式界面</translation>
     </message>
@@ -350,7 +350,7 @@ p, li { white-space: pre-wrap; }
         <translation>所有檔案</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1048"/>
+        <location filename="../src/mainwindow.cpp" line="1081"/>
         <source>Cannot read the file </source>
         <translation>無法讀取檔案</translation>
     </message>
@@ -365,52 +365,52 @@ p, li { white-space: pre-wrap; }
         <translation>選擇檔案</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="970"/>
+        <location filename="../src/mainwindow.cpp" line="1003"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1048"/>
+        <location filename="../src/mainwindow.cpp" line="1081"/>
         <source>Error opening file</source>
         <translation>開啟檔案時發生錯誤</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="607"/>
+        <location filename="../src/mainwindow.cpp" line="640"/>
         <source>Export source code file</source>
         <translation>匯出檔案</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="973"/>
+        <location filename="../src/mainwindow.cpp" line="1006"/>
         <source>German</source>
         <translation>German</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="600"/>
+        <location filename="../src/mainwindow.cpp" line="633"/>
         <source>HTML Document</source>
         <translation>HTML 文件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="966"/>
+        <location filename="../src/mainwindow.cpp" line="999"/>
         <source>Language</source>
         <translation>語言</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="864"/>
+        <location filename="../src/mainwindow.cpp" line="897"/>
         <source>Modified code</source>
         <translation>修改後的檔案</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="578"/>
+        <location filename="../src/mainwindow.cpp" line="611"/>
         <source>PDF Document</source>
         <translation>PDF 文件</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1032"/>
+        <location filename="../src/mainwindow.cpp" line="1065"/>
         <source>Reopen File with other Encoding</source>
         <translation>用別的編碼方式重新開啟</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1026"/>
+        <location filename="../src/mainwindow.cpp" line="1059"/>
         <source>Reopen the currently opened source code file by using the text encoding scheme </source>
         <translation>重新開啟目前的檔案，編碼使用 </translation>
     </message>
@@ -430,19 +430,19 @@ p, li { white-space: pre-wrap; }
         <translation>支援的重整工具 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="866"/>
+        <location filename="../src/mainwindow.cpp" line="899"/>
         <source>The source code has been modified.
 Do you want to save your changes?</source>
         <translation>程式碼已被修改。
 你要儲存嗎？</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="979"/>
+        <location filename="../src/mainwindow.cpp" line="1012"/>
         <source>Unknown language mnemonic </source>
         <translation>將未知語言 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="976"/>
+        <location filename="../src/mainwindow.cpp" line="1009"/>
         <source>Taiwan (Chinese)</source>
         <translation>Taiwan (Chinese)</translation>
     </message>
