@@ -47,22 +47,22 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent, QSettings *settings)
 		<< "css" << "d" << "diff" << "html" << "idl" << "java" << "javascript" << "lua" << "makefile"
 		<< "perl" << "pov" << "ini" << "python" << "ruby" << "sql" << "tex";
 
+    createHighlighterMenu();
+
 	lexer = 0;
     // Set default highlighter to C++ highlighter.
     setLexerForExtension( "cpp" );
-
-    highlighterMenu = 0;
 }
 
 
 /*!
 	Creates a menu entry under the settings menu for all available text encodings.
 */
-QMenu *CppHighlighter::createHighlighterMenu() {
+void CppHighlighter::createHighlighterMenu() {
 	QAction *highlighterAction;
 	QString highlighterName;
 
-	QActionGroup *highlighterActionGroup = new QActionGroup(this);
+	highlighterActionGroup = new QActionGroup(this);
 
 	// Loop for each known highlighter
 	foreach ( highlighterName, highlighterList ) {
@@ -75,8 +75,14 @@ QMenu *CppHighlighter::createHighlighterMenu() {
 	highlighterMenu->addActions( highlighterActionGroup->actions() );
 
 	connect( highlighterActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(highlighterChanged(QAction*)) );
+}
 
-	return highlighterMenu;
+
+/*!
+    Returns the menu for selecting the highlighter.
+ */
+QMenu *CppHighlighter::getHighlighterMenu() {
+    return highlighterMenu;
 }
 
 
@@ -290,6 +296,9 @@ void CppHighlighter::setLexerForExtension( QString extension ) {
 		writeCurrentSettings("");
 		delete lexer;
 	}
+
+    int indexOfHighlighter = highlighterList.indexOf(extension);
+    highlighterActionGroup->actions().at(indexOfHighlighter)->setChecked(true);
 
 	if ( extension == "cpp" || extension == "hpp" || extension == "c" || extension == "h" || extension == "cxx" || extension == "hxx" ) {
 		lexer = new QsciLexerCPP();
