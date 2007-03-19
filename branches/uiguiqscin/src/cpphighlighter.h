@@ -55,11 +55,11 @@ public:
     CppHighlighter(QsciScintilla *parent, QSettings *settings=0);
     void turnHighlightOff();
     void turnHighlightOn();
-
-	QMenu *createHighlighterMenu();
+	
 	bool readCurrentSettings(const char *prefix);
 	void writeCurrentSettings(const char *prefix);
     void retranslate();
+    QMenu* getHighlighterMenu();
 
 private:
     bool highlightningIsOn;
@@ -70,6 +70,9 @@ private:
 	QSettings *settings;
 	QStringList highlighterList;
     QMenu *highlighterMenu;
+    QActionGroup *highlighterActionGroup;
+
+    void createHighlighterMenu();
 
 public slots:
     //! The foreground color for style number \a style is set to \a color.  If
