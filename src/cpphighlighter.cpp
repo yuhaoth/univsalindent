@@ -44,7 +44,7 @@ CppHighlighter::CppHighlighter(QsciScintilla *parent, QSettings *settings)
     highlightningIsOn = true;
 
 	highlighterList = QStringList() << "bash" << "batch" << "cpp" << "csharp"
-		<< "css" << "diff" << "html" << "idl" << "java" << "javascript" << "lua" << "makefile"
+		<< "css" << "d" << "diff" << "html" << "idl" << "java" << "javascript" << "lua" << "makefile"
 		<< "perl" << "pov" << "ini" << "python" << "ruby" << "sql" << "tex";
 
 	lexer = 0;
@@ -306,10 +306,16 @@ void CppHighlighter::setLexerForExtension( QString extension ) {
 	else if ( extension == "css" ) {
 		lexer = new QsciLexerCSS();
 	}
+	else if ( extension == "d" ) {
+		lexer = new QsciLexerD();
+	}
 	else if ( extension == "diff" ) {
 		lexer = new QsciLexerDiff();
 	}
 	else if ( extension == "html" ) {
+		lexer = new QsciLexerHTML();
+	}
+	else if ( extension == "php" ) {
 		lexer = new QsciLexerHTML();
 	}
 	else if ( extension == "idl" ) {

@@ -30,6 +30,7 @@
 #include <Qsci/qscilexercpp.h>
 #include <Qsci/qscilexercsharp.h>
 #include <Qsci/qscilexercss.h>
+#include <Qsci/qscilexerd.h>
 #include <Qsci/qscilexerdiff.h>
 #include <Qsci/qscilexerhtml.h>
 #include <Qsci/qscilexeridl.h>
