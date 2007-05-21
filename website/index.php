@@ -10,10 +10,10 @@ include("htmlhead.html");
 		<div id="header">
 			<div id="tabs">
 				<ul>
-					<li id="current"><a href="index.html">Home</a></li>
-					<li><a style="padding: 15px 0px 6px 0px;" href="features.html">Features / <br>Changelog</a></li>
-					<li><a href="screenshots.html">Screenshots</a></li>
-					<li><a href="development.html">Development</a></li>
+					<li id="current"><a href="index.php">Home</a></li>
+					<li><a style="padding: 15px 0px 6px 0px;" href="features.php">Features / <br>Changelog</a></li>
+					<li><a href="screenshots.php">Screenshots</a></li>
+					<li><a href="development.php">Development</a></li>
 				</ul>
 			</div>
 		</div>

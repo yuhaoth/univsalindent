@@ -13,10 +13,10 @@ include("htmlhead.html");
 				<a style="display:none;" href="#branding" >Skip Navigation</a>
 				
 				<ul>
-					<li><a href="index.html">Home</a></li>
-					<li id="current"><a style="padding: 18px 0px 35px 0px;" href="features.html">Features / <br>Changelog</a></li>
-					<li><a href="screenshots.html">Screenshots</a></li>
-					<li><a href="development.html">Development</a></li>
+					<li><a href="index.php">Home</a></li>
+					<li id="current"><a style="padding: 18px 0px 35px 0px;" href="features.php">Features / <br>Changelog</a></li>
+					<li><a href="screenshots.php">Screenshots</a></li>
+					<li><a href="development.php">Development</a></li>
 				</ul>
 			</div>
 		</div>
