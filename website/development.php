@@ -56,10 +56,10 @@ include("htmlhead.html");
                 </p>
                 <span>Progress:</span>
                 <div id="progressframe">
-                    <div id="progress" class="p95">&nbsp;95%</div>
+                    <div id="progress" class="p100">&nbsp;100%</div>
                 </div>
                 <p>20.03.2007: The branch using QScintilla has been merged into the main trunk. This means, up from the
-                release (version 0.5.1 Beta) QScintilla will allways be the editing component.</p>
+                next release (version 0.5.1 Beta) QScintilla will allways be the editing component.</p>
                 <br><br>
                 
                 <h2>Refactoring the archtitecture of UniversalIndentGUI</h2>
@@ -71,8 +71,10 @@ include("htmlhead.html");
                 </p>
                 <span>Progress:</span>
                 <div id="progressframe">
-                    <div id="progress" class="p5">&nbsp;5%</div>
+                    <div id="progress" class="p15">&nbsp;15%</div>
                 </div>
+                <p>20.05.2007: Plans are progressing and some refactoring is already done. Concrete
+                the settings class, along with the coming settings dialog, is nearly finished.</p>
                 <br><br>
 
                 <h2>Using a diff view to show differences between indented-nonindented code</h2>

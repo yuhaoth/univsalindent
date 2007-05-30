@@ -27,6 +27,10 @@ include("htmlhead.html");
 				<br>
 				<h2>News</h2>
 				
+				<h3>2007-05-30 Next release coming soon</h3>
+				<p>Developing has speed up again and a new release can be expected soon. Refactoring
+                the code architecture consumes more time than I thought. Good code needs time.</p>
+				
 				<h3>2007-04-15 Summerlike weather against development ;-)</h3>
 				<p>Looking out of my window I can see a clearly blue sky and sunshine. So I look out of the
                 window for only a short time and find myself lying on the grass enjoying the warm sunbeams.
