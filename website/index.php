@@ -27,6 +27,12 @@ include("htmlhead.html");
 				<br>
 				<h2>News</h2>
 				
+                <h3>2007-06-03 UniversalIndentGUI Anniversary Version 0.6.0 Beta released</h3>
+				<p>Yesterday one year ago the first version of UniversalIndentGui was released.
+                So I would like to say thank you to anyone who has helped me with good critics,
+                translation, writing an indenter or what ever. THANKS!<br>
+                And here is therefore a new release. Enjoy it!</p>
+                
 				<h3>2007-05-30 Next release coming soon</h3>
 				<p>Developing has speed up again and a new release can be expected soon. Refactoring
                 the code architecture consumes more time than I thought. Good code needs time.</p>

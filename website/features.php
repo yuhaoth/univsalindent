@@ -46,6 +46,25 @@ include("htmlhead.html");
 				
 				<br>
 				<h2>Changelog</h2>
+                
+                <h4>2007-06-03 Version 0.6.0 Beta</h4>
+				<ul>
+                    <li>[add] Feature Request ID 1700557 : Added a settings dialog for handling more possible settings with better usabiltiy.</li>
+                    <li>[add] Feature Request ID 1700556 : Added option to load last file or not on startup.</li>
+                    <li>[add] Feature Request ID 1684011 : Added option to set the width used to display tabs (default is four spaces).</li>
+                    <li>[add] Feature Request ID 1651718 : Added multiple choices, for the indenter configuration, with for the user readable text. Before the text inside of the combo boxes for the indenter parameters was exactly the same text as the command line parameter of the indenter. Now with "ChoicesReadable" a list with the same length as "Choices" can be used to insert readable text into the combo box. If this list is not set, the content of "Choices" will be used.</li>
+                    <li>[add] Partly Japanese translation. Thanks to Nirvash.</li>
+                    <li>[add] The language selection show the countries flag in front of its name to identify the language faster.</li>
+                    <li>[add] Feature Request ID 1657253 : If now configuration ini file for any indenter can be found, a warning will be displayed.</li>
+                    <li>[change] Feature Request ID 1723228 : The default font for all syntax highlighters is now mono spaced, Courier.</li>
+                    <li>[change] Along with the settings dialog cleaned up the user interface. Moved some not that often needed settings away to the settings dialog.</li>
+                    <li>[change] The full text of the GPL in the about dialog did slow down the program startup and translation. Now only a hint and link to the GPL is given in the about dialog.</li>
+                    <li>[fix] Bug ID 1692511 : UniversalIndentGui crashed, if a by the syntax highlighter unsupported file extension was opened.</li>
+                    <li>[fix] Bug ID 1727538 : The setting for syntax highlighting was allways enabled on startup, even if disabled on closing.</li>
+                    <li>[fix] Bug ID 1729026 : The highlighting style was not correct when changed to another highlighter than the current. Only after toggling preview for example the style was correct.</li>
+                    <li>[fix] The editors column showing the line numbers did not adapt its width to the maximum line number.</li>
+                </ul>
+                
 				<h4>2007-03-21 Version 0.5.1 Beta</h4>
 				<ul>
                     <li>[change] The live typing and indenting feature was not adapted to QScintilla. Now works again (depending on the used indenter).</li>
