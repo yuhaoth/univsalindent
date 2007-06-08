@@ -49,27 +49,27 @@ include("htmlhead.html");
                 
                 <h4>2007-06-03 Version 0.6.0 Beta</h4>
 				<ul>
-                    <li>[add] Feature Request ID 1700557 : Added a settings dialog for handling more possible settings with better usabiltiy.</li>
-                    <li>[add] Feature Request ID 1700556 : Added option to load last file or not on startup.</li>
-                    <li>[add] Feature Request ID 1684011 : Added option to set the width used to display tabs (default is four spaces).</li>
-                    <li>[add] Feature Request ID 1651718 : Added multiple choices, for the indenter configuration, with for the user readable text. Before the text inside of the combo boxes for the indenter parameters was exactly the same text as the command line parameter of the indenter. Now with "ChoicesReadable" a list with the same length as "Choices" can be used to insert readable text into the combo box. If this list is not set, the content of "Choices" will be used.</li>
+                    <li>[add] Feature Request ID <a href="issue/1700557" target="_blank">1700557</a> : Added a settings dialog for handling more possible settings with better usabiltiy.</li>
+                    <li>[add] Feature Request ID <a href="issue/1700556" target="_blank">1700556</a> : Added option to load last file or not on startup.</li>
+                    <li>[add] Feature Request ID <a href="issue/1684011" target="_blank">1684011</a> : Added option to set the width used to display tabs (default is four spaces).</li>
+                    <li>[add] Feature Request ID <a href="issue/1651718" target="_blank">1651718</a> : Added multiple choices, for the indenter configuration, with for the user readable text. Before the text inside of the combo boxes for the indenter parameters was exactly the same text as the command line parameter of the indenter. Now with "ChoicesReadable" a list with the same length as "Choices" can be used to insert readable text into the combo box. If this list is not set, the content of "Choices" will be used.</li>
                     <li>[add] Partly Japanese translation. Thanks to Nirvash.</li>
                     <li>[add] The language selection show the countries flag in front of its name to identify the language faster.</li>
-                    <li>[add] Feature Request ID 1657253 : If now configuration ini file for any indenter can be found, a warning will be displayed.</li>
-                    <li>[change] Feature Request ID 1723228 : The default font for all syntax highlighters is now mono spaced, Courier.</li>
+                    <li>[add] Feature Request ID <a href="issue/1657253" target="_blank">1657253</a> : If now configuration ini file for any indenter can be found, a warning will be displayed.</li>
+                    <li>[change] Feature Request ID <a href="issue/1723228" target="_blank">1723228</a> : The default font for all syntax highlighters is now mono spaced, Courier.</li>
                     <li>[change] Along with the settings dialog cleaned up the user interface. Moved some not that often needed settings away to the settings dialog.</li>
                     <li>[change] The full text of the GPL in the about dialog did slow down the program startup and translation. Now only a hint and link to the GPL is given in the about dialog.</li>
-                    <li>[fix] Bug ID 1692511 : UniversalIndentGui crashed, if a by the syntax highlighter unsupported file extension was opened.</li>
-                    <li>[fix] Bug ID 1727538 : The setting for syntax highlighting was allways enabled on startup, even if disabled on closing.</li>
-                    <li>[fix] Bug ID 1729026 : The highlighting style was not correct when changed to another highlighter than the current. Only after toggling preview for example the style was correct.</li>
+                    <li>[fix] Bug ID <a href="issue/1692511" target="_blank">1692511</a> : UniversalIndentGui crashed, if a by the syntax highlighter unsupported file extension was opened.</li>
+                    <li>[fix] Bug ID <a href="issue/1727538" target="_blank">1727538</a> : The setting for syntax highlighting was allways enabled on startup, even if disabled on closing.</li>
+                    <li>[fix] Bug ID <a href="issue/1729026" target="_blank">1729026</a> : The highlighting style was not correct when changed to another highlighter than the current. Only after toggling preview for example the style was correct.</li>
                     <li>[fix] The editors column showing the line numbers did not adapt its width to the maximum line number.</li>
                 </ul>
                 
 				<h4>2007-03-21 Version 0.5.1 Beta</h4>
 				<ul>
                     <li>[change] The live typing and indenting feature was not adapted to QScintilla. Now works again (depending on the used indenter).</li>
-                    <li>[fix] Bug ID 1678783: Files other encoded than ascii were not displayed correctly. Now allways displaying files using UTF-8 encoding.</li>
-                    <li>[fix] Bug ID 1678783: The new syntax highlighter selection menu was not translated.</li>
+                    <li>[fix] Bug ID <a href="issue/1681246" target="_blank">1681246</a> : Files other encoded than ascii were not displayed correctly. Now allways displaying files using UTF-8 encoding.</li>
+                    <li>[fix] Bug ID <a href="issue/1681247" target="_blank">1681247</a> : The new syntax highlighter selection menu was not translated.</li>
                     <li>[fix] When file was reloaded with other encoding the file was allways set to be modified even if it wasn't.</li>
                 </ul>
                 
@@ -80,12 +80,12 @@ include("htmlhead.html");
                     <li>[add] Also added code folding for previously mentioned languages.</li>
                     <li>[add] Added support for the indenter "phpCB" phpCodeBeatufier. (Thanks to Nelson Tai) The executable is not included in the UiGui release, because I am not sure about the license of phpCB right now.</li>
                     <li>[add] The output of an indenter can now be read from stdout, by setting "stdout" for "outputFileParameter".</li>
-                    <li>[add] Feature Request ID 1673549 : The order of the indenter call parameters for input file, output file and options[file] is now selectable in three states: pio, ipo, iop.</li>
-                    <li>[add] Feature Request ID 1675503 : The last set encoding is being remembered and used on loading last file.</li>
-                    <li>[add] Feature Request ID 1669822 : The last window position, size and maximized state is stored in the settings and restored.</li>
-                    <li>[add] Feature Request ID 1673670 : Made it possible to switch between visible and invisible white space characters, like spaces and tabs.</li>
+                    <li>[add] Feature Request ID <a href="issue/1673549" target="_blank">1673549</a> : The order of the indenter call parameters for input file, output file and options[file] is now selectable in three states: pio, ipo, iop.</li>
+                    <li>[add] Feature Request ID <a href="issue/1675503" target="_blank">1675503</a> : The last set encoding is being remembered and used on loading last file.</li>
+                    <li>[add] Feature Request ID <a href="issue/1669822" target="_blank">1669822</a> : The last window position, size and maximized state is stored in the settings and restored.</li>
+                    <li>[add] Feature Request ID <a href="issue/1673670" target="_blank">1673670</a> : Made it possible to switch between visible and invisible white space characters, like spaces and tabs.</li>
                     <li>[change] The "personal" configuration files of each indenter (like gc.cfg) are no longer included in a release, so these settings can be loaded into UiGui after updating.</li>
-                    <li>[fix] Bug ID 1678783: If the current opened file had no save name yet, only the path was written to the settings file, causing an error on next start.</li>
+                    <li>[fix] Bug ID <a href="issue/1678783" target="_blank">1678783</a> : If the current opened file had no save name yet, only the path was written to the settings file, causing an error on next start.</li>
                 </ul>
                 
  				<h4>2007-02-25 Version 0.4.2 Beta</h4>
@@ -98,16 +98,16 @@ include("htmlhead.html");
  				<h4>2007-02-11 Version 0.4.1 Beta</h4>
                 <ul>
                     <li>[add] Support for the indenter Uncrustify has been added.</li>
-                    <li>[add] Feature Request ID 1651719: A binary release for Linux AMD64 is now available.</li>
-                    <li>[add] Feature Request ID 1657251: If only a win32 executable exists under Linux, wine will be used to call it. Now a test will be mad if wine is installed and an error message will show up if not installed.</li>
+                    <li>[add] Feature Request ID <a href="issue/1651719" target="_blank">1651719</a> : A binary release for Linux AMD64 is now available.</li>
+                    <li>[add] Feature Request ID <a href="issue/1657251" target="_blank">1657251</a> : If only a win32 executable exists under Linux, wine will be used to call it. Now a test will be mad if wine is installed and an error message will show up if not installed.</li>
                     <li>[change] Some changes mad to the Artistic Styler ini file as suggested by its author Jim Pattee.</li>
                     <li>[change] Put the file open button at first position in the toolbar, because normally this is the first step one would do, if he tries to find the optimal indenter and settings for himself.</li>
                     <li>[change] The background in the about dialog has been changed to look equal on all systems.</li>
                     <li>[change] The error message dialogs had small optical enhancements to be more readable.</li>
-                    <li>[fix] Bug ID 1657255: If an error occurred during the try to call the indenter, a message box is being shown, but the mouse cursor still indicated that the application is being busy.</li>
-                    <li>[fix] Bug ID 1651071: Changing the file encoding did not affect the code sent to the indenter, so the code while preview turned on, had wrong encoding (still seems to have some encoding problems under Linux).</li>
-                    <li>[fix] Bug ID 1650222: On Windows systems there were two DLLs missing to run GNU Indent ("libiconv-2.dll" and "libintl-2.dll")</li>
-                    <li>[fix] Bug ID 1649918: The indenter was not called after first program start, so preview updated first after changing a setting or the code.</li>
+                    <li>[fix] Bug ID <a href="issue/1657255" target="_blank">1657255</a> : If an error occurred during the try to call the indenter, a message box is being shown, but the mouse cursor still indicated that the application is being busy.</li>
+                    <li>[fix] Bug ID <a href="issue/1651071" target="_blank">1651071</a> : Changing the file encoding did not affect the code sent to the indenter, so the code while preview turned on, had wrong encoding (still seems to have some encoding problems under Linux).</li>
+                    <li>[fix] Bug ID <a href="issue/1650222" target="_blank">1650222</a> : On Windows systems there were two DLLs missing to run GNU Indent ("libiconv-2.dll" and "libintl-2.dll")</li>
+                    <li>[fix] Bug ID <a href="issue/1649918" target="_blank">1649918</a> : The indenter was not called after first program start, so preview updated first after changing a setting or the code.</li>
                 </ul>	
                 
 				<h4>2007-02-01 Version 0.4 Beta</h4>
@@ -122,7 +122,7 @@ include("htmlhead.html");
                     <li>[change] Line numbers are now geyed out, because this is more decent and selecting the numbers is no longer possible.</li>
                     <li>[change] The link to the homepage in the about dialog now really opens the website.</li>
                     <li>[change] The linux version is now statically linked against Qt so there should be no problems with wrong Qt versions installed or even no Qt libraries installed.</li>
-                    <li>[fix] Bug ID 1553601: If no uigui ini file was found the application stopped with an exception.</li>
+                    <li>[fix] Bug ID <a href="issue/1553601" target="_blank">1553601</a> : If no uigui ini file was found the application stopped with an exception.</li>
                 </ul>		
                 
 				<h4>2006-08-11 Version 0.3.1 Beta</h4>
