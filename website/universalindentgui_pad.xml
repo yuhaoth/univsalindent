@@ -34,9 +34,9 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>UniversalIndentGUI</Program_Name>
-		<Program_Version>0.6.0</Program_Version>
+		<Program_Version>0.6.1 Beta</Program_Version>
 		<Program_Release_Month>06</Program_Release_Month>
-		<Program_Release_Day>04</Program_Release_Day>
+		<Program_Release_Day>13</Program_Release_Day>
 		<Program_Release_Year>2007</Program_Release_Year>
 		<Program_Cost_Dollars />
 		<Program_Cost_Other_Code>EUR</Program_Cost_Other_Code>
@@ -46,14 +46,14 @@
 		<Program_Install_Support>No Install Support</Program_Install_Support>
 		<Program_OS_Support>Win98,WinME,Windows2000,WinXP,Windows2003,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64,Unix,Linux,Linux Console,Linux Gnome,Linux GPL,Linux Open Source,Mac PPC,Mac OS 9,Mac OS X,Mac OS X 10.1,Mac OS X 10.2,Mac OS X 10.3,Mac OS X 10.4,Mac OS X 10.5,Mac Other,Handheld/Mobile Other,BEOS</Program_OS_Support>
 		<Program_Language>English,Chinese,ChineseTraditional,German,Japanese</Program_Language>
-		<Program_Change_Info>Added a settings dialog and other.</Program_Change_Info>
+		<Program_Change_Info>Added possibility to integrate into an IDE as external tool.</Program_Change_Info>
 		<Program_Specific_Category>Development Tools</Program_Specific_Category>
 		<Program_Category_Class>Development::Other</Program_Category_Class>
 		<Program_System_Requirements />
 		<File_Info>
-			<File_Size_Bytes>5991691</File_Size_Bytes>
-			<File_Size_K>5851</File_Size_K>
-			<File_Size_MB>5.71</File_Size_MB>
+			<File_Size_Bytes>5570391</File_Size_Bytes>
+			<File_Size_K>5439</File_Size_K>
+			<File_Size_MB>5.31</File_Size_MB>
 		</File_Info>
 		<Expire_Info>
 			<Has_Expire_Info>N</Has_Expire_Info>
@@ -84,8 +84,8 @@
 			<Application_XML_File_URL>http://universalindent.sourceforge.net/universalindentgui_pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.6.0_Beta_win32.zip</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.6.0_Beta_linux32.zip</Secondary_Download_URL>
+			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.6.1_Beta_win32.zip</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.6.1_Beta_linux32.zip</Secondary_Download_URL>
 			<Additional_Download_URL_1>http://sourceforge.net/project/showfiles.php?group_id=167482</Additional_Download_URL_1>
 			<Additional_Download_URL_2 />
 		</Download_URLs>
