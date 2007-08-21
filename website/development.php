@@ -71,10 +71,16 @@ include("htmlhead.html");
                 </p>
                 <span>Progress:</span>
                 <div id="progressframe">
-                    <div id="progress" class="p15">&nbsp;15%</div>
+                    <div id="progress" class="p20">&nbsp;20%</div>
                 </div>
                 <p>20.05.2007: Plans are progressing and some refactoring is already done. Concrete
                 the settings class, along with the coming settings dialog, is nearly finished.</p>
+                <p>13.06.2007: As part of the refactoring the settings class and dialog are
+                completly implemented.</p>
+                <p>21.08.2007: Here an architecture overview as FMC diagram<br>
+                <img src="images/fmc_overview.png" alt="Architecture FMC Overview" width="439"/><br>
+                Its just a rough impression and details about interfaces and so on have to be put
+                into a clean UML diagram. Will come soon.</p>
                 <br><br>
 
                 <h2>Using a diff view to show differences between indented-nonindented code</h2>
