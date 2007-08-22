@@ -27,6 +27,12 @@ include("htmlhead.html");
 				<br />
 				<h2>News</h2>
 				
+				<h3>2007-08-22 Development state updated</h3>
+				<p>Even the development has slown down, work is going on. The planning for refactoring
+                is continuing but diagrams have to be put into a clean form before they will be
+                published. I suggest that the next release will get out on the second september week.
+                So Stay tuned until then.</p>
+                
 				<h3>2007-06-13 UniversalIndentGUI Version 0.6.1 Beta released</h3>
 				<p>Some new features found its way into this release, that should be really useful.
                 So there is the possibitly to integrate UniversalIndentGUI into any IDE or editor
