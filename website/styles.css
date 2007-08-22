@@ -165,13 +165,13 @@ a.external
 
 /* Progress
 /*******************************/
-#progressframe
+.progressframe
 {
-    border: thin black solid;
+    border: 1px black solid;
     width: 100%;
 }
 
-#progress
+.progress
 {
     font-family: Tahoma,serif;
     font-weight: bold;
@@ -180,27 +180,27 @@ a.external
     color: white;
 }
 
-#progress.p0 { width: 0%; color: black; background-color: white; }
-#progress.p5 { width: 5%; background-color: rgb(240,16,0); }
-#progress.p10 { width: 10%; background-color: rgb(240,32,0); }
-#progress.p15 { width: 15%; background-color: rgb(240,48,0); }
-#progress.p20 { width: 20%; background-color: rgb(240,64,0); }
-#progress.p25 { width: 25%; background-color: rgb(240,80,0); }
-#progress.p30 { width: 30%; background-color: rgb(240,80,0); }
-#progress.p35 { width: 35%; background-color: rgb(240,96,0); }
-#progress.p40 { width: 40%; background-color: rgb(240,96,0); }
-#progress.p45 { width: 45%; background-color: rgb(240,112,0); }
-#progress.p50 { width: 50%; background-color: rgb(240,112,0); }
-#progress.p55 { width: 55%; background-color: rgb(224,128,0); }
-#progress.p60 { width: 60%; background-color: rgb(208,144,0); }
-#progress.p65 { width: 65%; background-color: rgb(192,160,0); }
-#progress.p70 { width: 70%; background-color: rgb(176,176,0); }
-#progress.p75 { width: 75%; background-color: rgb(176,176,0); }
-#progress.p80 { width: 80%; background-color: rgb(160,192,0); }
-#progress.p85 { width: 85%; background-color: rgb(160,192,0); }
-#progress.p90 { width: 90%; background-color: rgb(144,208,0); }
-#progress.p95 { width: 95%; background-color: rgb(144,208,0); }
-#progress.p100 { width: 100%; background-color: green; }
+.p0 { width: 0%; color: black; background-color: white; }
+.p5 { width: 5%; background-color: rgb(240,16,0); }
+.p10 { width: 10%; background-color: rgb(240,32,0); }
+.p15 { width: 15%; background-color: rgb(240,48,0); }
+.p20 { width: 20%; background-color: rgb(240,64,0); }
+.p25 { width: 25%; background-color: rgb(240,80,0); }
+.p30 { width: 30%; background-color: rgb(240,80,0); }
+.p35 { width: 35%; background-color: rgb(240,96,0); }
+.p40 { width: 40%; background-color: rgb(240,96,0); }
+.p45 { width: 45%; background-color: rgb(240,112,0); }
+.p50 { width: 50%; background-color: rgb(240,112,0); }
+.p55 { width: 55%; background-color: rgb(224,128,0); }
+.p60 { width: 60%; background-color: rgb(208,144,0); }
+.p65 { width: 65%; background-color: rgb(192,160,0); }
+.p70 { width: 70%; background-color: rgb(176,176,0); }
+.p75 { width: 75%; background-color: rgb(176,176,0); }
+.p80 { width: 80%; background-color: rgb(160,192,0); }
+.p85 { width: 85%; background-color: rgb(160,192,0); }
+.p90 { width: 90%; background-color: rgb(144,208,0); }
+.p95 { width: 95%; background-color: rgb(144,208,0); }
+.p100 { width: 100%; background-color: green; }
 
 /* Sidebar
 /*******************************/

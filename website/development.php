@@ -14,7 +14,7 @@ include("htmlhead.html");
 				
 				<ul>
 					<li><a href="index.php">Home</a></li>
-					<li><a style="padding: 15px 0px 6px 0px;" href="features.php">Features / <br>Changelog</a></li>
+					<li><a style="padding: 15px 0px 6px 0px;" href="features.php">Features / <br />Changelog</a></li>
 					<li><a href="screenshots.php">Screenshots</a></li>
 					<li id="current"><a href="development.php">Development</a></li>
 				</ul>
@@ -24,16 +24,15 @@ include("htmlhead.html");
 		<div id="main">
 
 			<div id="content">
-				<h1>
-                    Milestones and progress <br>
-                    <div style="font-size:0.5em;">(Progress bars not correctly displayed with IE)</div>
-                </h1>
+                <div style="font-family: Tahoma,serif; font-size: x-large; font-weight: bold;">Milestones and progress</div>
+                <div style="font-family: Tahoma,serif; font-size:1em; font-weight: bold;">(Progress bars not correctly displayed with IE &lt;7)</div>
+                
 				<p>
                     Plans for the further development of UniversalIndentGUI will be shown here.
                     Each milestone presents its approximate progress state. Since this is a free time
                     project, there will be no explicit dates for each milestones targeted ending. As common
                     for most software projects: its done when its done ;-)
-                </p><br>
+                </p><br />
 				
 				<h2>Using QScintilla for displaying source code</h2>
                 <p>
@@ -45,43 +44,44 @@ include("htmlhead.html");
                     <a class="external" href="http://www.scintilla.org/" target="_blank">Scintilla</a>
                     text edit. The Qt4 version of QScintilla I am using is a snapshot release and
                     also released under the GPL 2.
-                    <br>
-                    <h4>Features that will come with QScintilla</h4>
-                    <ul>
-                        <li>Syntax highlightning for many languages.</li>
-                        <li>Code folding.</li>
-                        <li>Auto completion</li>
-                        <li>...</li>
-                    </ul>
+                    <br />
                 </p>
+                <h4>Features that will come with QScintilla</h4>
+                <ul>
+                    <li>Syntax highlightning for many languages.</li>
+                    <li>Code folding.</li>
+                    <li>Auto completion</li>
+                    <li>...</li>
+                </ul>
+
                 <span>Progress:</span>
-                <div id="progressframe">
-                    <div id="progress" class="p100">&nbsp;100%</div>
+                <div id="progressframeQScintilla" class="progressframe">
+                    <div id="progressQScintilla" class="progress p100">&nbsp;100%</div>
                 </div>
                 <p>20.03.2007: The branch using QScintilla has been merged into the main trunk. This means, up from the
                 next release (version 0.5.1 Beta) QScintilla will allways be the editing component.</p>
-                <br><br>
+                <br /><br />
                 
                 <h2>Refactoring the archtitecture of UniversalIndentGUI</h2>
                 <p>
                     The composition of each UniversalIndentGUI component has to be reconsidered.
                     The current design has some inflexibilities, most concerning the expandability of
                     the ini file for the indenters parameters.
-                    <br>The new architecture will be shown here.
+                    <br />The new architecture will be shown here.
                 </p>
                 <span>Progress:</span>
-                <div id="progressframe">
-                    <div id="progress" class="p20">&nbsp;20%</div>
+                <div id="progressframeRefactoring" class="progressframe">
+                    <div id="progressRefactoring" class="progress p20">&nbsp;20%</div>
                 </div>
                 <p>20.05.2007: Plans are progressing and some refactoring is already done. Concrete
                 the settings class, along with the coming settings dialog, is nearly finished.</p>
                 <p>13.06.2007: As part of the refactoring the settings class and dialog are
                 completly implemented.</p>
-                <p>21.08.2007: Here an architecture overview as FMC diagram<br>
-                <img src="images/fmc_overview.png" alt="Architecture FMC Overview" width="439"/><br>
+                <p>21.08.2007: Here an architecture overview as FMC diagram<br />
+                <img src="images/fmc_overview.png" alt="Architecture FMC Overview" width="439"/><br />
                 Its just a rough impression and details about interfaces and so on have to be put
                 into a clean UML diagram. Will come soon.</p>
-                <br><br>
+                <br /><br />
 
                 <h2>Using a diff view to show differences between indented-nonindented code</h2>
                 <p>
@@ -90,10 +90,10 @@ include("htmlhead.html");
                     the changes somehow highlighted could help.
                 </p>
                 <span>Progress:</span>
-                <div id="progressframe">
-                    <div id="progress" class="p0">&nbsp;0%</div>
+                <div id="progressframeDiff" class="progressframe">
+                    <div id="progressDiff" class="progress p0">&nbsp;0%</div>
                 </div>
-                <br><br>
+                <br /><br />
 
                 <h2>A userinterface for creating and editing ini files</h2>
                 <p>
@@ -103,8 +103,8 @@ include("htmlhead.html");
                     (a gui inside of a gui ;-) ).
                 </p>
                 <span>Progress:</span>
-                <div id="progressframe">
-                    <div id="progress" class="p0">&nbsp;0%</div>
+                <div id="progressframeIniGui" class="progressframe">
+                    <div id="progressIniGui" class="progress p0">&nbsp;0%</div>
                 </div>
                 
 

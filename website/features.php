@@ -14,7 +14,7 @@ include("htmlhead.html");
 				
 				<ul>
 					<li><a href="index.php">Home</a></li>
-					<li id="current"><a style="padding: 18px 0px 35px 0px;" href="features.php">Features / <br>Changelog</a></li>
+					<li id="current"><a style="padding: 18px 0px 35px 0px;" href="features.php">Features / <br />Changelog</a></li>
 					<li><a href="screenshots.php">Screenshots</a></li>
 					<li><a href="development.php">Development</a></li>
 				</ul>
@@ -26,26 +26,45 @@ include("htmlhead.html");
 			<div id="content">
 				<h2>Features</h2>
 				<ul>
-					<li>Configurable ini file, open for many indenters. Not yet known indenters can be added by creating a new ini file for them</li>
-					<li>Supported and included indenters right now are: <br>
-                    <a class="external" href="http://astyle.sourceforge.net/" target="_blank">Artistic Styler</a>, 
-                    <a class="external" href="http://invisible-island.net/bcpp/" target="_blank">BCPP</a>, 
-                    <a class="external" href="http://csstidy.sourceforge.net/" target="_blank">CSSTidy</a>, 
-                    <a class="external" href="http://www.gnu.org/software/indent/" target="_blank">GNU Indent</a>, 
-                    <a class="external" href="http://sourceforge.net/projects/gcgreatcode" target="_blank">GreatCode</a>, 
-                    <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/" target="_blank">phpCB</a> (executable not included) and 
-                    <a class="external" href="http://uncrustify.sourceforge.net/" target="_blank">Uncrustify</a>
+                    <li>Live preview. Directly see how the code is affected by a indenter parameter</li>
+					<li>Configurable ini file, open for many indenters. Not yet known indenters can be added by creating
+                        a new ini file for them</li>
+					<li>Supported and included indenters right now are: <br />
+                        <a class="external" href="http://astyle.sourceforge.net/" target="_blank">Artistic Styler</a>,
+                        <a class="external" href="http://invisible-island.net/bcpp/" target="_blank">BCPP</a>,
+                        <a class="external" href="http://csstidy.sourceforge.net/" target="_blank">CSSTidy</a>,
+                        <a class="external" href="http://www.gnu.org/software/indent/" target="_blank">GNU Indent</a>,
+                        <a class="external" href="http://sourceforge.net/projects/gcgreatcode" target="_blank">GreatCode</a>,
+                        <a class="external" href="http://tidy.sourceforge.net/" target="_blank">HTML Tidy</a>,
+                        <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/" target="_blank">phpCB</a> (executable not included) and
+                        <a class="external" href="http://uncrustify.sourceforge.net/" target="_blank">Uncrustify</a>
                     </li>
-					<li>Live preview. Directly see how the code is affected by a indenter parameter</li>
+                    <li>By integration of these indenters the following programming languages are supported : C, C++, C#,
+                        JAVA, D, CSS, HTML, PHP, Javascript and Pawn</li>
+                    <li>Syntax highlighting for all above languages, except for Pawn, and many other languages</li>
+                    <li>Integration as external tool into any IDE or editor supporting external tool calls</li>
 					<li>Load the settings of an indenter from its existing config file</li>
 					<li>Save parameters as indeters config file for later use</li>
-					<li>ToolTip help for each indenter parameter</li>
-					<li>Multiple language support. Currently english, german and taiwan/chinese (Thanks to Nelson Tai)</li>
-					<li>Source code syntax highlightning for bash, batch, cpp, csharp, css, d, diff, html, idl, java, javascript, lua, makefile, perl, pov, ini, python, ruby, sql and tex.</li>
+					<li>ToolTips for each indenter parameter to know what it does</li>
+					<li>Multiple language support. Currently english, german, taiwan/chinese (thanks to Nelson Tai)
+                        and partly japanese (thanks to Nirvash)</li>
 				</ul>
 				
-				<br>
+				<br />
 				<h2>Changelog</h2>
+				
+				<h4>2007-06-13 Version 0.6.1 Beta</h4>
+				<ul>
+                    <li>[add] Feature Request ID <a href="issue/1729433" target="_blank">1729433</a> : Added a recently opened file menu.</li>
+                    <li>[add] Feature Request ID <a href="issue/1704290" target="_blank">1704290</a> : Added possibiltiy to integrate into an IDE, editor or other as external tool. This is donw by creating a batch/shell script which accepts a file as parameter and calls the indenter with the in UniversalIndentGUI made settings.</li>
+                    <li>[add] Feature Request ID <a href="issue/1673659" target="_blank">1673659</a> : The string parameter in the uigui ini files for each indenter can now also be a list of strings divided by "|" sign. As result the parameter name with value will be written to the indenter config file for each of the values.</li>
+                    <li>[add] Feature Request ID <a href="issue/1730180" target="_blank">1730180</a> : UniversalIndentGUI can automatically check on start, whether a new version is available. This setting is disabled by default and can be enabled in the settings.</li>
+                    <li>[add] Added support for HTML Tidy. The executable is contained in the release package.</li>
+                    <li>[add] Feature Request ID <a href="issue/1736432" target="_blank">1736432</a> : The width of the dock widget containing  the indenter parameters is now restored on program start.</li>
+                    <li>[change] The about dialog shows now a credits scroller to say thanks to all people, who have helped me somehow.</li>
+                    <li>[fix] Bug ID <a href="issue/1733499" target="_blank">1733499</a> : UniversalIndentGui crashed if inside of an indenter ini file the category number of one parameter was higher than the available categories.</li>
+                    <li>[fix] Bug ID <a href="issue/1735586" target="_blank">1735586</a> : Some dialogs had untranslated buttons. For example yes, no, cancel were not translated.</li>
+                </ul>
                 
                 <h4>2007-06-03 Version 0.6.0 Beta</h4>
 				<ul>
