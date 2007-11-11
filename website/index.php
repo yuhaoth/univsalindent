@@ -27,7 +27,7 @@ include("htmlhead.html");
 				<br />
 				<h2>News</h2>
                 
-                <h3>2007-11-07 UniversalIndentGUI Version 0.7.0 Beta released</h3>
+                <h3>2007-11-11 UniversalIndentGUI Version 0.7.0 Beta released</h3>
 				<p>Here comes a new version! Rather delayed but at least it is there. The time I have left
                 to develop on UniversalIndentGUI is very small, so may be the releases will not come out too
                 often. But the update functionality of UiGUI will inform you, if a new version is available.

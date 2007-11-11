@@ -53,14 +53,15 @@ include("htmlhead.html");
 				<br />
 				<h2>Changelog</h2>
                 
-                <h4>2007-11-07 Version 0.7.0 Beta</h4>
+                <h4>2007-11-11 Version 0.7.0 Beta</h4>
 				<ul>
                     <li>[add] Feature Request ID <a href="issue/1826733" target="_blank">1826733</a> : If the called indenter returns an error message, you can chose to not show the same error again. Helpful for HTMLtidy since it often shows a long, repeating error list.</li>
                     <li>[add] Feature Request ID <a href="issue/1805974" target="_blank">1805974</a> : Added an option to clear the list of recently opened files.</li>
                     <li>[add] Feature Request ID <a href="issue/1760997" target="_blank">1760997</a> : Added some code lines to example.cpp to test whether an indenter correctly handles preprocessor defines.</li>
                     <li>[add] Feature Request ID <a href="issue/1752551" target="_blank">1752551</a> : If the user manually checks for updates a progress/busy dialog will be shown.</li>
                     <li>[add] Feature Request ID <a href="issue/1736932" target="_blank">1736932</a> : The user gets shown a dialog if he has manually checked for an update and no new one is available.</li>
-                    <li>[change] The update check is no enabled by default.
+                    <li>[change] The update check is no enabled by default.</li>
+                    <li>[change] Slighty changes made to the settings dialog; put texts in front of the changed value.</li>
                     <li>[fix] Bug ID <a href="issue/1807179" target="_blank">1807179</a> : GNU Indent didn't work properly on Windows system, after the dlls libiconv-2.dll and libintl-2.dll were removed. Readded them.</li>
                     <li>[fix] Bug ID <a href="issue/1805976" target="_blank">1805976</a> : The HTML export didn't produce any output. Fixed that, but still has not syntax formatting.</li>
                     <li>[fix] Bug ID <a href="issue/1815023" target="_blank">1815023</a> : Mixed traditional with simplified chinese translation. Now preferring to use english text instead of mixing if no traditional translation is available.</li>
