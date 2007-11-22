@@ -27,6 +27,13 @@ include("htmlhead.html");
 				<br />
 				<h2>News</h2>
                 
+                <h3>2007-11-22 <img src="images/apfel.png" align="middle" alt="Apple Logo"/> UniversalIndentGUI Version 0.7.1 Beta with MacOSX binary released</h3>
+				<p>There are two big news coming with this version. First is that a MacOSX universal binary
+                package is now available for download. It's been short tested on Leopard so more feedback
+                is welcome.<br />
+                At second a long needed update to the latest version of Uncrustify and Artistic Styler
+                has been done. Enjoy your new good looking code.</p>
+                
                 <h3>2007-11-11 UniversalIndentGUI Version 0.7.0 Beta released</h3>
 				<p>Here comes a new version! Rather delayed but at least it is there. The time I have left
                 to develop on UniversalIndentGUI is very small, so may be the releases will not come out too

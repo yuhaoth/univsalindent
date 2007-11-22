@@ -52,6 +52,13 @@ include("htmlhead.html");
 				
 				<br />
 				<h2>Changelog</h2>
+
+                <h4>2007-11-22 Version 0.7.1 Beta</h4>
+				<ul>
+                    <li>[add] Feature Request ID <a href="issue/1833814" target="_blank">1833814</a> : Added support for building on MacOSX. Also 10.5 Leopard. Currently contains only Artistic Styler and Uncrustify.</li>
+                    <li>[change] Feature Request ID <a href="issue/1836486" target="_blank">1836486</a> : Added an option to clear the list of recently opened files.</li>
+                    <li>[change] Update to latest version of Artistic Styler.</li>
+                </ul>
                 
                 <h4>2007-11-11 Version 0.7.0 Beta</h4>
 				<ul>
