@@ -34,9 +34,9 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>UniversalIndentGUI</Program_Name>
-		<Program_Version>0.7.0 Beta</Program_Version>
+		<Program_Version>0.7.1 Beta</Program_Version>
 		<Program_Release_Month>11</Program_Release_Month>
-		<Program_Release_Day>11</Program_Release_Day>
+		<Program_Release_Day>22</Program_Release_Day>
 		<Program_Release_Year>2007</Program_Release_Year>
 		<Program_Cost_Dollars />
 		<Program_Cost_Other_Code>EUR</Program_Cost_Other_Code>
@@ -46,7 +46,7 @@
 		<Program_Install_Support>No Install Support</Program_Install_Support>
 		<Program_OS_Support>Win95,Win98,WinME,Windows2000,WinXP,Windows2003,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64,Unix,Linux,Linux Console,Linux Gnome,Linux GPL,Linux Open Source,Mac PPC,Mac OS 9,Mac OS X,Mac OS X 10.1,Mac OS X 10.2,Mac OS X 10.3,Mac OS X 10.4,Mac OS X 10.5,Mac Other</Program_OS_Support>
 		<Program_Language>English,Chinese,ChineseTraditional,German,Japanese</Program_Language>
-		<Program_Change_Info>See changelog.txt</Program_Change_Info>
+		<Program_Change_Info>MacOSX universal binary added</Program_Change_Info>
 		<Program_Specific_Category>Development Tools</Program_Specific_Category>
 		<Program_Category_Class>Development::Other</Program_Category_Class>
 		<Program_System_Requirements />
@@ -84,8 +84,8 @@
 			<Application_XML_File_URL>http://universalindent.sourceforge.net/universalindentgui_pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.7.0_Beta_win32.zip</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.7.0_Beta_linux32.zip</Secondary_Download_URL>
+			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.7.1_Beta_win32.zip</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.7.1_Beta_mac.tgz</Secondary_Download_URL>
 			<Additional_Download_URL_1>http://sourceforge.net/project/showfiles.php?group_id=167482</Additional_Download_URL_1>
 			<Additional_Download_URL_2 />
 		</Download_URLs>
