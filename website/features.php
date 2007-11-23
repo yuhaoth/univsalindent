@@ -36,12 +36,12 @@ include("htmlhead.html");
                         <a class="external" href="http://www.gnu.org/software/indent/" target="_blank">GNU Indent</a>,
                         <a class="external" href="http://sourceforge.net/projects/gcgreatcode" target="_blank">GreatCode</a>,
                         <a class="external" href="http://tidy.sourceforge.net/" target="_blank">HTML Tidy</a>,
-                        <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/" target="_blank">phpCB</a> (executable not included) and
+                        <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/" target="_blank">phpCB</a> (executable not included in UiGUI) and
                         <a class="external" href="http://uncrustify.sourceforge.net/" target="_blank">Uncrustify</a>
                     </li>
                     <li>By integration of these indenters the following programming languages are supported : C, C++, C#,
                         JAVA, D, CSS, HTML, PHP, Javascript and Pawn</li>
-                    <li>Syntax highlighting for all above languages, except for Pawn, and many other languages</li>
+                    <li>Syntax highlighting for all above languages (except for Pawn) and many other languages</li>
                     <li>Integration as external tool into any IDE or editor supporting external tool calls</li>
 					<li>Load the settings of an indenter from its existing config file</li>
 					<li>Save parameters as indeters config file for later use</li>
