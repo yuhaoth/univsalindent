@@ -32,7 +32,7 @@ include("htmlhead.html");
                 package is now available for download. It's been short tested on Leopard so more feedback
                 is welcome.<br />
                 At second a long needed update to the latest version of Uncrustify and Artistic Styler
-                has been done. Enjoy your new good looking code.</p>
+                has been done. Enjoy your well looking code.</p>
                 
                 <h3>2007-11-11 UniversalIndentGUI Version 0.7.0 Beta released</h3>
 				<p>Here comes a new version! Rather delayed but at least it is there. The time I have left
