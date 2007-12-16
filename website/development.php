@@ -62,7 +62,7 @@ include("htmlhead.html");
                 next release (version 0.5.1 Beta) QScintilla will allways be the editing component.</p>
                 <br /><br />
                 
-                <h2>Refactoring the archtitecture of UniversalIndentGUI</h2>
+                <h2>Refactoring the architecture of UniversalIndentGUI</h2>
                 <p>
                     The composition of each UniversalIndentGUI component has to be reconsidered.
                     The current design has some inflexibilities, most concerning the expandability of
