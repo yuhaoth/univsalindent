@@ -27,6 +27,17 @@ include("htmlhead.html");
 				<br />
 				<h2>News</h2>
                 
+                <h3>2008-01-16 UniversalIndentGUI Version 0.8.0 Beta released</h3>
+				<p>The new version comes with support for three more indenters, that are 
+                <a class="external" href="http://code.gosu.pl/" target="_blank">JsDecoder</a>, 
+                <a class="external" href="http://perltidy.sourceforge.net/" target="_blank">PerlTidy</a> and 
+                <a class="external" href="http://www.bolthole.com/AWK.html/" target="_blank">ShellIndent</a>.
+                Along with support for JsDecoder comes an interface to be able to write any indenter in JavaScript
+                code and use it with UiGUI, which calls it with its internal interpreter.<br />
+                Another important new thing is that UiGUI now makes correct use of the predefined directories of
+                multi user operating systems, where user settings are stored in the users home dir. Also UiGUI
+                can run in a portable mode, where changes are only written to the local media, like an USB drive.</p>
+                
                 <h3>2007-11-22 <img src="images/apfel.png" align="middle" alt="Apple Logo"/> UniversalIndentGUI Version 0.7.1 Beta with MacOSX binary released</h3>
 				<p>There are two big news coming with this version. First is that a MacOSX universal binary
                 package is now available for download. It's been short tested on Leopard so more feedback

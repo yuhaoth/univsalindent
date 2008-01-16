@@ -34,13 +34,16 @@ include("htmlhead.html");
                         <a class="external" href="http://invisible-island.net/bcpp/" target="_blank">BCPP</a>,
                         <a class="external" href="http://csstidy.sourceforge.net/" target="_blank">CSSTidy</a>,
                         <a class="external" href="http://www.gnu.org/software/indent/" target="_blank">GNU Indent</a>,
-                        <a class="external" href="http://sourceforge.net/projects/gcgreatcode" target="_blank">GreatCode</a>,
-                        <a class="external" href="http://tidy.sourceforge.net/" target="_blank">HTML Tidy</a>,
+                        <a class="external" href="http://sourceforge.net/projects/gcgreatcode/" target="_blank">GreatCode</a>,
+                        <a class="external" href="http://code.gosu.pl/" target="_blank">JsDecoder</a>,
+                        <a class="external" href="http://perltidy.sourceforge.net/" target="_blank">PerlTidy</a>,
                         <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/" target="_blank">phpCB</a> (executable not included in UiGUI) and
+                        <a class="external" href="http://www.bolthole.com/AWK.html/" target="_blank">ShellIndent</a>,
+                        <a class="external" href="http://tidy.sourceforge.net/" target="_blank">(HTML) Tidy</a>,
                         <a class="external" href="http://uncrustify.sourceforge.net/" target="_blank">Uncrustify</a>
                     </li>
-                    <li>By integration of these indenters the following programming languages are supported : C, C++, C#,
-                        JAVA, D, CSS, HTML, PHP, Javascript and Pawn</li>
+                    <li>By integration of these indenters the following programming languages are supported : C, C++, C#, CSS,
+                        D, HTML, JAVA, Javascript, ObjectiveC, Pawn, Perl, PHP, Shellscript and VALA</li>
                     <li>Syntax highlighting for all above languages (except for Pawn) and many other languages</li>
                     <li>Integration as external tool into any IDE or editor supporting external tool calls</li>
 					<li>Load the settings of an indenter from its existing config file</li>
@@ -52,6 +55,29 @@ include("htmlhead.html");
 				
 				<br />
 				<h2>Changelog</h2>
+				
+				<h4>2008-01-16 Version 0.8.0 Beta</h4>
+				<ul>
+                    <li>[add] Feature Request ID <a href="issue/1849297" target="_blank">1849297</a> : Added support for indenters written in JavaScript using an internal interpreter. Have a look into the README.txt to get to know, what steps are needed for that.</li>
+					<li>[add] Added support for a simple JavaScript indenter written in JavaScript itself.</li>
+					<li>[add] Added support for a simple shell code indenter written in awk.</li>
+                    <li>[add] Feature Request ID <a href="issue/1736946" target="_blank">1736946</a> : It is now possible to run any indenter that is available in the global environment via a path entry.</li>
+                    <li>[add] Feature Request ID <a href="issue/1852483" target="_blank">1852483</a> : Indenters written in script languages, like perl, are now also supported, if they have a correct shebang.</li>
+					<li>[add] Added support for the well known perltidy. The uigui ini file is completed up to the category and including "Line Break Control". Rest needs to be done.</li>
+                    <li>[add] Feature Request ID <a href="issue/1866599" target="_blank">1866599</a> : Adapted the used paths for settings, temporary files and the one containing indenter ini files to be conform with systems that use strict user rights management. Most this concerns Linux, where the binary resides inside a bin dir and user specific settings are stored in his home dir. Short: now supporting multiuser systems and also have a portable mode, where modifications are only on local media.</li>
+                    <li>[add] Feature Request ID <a href="issue/1730360" target="_blank">1730360</a> : Along with real support for multiuser systems, each user can have his own indenter settings. These won't be overwritten by an update, what was the case before.</li>
+					<li>[add] Feature Request ID <a href="issue/1867628" target="_blank">1867628</a> : Added a button to the toolbar near the indenter selection that opens the indenters online manual.</li>
+					<li>[add] Feature Request ID <a href="issue/1867660" target="_blank">1867660</a> : Created a simple man page for unix based systems.</li>
+					<li>[add] The by the qmake projekt file resulting makefile has a directive for install on unix based systems now.</li>
+					<li>[add] Added example files for most supported programming languages, so each indenter can be tested.</li>
+                    <li>[change] The source code archive is now in a Unix conform format and naming convention.</li>
+                    <li>[change] The used paths have changed. The "data" directory has been renamed to indenters and includes only the uigui ini files and maybe some indenter binaries. Futher a config and a temp directory are used.</li>
+					<li>[change] In case of an error during calling the indenter, its standard output is appended to the error dialog.</li>
+					<li>[change] Corrected some misspelling.</li>
+					<li>[change] Renamed htmltidy to tidy because that is its official name and also the name of the binary in all Linux packages.</li>
+                    <li>[fix] Bug ID <a href="issue/1855460" target="_blank">1855460</a> : The parameter settings of the indenter were only saved, if preview is turned on. Now the settings are always remembered.</li>
+                    <li>[fix] Bug ID <a href="issue/1854156" target="_blank">1854156</a> : The syntax highlighter did not switch to perl if a file with suffix .pl or .pm was loaded.</li>
+                </ul>
 
                 <h4>2007-11-22 Version 0.7.1 Beta</h4>
 				<ul>
