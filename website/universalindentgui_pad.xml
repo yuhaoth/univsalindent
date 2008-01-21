@@ -67,12 +67,12 @@
 	</Program_Info>
 	<Program_Descriptions>
 		<English>
-			<Keywords>UniversalIndentGUI, universal gui, universal indent gui, gui, indent, indent gui, indenter, beautify, beautifier, format, formatter, prettify, prettifier, pretty print, prettyprinter, code beautifier, Astyle, Artistic Styler, BCPP, cssTidy, html tidy, Tidy, GNU Indent, GreatCode, JsDecoder, perltidy, phpCB, uncrustify</Keywords>
+			<Keywords>UniversalIndentGUI, universal gui, universal indent gui, gui, indent, indent gui, indenter, beautify, beautifier, format, formatter, prettify, prettifier, pretty print, prettyprinter, code beautifier, Astyle, Artistic Style, BCPP, cssTidy, html tidy, Tidy, GNU Indent, GreatCode, JsDecoder, perltidy, phpCB, uncrustify</Keywords>
 			<Char_Desc_45>Universal graphical ui for indenters</Char_Desc_45>
 			<Char_Desc_80>UniversalIndentGUI is a graphical ui (gui) for multiple source code indenters.</Char_Desc_80>
-			<Char_Desc_250>UniversalIndentGUI is a cross platform compatible graphical ui (gui) for several code formatter, beautifier and indenter like GreatCode, AStyle (Artistic Styler), GNU Indent, BCPP and so on. (Latest news on http://universalindent.sourceforge.net)</Char_Desc_250>
-			<Char_Desc_450>UniversalIndentGUI is a cross platform compatible GUI for several code formatter, beautifier and indenter like GreatCode, AStyle (Artistic Styler), GNU Indent, BCPP and so on. Main feature is a live preview to directly see how the selected formatting option affects the source code. (Latest version, news and complete changelog on http://universalindent.sourceforge.net)</Char_Desc_450>
-			<Char_Desc_2000>UniversalIndentGUI is a cross platform compatible GUI for several code formatter, beautifier and indenter like GreatCode, AStyle (Artistic Styler), GNU Indent, BCPP and so on. Main feature is a live preview to directly see how the selected formatting option affects the source code. (Latest version, news and complete changelog on http://universalindent.sourceforge.net)</Char_Desc_2000>
+			<Char_Desc_250>UniversalIndentGUI is a cross platform compatible graphical ui (gui) for several code formatters, beautifiers and indenters like GreatCode, AStyle (Artistic Style), GNU Indent, BCPP and so on. (Latest news on http://universalindent.sourceforge.net)</Char_Desc_250>
+			<Char_Desc_450>UniversalIndentGUI is a cross platform compatible GUI for several code formatters, beautifiers and indenters, e.g. GreatCode, AStyle (Artistic Style), GNU Indent, BCPP and others. Its main feature is a live preview to directly see how the selected formatting options affect the source code. (Latest version, news and complete changelog on http://universalindent.sourceforge.net)</Char_Desc_450>
+			<Char_Desc_2000>UniversalIndentGUI is a cross platform compatible GUI for several code formatters, beautifiers and indenters, e.g. GreatCode, AStyle (Artistic Style), GNU Indent, BCPP and others. Its main feature is a live preview to directly see how the selected formatting options affect the source code. (Latest version, news and complete changelog on http://universalindent.sourceforge.net)</Char_Desc_2000>
 		</English>
 	</Program_Descriptions>
 	<Web_Info>

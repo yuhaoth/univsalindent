@@ -21,9 +21,9 @@ include("htmlhead.html");
 		<div id="main">
 			<div id="content">
 				<h1>UniversalIndentGUI</h1>
-				<p>... is a cross platform compatible GUI for several code formatter, beautifier and indenter
-                   like GreatCode, AStyle (Artistic Styler), GNU Indent, BCPP and so on. Main feature is a live 
-                   preview to directly see how the selected formatting option affects the source code.</p>
+				<p>... is a cross platform compatible GUI for several code formatters, beautifiers and indenters, e.g. 
+                GreatCode, AStyle (Artistic Style), GNU Indent, BCPP and others. Its main feature is a live preview to 
+                directly see how the selected formatting options affect the source code.</p>
 				<br />
 				<h2>News</h2>
                 
