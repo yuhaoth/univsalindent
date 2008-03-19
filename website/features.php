@@ -38,7 +38,7 @@ include("htmlhead.html");
                         <a class="external" href="http://code.gosu.pl/" target="_blank">JsDecoder</a>,
                         <a class="external" href="http://perltidy.sourceforge.net/" target="_blank">PerlTidy</a>,
                         <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/" target="_blank">phpCB</a> (executable not included in UiGUI),
-                        <a class="external" href="http://www.bolthole.com/AWK.html/" target="_blank">ShellIndent</a>,
+                        <a class="external" href="http://www.bolthole.com/AWK.html" target="_blank">ShellIndent</a>,
                         <a class="external" href="http://tidy.sourceforge.net/" target="_blank">(HTML) Tidy</a> and
                         <a class="external" href="http://uncrustify.sourceforge.net/" target="_blank">Uncrustify</a>
                     </li>
