@@ -55,7 +55,17 @@ include("htmlhead.html");
 				
 				<br />
 				<h2>Changelog</h2>
-				
+
+                <h4>2008-03-27 Version 0.8.1</h4>
+				<ul>
+                    <li>[add] Feature Request ID 1909450 <a href="issue/1909450" target="_blank">1909450</a> : Added support for the PEAR PHP beautifier. Thus PHP beautifying is also possible on Linux and Mac OS X. (Needs the PEAR package "PHP_Beautifier" to be installed and a path entry pointing to the PHP dir.)</li>
+                    <li>[add] Added support and translations for Russian and Ukrainian language. Thanks to <a class="external" href="http://korytskyy.lviv.ua" target="_blank">Oleksandr</a>.</li>
+                    <li>[add] Feature Request ID 1901935 <a href="issue/1901935" target="_blank">1901935</a> : From now on files are saved with the same encoding as they were opened and no longer always UTF-8. Also it is possible to save the file with any other encoding.</li>
+                    <li>[change] The detection whether to run in portable mode now depends on where the "config" folder resides and no longer the "indenters" folder. This is needed to be able to correctly run on Windows multiuser systems.</li>
+                    <li>[change] Removed the word "beta" whereever it occurred, since UiGUI isn't that beta anymore.</li>
+                    <li>[fix] Bug ID 1910773 <a href="issue/1910773" target="_blank">1910773</a> : On Unix systems the globally available files, like indenters, translations etc are not longer installed to /etc/universalindentgui but to /usr/share/universalindentgui.</li>
+                </ul>
+                
 				<h4>2008-01-16 Version 0.8.0 Beta</h4>
 				<ul>
                     <li>[add] Feature Request ID <a href="issue/1849297" target="_blank">1849297</a> : Added support for indenters written in JavaScript using an internal interpreter. Have a look into the README.txt to get to know, what steps are needed for that.</li>

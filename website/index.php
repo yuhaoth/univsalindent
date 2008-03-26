@@ -27,11 +27,20 @@ include("htmlhead.html");
 				<br />
 				<h2>News</h2>
                 
+                <h3>2008-03-27 UniversalIndentGUI Version 0.8.1 released</h3>
+				<p>A new version, a new supported indenter, that is 
+                <a class="external" href="http://pear.php.net/package/PHP_Beautifier" target="_blank">PHP_Beautifier</a><br />
+                Also Russian and Ukrainian language support has been added. Thanks to 
+                <a class="external" href="http://korytskyy.lviv.ua" target="_blank">Oleksandr</a>.<br />
+                And files are no longer saved with UTF-8 encoding by default, but with the same encoding as
+                they were opened. In addition you can now "save as" with any encoding.
+                </p>
+                
                 <h3>2008-01-16 UniversalIndentGUI Version 0.8.0 Beta released</h3>
 				<p>The new version comes with support for three more indenters, that are 
                 <a class="external" href="http://code.gosu.pl/" target="_blank">JsDecoder</a>, 
                 <a class="external" href="http://perltidy.sourceforge.net/" target="_blank">PerlTidy</a> and 
-                <a class="external" href="http://www.bolthole.com/AWK.html/" target="_blank">ShellIndent</a>.
+                <a class="external" href="http://www.bolthole.com/AWK.html" target="_blank">ShellIndent</a>.
                 Along with support for JsDecoder comes an interface to be able to write any indenter in JavaScript
                 code and use it with UiGUI, which calls it with its internal interpreter.<br />
                 Another important new thing is that UiGUI now makes correct use of the predefined directories of
