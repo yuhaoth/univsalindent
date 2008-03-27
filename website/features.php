@@ -49,7 +49,8 @@ include("htmlhead.html");
 					<li>Load the settings of an indenter from its existing config file</li>
 					<li>Save parameters as indeters config file for later use</li>
 					<li>ToolTips for each indenter parameter to know what it does</li>
-					<li>Multiple language support. Currently english, german, taiwan/chinese (thanks to Nelson Tai)
+					<li>Multiple language support. Currently english, german, taiwan/chinese (thanks to Nelson Tai),
+					    ukrainian and russian (thanks to <a class="external" href="http://korytskyy.lviv.ua" target="_blank">Oleksandr</a>)
                         and partly japanese (thanks to Nirvash)</li>
 				</ul>
 				

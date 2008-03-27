@@ -33,7 +33,9 @@ include("htmlhead.html");
                 Also Russian and Ukrainian language support has been added. Thanks to 
                 <a class="external" href="http://korytskyy.lviv.ua" target="_blank">Oleksandr</a>.<br />
                 And files are no longer saved with UTF-8 encoding by default, but with the same encoding as
-                they were opened. In addition you can now "save as" with any encoding.
+                they were opened. In addition you can now "save as" with any encoding.<br />
+                Many thanks go out to <a class="external" href="http://hartwork.org/" target="_blank">Sebastian Pipping</a>
+                who created and mantains the Debian package of UiGUI. THANK YOU GUY!
                 </p>
                 
                 <h3>2008-01-16 UniversalIndentGUI Version 0.8.0 Beta released</h3>
