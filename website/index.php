@@ -26,6 +26,18 @@ include("htmlhead.html");
                 directly see how the selected formatting options affect the source code.</p>
 				<br />
 				<h2>News</h2>
+				
+				<h3>2008-05-26 UniversalIndentGUI Version 0.8.2 released</h3>
+				<p>As so often a new release and some new supported indenters. These are 
+				<a class="external" href="http://packages.debian.org/de/lenny/hindent" target="_blank">hindent</a>, 
+				<a class="external" href="http://www.digital-mines.com/htb/" target="_blank">HTB</a> and 
+				<a class="external" href="http://sourceforge.net/projects/phpstylist/" target="_blank">phpstylist</a>. 
+				Also perltidy is now supported completely.<br />
+				The created shell scripts were improved to handle complete directories. Via commandline a startup 
+				file can be set and Drag'n Drop has been implemented.<br />
+				For those of you who do not know which indenter to choose for what programming language, 
+				the supported programming language is displayed behind each available indenter in the list.
+				Hope you enjoy the new version and it was worth to wait about two month for it!</p>
                 
                 <h3>2008-03-27 UniversalIndentGUI Version 0.8.1 released</h3>
 				<p>A new version, a new supported indenter, that is 

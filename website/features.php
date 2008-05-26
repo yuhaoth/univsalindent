@@ -33,20 +33,24 @@ include("htmlhead.html");
                         <a class="external" href="http://astyle.sourceforge.net/" target="_blank">Artistic Styler</a>,
                         <a class="external" href="http://invisible-island.net/bcpp/" target="_blank">BCPP</a>,
                         <a class="external" href="http://csstidy.sourceforge.net/" target="_blank">CSSTidy</a>,
+						<a class="external" href="http://packages.debian.org/de/lenny/hindent" target="_blank">hindent</a>,
+						<a class="external" href="http://www.digital-mines.com/htb/" target="_blank">HTB</a>,
                         <a class="external" href="http://www.gnu.org/software/indent/" target="_blank">GNU Indent</a>,
                         <a class="external" href="http://sourceforge.net/projects/gcgreatcode/" target="_blank">GreatCode</a>,
                         <a class="external" href="http://code.gosu.pl/" target="_blank">JsDecoder</a>,
                         <a class="external" href="http://perltidy.sourceforge.net/" target="_blank">PerlTidy</a>,
                         <a class="external" href="http://pear.php.net/package/PHP_Beautifier" target="_blank">PHP_Beautifier</a>,
                         <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/" target="_blank">phpCB</a> (executable not included in UiGUI),
+						<a class="external" href="http://sourceforge.net/projects/phpstylist/" target="_blank">phpstylist</a>,
                         <a class="external" href="http://www.bolthole.com/AWK.html" target="_blank">ShellIndent</a>,
                         <a class="external" href="http://tidy.sourceforge.net/" target="_blank">(HTML) Tidy</a> and
                         <a class="external" href="http://uncrustify.sourceforge.net/" target="_blank">Uncrustify</a>
                     </li>
                     <li>By integration of these indenters the following programming languages are supported : C, C++, C#, CSS,
-                        D, HTML, JAVA, Javascript, ObjectiveC, Pawn, Perl, PHP, Shellscript and VALA</li>
+                        D, HTML, JAVA, Javascript, ObjectiveC, Pawn, Perl, PHP, Shellscript, VALA, XML and XSL</li>
                     <li>Syntax highlighting for all above languages (except for Pawn) and many other languages</li>
                     <li>Integration as external tool into any IDE or editor supporting external tool calls</li>
+					<li>Generation of shell scripts for each indenter with possibility to format whole directories</li>
 					<li>Load the settings of an indenter from its existing config file</li>
 					<li>Save parameters as indeters config file for later use</li>
 					<li>ToolTips for each indenter parameter to know what it does</li>
@@ -57,7 +61,25 @@ include("htmlhead.html");
 				
 				<br />
 				<h2>Changelog</h2>
+				
+                <h4>2008-05-26 Version 0.8.2</h4>
+				<ul>
+					<li>[add] Feature Request ID <a href="issue/1971206" target="_blank">1971206</a> : Now showing by the indenter supported programming languages next to indenter name.</li>
+					<li>[add] Feature Request ID <a href="issue/1971181" target="_blank">1971181</a> : Added support for the HTML indenter HTB.</li>
+					<li>[add] Feature Request ID <a href="issue/1867562" target="_blank">1867562</a> : Added support for the HTML indenter hindent.</li>
+					<li>[add] Added support for the php indenter phpStylist version 1.0.</li>
+					<li>[add] Added the possibility to directly setting php files as indenter. The suffix .php is recognized and php used as default interpreter.</li>
+					<li>[add] Extended the created batch/shell script so it is able to indent only one file given as parameter or a whole directory recursively with a defined file suffix.</li>
+					<li>[add] Feature Request ID <a href="issue/1885911" target="_blank">1885911</a> : Added the possibility to open a file on applications start, that is handed over as parameter on the command line.</li>
+					<li>[add] Feature Request ID <a href="issue/1729429" target="_blank">1729429</a> : Added the possibility to drag'n drop in any source code file for opening it.</li>
+					<li>[change] Created indenter shell scripts now automatically have the executable flag set to true.</li>
+					<li>[change] Completed the support for all perl tidy parameters.</li>
+					<li>[change] Updated to uncrustify version 0.46.</li>
+					<li>[fix] Bug ID <a href="issue/1933074" target="_blank">1933074</a> : On Unix systems the user config files were stored in his home dir in the subfolder ".config". Now they are directly stored in ".universalindentgui".</li>
+					<li>[fix] Fixed a bug where the string "<html><body>" was prepended to the output code. Occurred for example when using the shell indenter.</li>
 
+                </ul>
+				
                 <h4>2008-03-27 Version 0.8.1</h4>
 				<ul>
                     <li>[add] Feature Request ID <a href="issue/1909450" target="_blank">1909450</a> : Added support for the PEAR PHP beautifier. Thus PHP beautifying is also possible on Linux and Mac OS X. (Needs the PEAR package "PHP_Beautifier" to be installed and a path entry pointing to the PHP dir.)</li>
