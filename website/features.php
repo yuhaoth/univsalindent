@@ -46,9 +46,9 @@ include("htmlhead.html");
                         <a class="external" href="http://tidy.sourceforge.net/" target="_blank">(HTML) Tidy</a> and
                         <a class="external" href="http://uncrustify.sourceforge.net/" target="_blank">Uncrustify</a>
                     </li>
-                    <li>By integration of these indenters the following programming languages are supported : C, C++, C#, CSS,
-                        D, HTML, JAVA, Javascript, ObjectiveC, Pawn, Perl, PHP, Shellscript, VALA, XML and XSL</li>
-                    <li>Syntax highlighting for all above languages (except for Pawn) and many other languages</li>
+                    <li>By integration of these indenters the following programming languages are supported : <b>C, C++, C#, CSS,
+                        D, HTML, JAVA, Javascript, ObjectiveC, Pawn, Perl, PHP, Shellscript, VALA, XML and XSL</b></li>
+                    <li>Syntax highlighting for all above languages (except for Pawn and VALA) and many other languages</li>
                     <li>Integration as external tool into any IDE or editor supporting external tool calls</li>
 					<li>Generation of shell scripts for each indenter with possibility to format whole directories</li>
 					<li>Load the settings of an indenter from its existing config file</li>
