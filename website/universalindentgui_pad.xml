@@ -17,15 +17,15 @@
 		<Contact_Info>
 			<Author_First_Name>Thomas</Author_First_Name>
 			<Author_Last_Name>Schweitzer</Author_Last_Name>
-			<Author_Email>kellerkind018@web.de</Author_Email>
+			<Author_Email>mail@thomas-schweitzer.de</Author_Email>
 			<Contact_First_Name>Thomas</Contact_First_Name>
 			<Contact_Last_Name>Schweitzer</Contact_Last_Name>
-			<Contact_Email>kellerkind018@web.de</Contact_Email>
+			<Contact_Email>mail@thomas-schweitzer.de</Contact_Email>
 		</Contact_Info>
 		<Support_Info>
-			<Sales_Email>kellerkind018@web.de</Sales_Email>
-			<Support_Email>kellerkind018@web.de</Support_Email>
-			<General_Email>kellerkind018@web.de</General_Email>
+			<Sales_Email>mail@thomas-schweitzer.de</Sales_Email>
+			<Support_Email>mail@thomas-schweitzer.de</Support_Email>
+			<General_Email>mail@thomas-schweitzer.de</General_Email>
 			<Sales_Phone />
 			<Support_Phone />
 			<General_Phone />
@@ -84,10 +84,10 @@
 			<Application_XML_File_URL>http://universalindent.sourceforge.net/universalindentgui_pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.8.1_Beta_win32.zip</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.8.1_Beta_mac.tgz</Secondary_Download_URL>
-			<Additional_Download_URL_1>http://prdownloads.sourceforge.net/universalindent/universalindentgui_0.8.1_linux.tar.gz</Additional_Download_URL_1>
-			<Additional_Download_URL_2>http://prdownloads.sourceforge.net/universalindent/universalindentgui-0.8.1.tar.gz</Additional_Download_URL_2>
+			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_0.8.2_win32.zip</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/universalindentgui_0.8.2_mac.tgz</Secondary_Download_URL>
+			<Additional_Download_URL_1>http://prdownloads.sourceforge.net/universalindent/universalindentgui_0.8.2_linux.tar.gz</Additional_Download_URL_1>
+			<Additional_Download_URL_2>http://prdownloads.sourceforge.net/universalindent/universalindentgui-0.8.2.tar.gz</Additional_Download_URL_2>
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
