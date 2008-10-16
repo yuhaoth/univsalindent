@@ -20,12 +20,28 @@ include("htmlhead.html");
 
 		<div id="main">
 			<div id="content">
+    			<p style="margin-left:5pt; font-size:4pt; color:grey;">
+                    __Ever concerned about how your code looks like?<br />
+                    Ever heard of different coding styles, for example K&amp;R?<br />
+                    _____Ever received code from someone else who didn't care about code formatting?<br />
+                    __Ever tried to configure a code indenter to convert such code to your coding style?<br />
+                    Ever got bored by that tedious "changing a parameter"-"call the indeter"-"try and error" procedure?<br />
+                </p>
 				<h1>UniversalIndentGUI</h1>
 				<p>... is a cross platform compatible GUI for several code formatters, beautifiers and indenters, e.g. 
                 GreatCode, AStyle (Artistic Style), GNU Indent, BCPP and others. Its main feature is a live preview to 
                 directly see how the selected formatting options affect the source code.</p>
 				<br />
 				<h2>News</h2>
+				
+				<h3>2008-10-16 UniversalIndentGUI Version 1.0.1 released</h3>
+				<p>UniversalIndentGUI has grown up over time and includes already many features that makes
+                in useful in a productive way. Thats why I decided to completely leave the beta state and
+                also indicate this by a version number jump. So here is the first public release
+                of the 1.x.x version. Say welcome to it!<br />
+                Since the version 1.0.0 was only released for the Qt Centre programming contest, the publicity
+                shall have some advantages of that: Added support for three more indenters and of course fixed
+                some bugs.</p>
 				
 				<h3>2008-10-01 UniversalIndentGUI applied for the <a class="external" href="http://www.qtcentre.org/contest-" target="_blank">Qt Centre programming contest</a></h3>
 				<p>Last year I missed the by Qt Centre organized Qt Programming contest. But they started another
