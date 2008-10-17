@@ -163,6 +163,11 @@ a.external
 	font-family: verdana, sans-serif;
 }
 
+.listelemspacing li
+{
+    margin-top: 0.4em;
+}
+
 /* Progress
 /*******************************/
 .progressframe
