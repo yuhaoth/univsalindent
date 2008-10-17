@@ -19,7 +19,7 @@ include("htmlhead.html");
 			<div id="content">
     			<p style="margin-left:5pt; font-size:4pt; color:grey;">
                     Ever concerned about how your code looks like?<br />
-                    &nbsp;Ever heard of different coding styles, for example K&amp;R?<br />
+                    &nbsp;Ever heard of different indenting styles, for example K&amp;R?<br />
                     &nbsp;&nbsp;&nbsp;Ever received code from someone else who didn't care about code formatting?<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;Ever tried to configure a code indenter to convert such code to your coding style?<br />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ever got bored by that tedious &quot;changing a parameter&quot;-&quot;call the indeter&quot;-&quot;try and error&quot; procedure?<br />
