@@ -21,16 +21,27 @@ include("htmlhead.html");
 		<div id="main">
 			<div id="content">
     			<p style="margin-left:5pt; font-size:4pt; color:grey;">
-                    __Ever concerned about how your code looks like?<br />
-                    Ever heard of different coding styles, for example K&amp;R?<br />
-                    _____Ever received code from someone else who didn't care about code formatting?<br />
-                    __Ever tried to configure a code indenter to convert such code to your coding style?<br />
-                    Ever got bored by that tedious "changing a parameter"-"call the indeter"-"try and error" procedure?<br />
+                    Ever concerned about how your code looks like?<br />
+                    &nbsp;Ever heard of different coding styles, for example K&amp;R?<br />
+                    &nbsp;&nbsp;&nbsp;Ever received code from someone else who didn't care about code formatting?<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;Ever tried to configure a code indenter to convert such code to your coding style?<br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ever got bored by that tedious &quot;changing a parameter&quot;-&quot;call the indeter&quot;-&quot;try and error&quot; procedure?<br />
+                    <br />Help is close to you.
                 </p>
 				<h1>UniversalIndentGUI</h1>
-				<p>... is a cross platform compatible GUI for several code formatters, beautifiers and indenters, e.g. 
-                GreatCode, AStyle (Artistic Style), GNU Indent, BCPP and others. Its main feature is a live preview to 
-                directly see how the selected formatting options affect the source code.</p>
+				<p>
+                    ... offers a live preview for setting the parameters of nearly any indenter.
+                    You change the value of a parameter and directly see how your reformatted code will look like. Save your beauty looking
+                    code or create an anywhere usable batch/shell script to reformat whole directories or just one file even out of the
+                    editor of your choice that supports external tool calls.<br /><br />
+
+                    Many free available code beautifier, formatter and indenter are currently supported, like GNU Indent, Uncrustify,
+                    Artistic Styler, PHP Stylist, Ruby Beautify, HTML Tidy and many other (look at <a href="features.php">features</a> for complete list).
+                    Currently not supported indenters can be easyly added by creating a configuration file for them.<br /><br />
+
+                    Thus UniversalIndentGUI is open for nearly any new indenter and programming languages. Give it a try.
+                    Perhaps you'll also find an indenter for your programming language that you even didn't know that it exists.
+                </p>
 				<br />
 				<h2>News</h2>
 				

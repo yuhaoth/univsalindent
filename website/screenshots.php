@@ -29,7 +29,7 @@ include("htmlhead.html");
 				<a href="images/screenshot1.png" target="_blank">
                     <img src="images/screenshot1.jpg" alt="WinXPScreenshot1" width="500"/>
                 </a>
-				<p>UniversalIndentGUI under XP with preview turned on.</p>
+				<p>UniversalIndentGUI under XP.</p>
 
 				<br />
 				<a href="images/screenshot2.png" target="_blank">
