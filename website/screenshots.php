@@ -1,6 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <?php
 include("htmlhead.html");
 ?>
@@ -26,31 +23,31 @@ include("htmlhead.html");
 			<div id="content">
 				<h2>Screenshots</h2>
 				<br />
-				<a href="images/screenshot1.png" target="_blank">
+				<a href="images/screenshot1.png">
                     <img src="images/screenshot1.jpg" alt="WinXPScreenshot1" width="500"/>
                 </a>
 				<p>UniversalIndentGUI under XP.</p>
 
 				<br />
-				<a href="images/screenshot2.png" target="_blank">
+				<a href="images/screenshot2.png">
                     <img src="images/screenshot2.jpg" alt="WinXPScreenshot2" width="500"/>
                 </a>
 				<p>UniversalIndentGUI under XP showing up a tooltip.</p>
 
 				<br />
-				<a href="images/screenshot3.png" target="_blank">
+				<a href="images/screenshot3.png">
                     <img src="images/screenshot3.jpg" alt="LinuxScreenshot3" width="500"/>
                 </a>
 				<p>UniversalIndentGUI under Linux showing the indenter select menu.</p>
 				
 				<br />
-				<a href="images/screenshot4.png" target="_blank">
+				<a href="images/screenshot4.png">
                     <img src="images/screenshot4.jpg" alt="LinuxScreenshot4" width="500"/>
                 </a>
 				<p>UniversalIndentGUI under Linux with outdocked indenter parameter menu.</p>
 				
 				<br />
-				<a href="images/screenshot5.png" target="_blank">
+				<a href="images/screenshot5.png">
                     <img src="images/screenshot5.jpg" alt="AboutDialogScreenshot5" width="500"/>
                 </a>
 				<p>The about dialog of UniversalIndentGUI.</p>

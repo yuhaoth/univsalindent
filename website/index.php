@@ -1,6 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <?php
 include("htmlhead.html");
 ?>
@@ -54,20 +51,20 @@ include("htmlhead.html");
                 shall have some advantages of that: Added support for three more indenters and of course fixed
                 some bugs.</p>
 				
-				<h3>2008-10-01 UniversalIndentGUI applied for the <a class="external" href="http://www.qtcentre.org/contest-" target="_blank">Qt Centre programming contest</a></h3>
+				<h3>2008-10-01 UniversalIndentGUI applied for the <a class="external" href="http://www.qtcentre.org/contest-">Qt Centre programming contest</a></h3>
 				<p>Last year I missed the by Qt Centre organized Qt Programming contest. But they started another
                 contest for 2008 and this time I applied UiGUI for it in the category Automation.
                 The submission closed on 2008-09-30 and now I am awaiting the jury's results being announced
-                at the <a class="external" href="http://fscons.org/" target="_blank">FSCONS'08</a> in G&ouml;teborg
+                at the <a class="external" href="http://fscons.org/">FSCONS'08</a> in G&ouml;teborg
                 on friday 2008-10-24.<br />
                 That far I really have and want to say thank you to everyone who helped me advancing UiGUI!
                 And please keep your fingers crossed, so that UiGUI may get a good placing at the contest.</p>
 				
 				<h3>2008-05-26 UniversalIndentGUI Version 0.8.2 released</h3>
 				<p>As so often a new release and some new supported indenters. These are 
-				<a class="external" href="http://packages.debian.org/de/lenny/hindent" target="_blank">hindent</a>, 
-				<a class="external" href="http://www.digital-mines.com/htb/" target="_blank">HTB</a> and 
-				<a class="external" href="http://sourceforge.net/projects/phpstylist/" target="_blank">phpstylist</a>. 
+				<a class="external" href="http://packages.debian.org/de/lenny/hindent">hindent</a>, 
+				<a class="external" href="http://www.digital-mines.com/htb/">HTB</a> and 
+				<a class="external" href="http://sourceforge.net/projects/phpstylist/">phpstylist</a>. 
 				Also perltidy is now supported completely.<br />
 				The created shell scripts were improved to handle complete directories. Via command line a startup
 				file can be set and Drag'n Drop has been implemented.<br />
@@ -77,27 +74,27 @@ include("htmlhead.html");
                 
                 <h3>2008-03-27 UniversalIndentGUI Version 0.8.1 released</h3>
 				<p>A new version, a new supported indenter, that is 
-                <a class="external" href="http://pear.php.net/package/PHP_Beautifier" target="_blank">PHP_Beautifier</a><br />
+                <a class="external" href="http://pear.php.net/package/PHP_Beautifier">PHP_Beautifier</a><br />
                 Also Russian and Ukrainian language support has been added. Thanks to 
-                <a class="external" href="http://korytskyy.lviv.ua" target="_blank">Oleksandr</a>.<br />
+                <a class="external" href="http://korytskyy.lviv.ua">Oleksandr</a>.<br />
                 And files are no longer saved with UTF-8 encoding by default, but with the same encoding as
                 they were opened. In addition you can now "save as" with any encoding.<br />
-                Many thanks go out to <a class="external" href="http://hartwork.org/" target="_blank">Sebastian Pipping</a>
+                Many thanks go out to <a class="external" href="http://hartwork.org/">Sebastian Pipping</a>
                 who created and mantains the Debian package of UiGUI. THANK YOU GUY!
                 </p>
                 
                 <h3>2008-01-16 UniversalIndentGUI Version 0.8.0 Beta released</h3>
 				<p>The new version comes with support for three more indenters, that are 
-                <a class="external" href="http://code.gosu.pl/" target="_blank">JsDecoder</a>, 
-                <a class="external" href="http://perltidy.sourceforge.net/" target="_blank">PerlTidy</a> and 
-                <a class="external" href="http://www.bolthole.com/AWK.html" target="_blank">ShellIndent</a>.
+                <a class="external" href="http://code.gosu.pl/">JsDecoder</a>, 
+                <a class="external" href="http://perltidy.sourceforge.net/">PerlTidy</a> and 
+                <a class="external" href="http://www.bolthole.com/AWK.html">ShellIndent</a>.
                 Along with support for JsDecoder comes an interface to be able to write any indenter in JavaScript
                 code and use it with UiGUI, which calls it with its internal interpreter.<br />
                 Another important new thing is that UiGUI now makes correct use of the predefined directories of
                 multi user operating systems, where user settings are stored in the users home dir. Also UiGUI
                 can run in a portable mode, where changes are only written to the local media, like an USB drive.</p>
                 
-                <h3>2007-11-22 <img src="images/apfel.png" align="middle" alt="Apple Logo"/> UniversalIndentGUI Version 0.7.1 Beta with MacOSX binary released</h3>
+                <h3>2007-11-22 <img src="images/apfel.png" style="vertical-align:middle" alt="Apple Logo"/> UniversalIndentGUI Version 0.7.1 Beta with MacOSX binary released</h3>
 				<p>There are two big news coming with this version. First is that a MacOSX universal binary
                 package is now available for download. It's been short tested on Leopard so more feedback
                 is welcome.<br />
@@ -162,7 +159,7 @@ include("htmlhead.html");
                 Uncrustify (see link on the right) and his and also Nelson Tai's good feedbacks! Could need
                 more guys like you.</p>
                 
-                <h3>2007-03-02 <img src="images/vista_logo_icon_new.png" align="middle" alt="Vista Logo"/>Vista tested and new development area</h3>
+                <h3>2007-03-02 <img src="images/vista_logo_icon_new.png" style="vertical-align:middle" alt="Vista Logo"/>Vista tested and new development area</h3>
 				<p>Since nearly every new computer comes along with Windows Vista installed, I wondered if
                 UniversalIndentGUI would be executable on it. And it does. So Vista users, enjoy UIGUI!<br />
                 There is a new section at this homepage named "Development", if someone not already noticed

@@ -1,6 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <?php
 include("htmlhead.html");
 ?>
@@ -39,9 +36,9 @@ include("htmlhead.html");
                     Currently the source code is shown inside of a QTextEdit. But to have more possibilities
                     to integrate new syntax highlightning and other helpful features concerning the code,
                     I have decided to use
-                    <a class="external" href="http://www.riverbankcomputing.co.uk/qscintilla/" target="_blank">QScintilla</a>.
+                    <a class="external" href="http://www.riverbankcomputing.co.uk/qscintilla/">QScintilla</a>.
                     This is a wrapper for Qt around the well known
-                    <a class="external" href="http://www.scintilla.org/" target="_blank">Scintilla</a>
+                    <a class="external" href="http://www.scintilla.org/">Scintilla</a>
                     text edit. The Qt4 version of QScintilla I am using is a snapshot release and
                     also released under the GPL 2.
                     <br />
