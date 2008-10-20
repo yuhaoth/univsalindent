@@ -49,7 +49,10 @@ include("htmlhead.html");
                 of the 1.x.x version. Say welcome to it!<br />
                 Since the version 1.0.0 was only released for the Qt Centre programming contest, the publicity
                 shall have some advantages of that: Added support for three more indenters and of course fixed
-                some bugs.</p>
+                some bugs.<br />
+                And there is a novelty: UniversalIndetGUI as a plug in for Notepad++! But it is in an alpha
+                state and still has some bugs. Let me know if you like it in general.
+                </p>
 				
 				<h3>2008-10-01 UniversalIndentGUI applied for the <a class="external" href="http://www.qtcentre.org/contest-">Qt Centre programming contest</a></h3>
 				<p>Last year I missed the by Qt Centre organized Qt Programming contest. But they started another
