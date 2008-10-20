@@ -81,7 +81,7 @@ include("htmlhead.html");
     					<li>[change] On Mac and Linux a one pixel frame was shown around the whole screen when about dialog is visible. Removed that.</li>
     					<li>[change] Updated to Uncrustify version 0.49 from SVN repository.</li>
     					<li>[change] Using a new logo icon for UniversalIndentGUI. The logo was created by Erwan &quot;leg&quot;. Thanks!</li>
-    					<li>[fix] Bug ID <a href="issue/2173527">2173527</a> : Could no load Artistic Style config file properly if both parameters &quot;--brackets=linux&quot; and &quot;--brackets=break-closing&quot; were set.</li>
+    					<li>[fix] Bug ID <a href="issue/2173527">2173527</a> : Could not load Artistic Style config file properly if both parameters &quot;--brackets=linux&quot; and &quot;--brackets=break-closing&quot; were set.</li>
     					<li>[fix] The distributed version of GNU Indent was using a misspelled configuration file, thus lieve preview didn't correctly work. Using original GNU Win32 version now.</li>
     					<li>[fix] In version 1.0.0 the creation of batch files for indenters undet Windows always created a bash/shell script instead of batch.</li>
     					<li>[fix] Keyboard shortcuts for enabling/disabling &quot;Live Preview&quot; and syntax highlighting didn't work.</li>
