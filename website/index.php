@@ -42,7 +42,7 @@ include("htmlhead.html");
 				<br />
 				<h2>News</h2>
 				
-				<h3>2008-10-16 UniversalIndentGUI Version 1.0.1 released</h3>
+				<h3>2008-10-20 UniversalIndentGUI Version 1.0.1 released</h3>
 				<p>UniversalIndentGUI has grown up over time and includes already many features that makes
                 in useful in a productive way. Thats why I decided to completely leave the beta state and
                 also indicate this by a version number jump. So here is the first public release

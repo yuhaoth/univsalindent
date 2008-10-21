@@ -70,7 +70,7 @@ include("htmlhead.html");
 				<div id="changelog" class="listelemspacing">
     				<h2>Changelog</h2>
 
-    				<h4>2008-10-17 Version 1.0.1</h4>
+    				<h4>2008-10-20 Version 1.0.1</h4>
     				<ul>
     					<li>[add] Feature Request ID <a href="issue/2161471">2161471</a> : Added support for the Python indenter pindent.</li>
     					<li>[add] Feature Request ID <a href="issue/1883444">1883444</a> : Added support for the JSP indenter JSPPP.</li>
