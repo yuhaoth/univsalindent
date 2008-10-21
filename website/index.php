@@ -17,7 +17,7 @@ include("htmlhead.html");
 
 		<div id="main">
 			<div id="content">
-    			<p style="margin-left:5pt; font-size:4pt; color:grey;">
+    			<p style="margin-left:5pt; font-size:xx-small; color:grey;">
                     Ever concerned about how your code looks like?<br />
                     &nbsp;Ever heard of different indenting styles, for example K&amp;R?<br />
                     &nbsp;&nbsp;&nbsp;Ever received code from someone else who didn't care about code formatting?<br />
