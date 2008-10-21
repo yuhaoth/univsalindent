@@ -3,8 +3,8 @@
 body
 {
 	font-size: Small;
-	margin: 30px 0 20px 0; 
-	background: url(images/background.jpg);
+	margin: 30px 0 20px 0;
+	background: url(../images/background.jpg);
 }
 
 span
@@ -39,7 +39,7 @@ a:hover { text-decoration:underline; }
 /*******************************/
 a.external
 {
-    background: url("images/externallinks.png") center right no-repeat;
+    background: url("../images/externallinks.png") center right no-repeat;
     padding-right: 13px;
 }
 
@@ -50,7 +50,7 @@ a.external
 	float: left;
 	width: 800px;
 	height: 171px;
-	background-image: url(images/banner.jpg);
+	background-image: url(../images/banner.jpg);
 	background-repeat: no-repeat;
 	background-position: left bottom;
 	padding-left: 20px;
@@ -72,7 +72,7 @@ a.external
 {
 	width: 125px;
 	float: left;
-	background-image: url(images/tab3.jpg);
+	background-image: url(../images/tab3.jpg);
 	background-repeat: no-repeat;
 	background-position: center top;
 	text-align: center;
@@ -97,7 +97,7 @@ a.external
 { 
 	width: 125px;
 	float: left;
-	background-image: url(images/tab3hover.jpg);
+	background-image: url(../images/tab3hover.jpg);
 	background-repeat: no-repeat;
 	background-position: center top;
 	text-align: center;
@@ -105,7 +105,7 @@ a.external
 
 #tabs #current
 {
-	background-image: url(images/tab3_selected.jpg);
+	background-image: url(../images/tab3_selected.jpg);
     background-repeat: no-repeat;
     background-position: center top;
     margin-top: -5px;
@@ -113,7 +113,7 @@ a.external
 
 #tabs #current a
 {
-    background-image: url(images/tab3_selected.jpg);
+    background-image: url(../images/tab3_selected.jpg);
     background-repeat: no-repeat;
     background-position: center top;
     padding: 27px 0;
@@ -125,7 +125,7 @@ a.external
 *******************************/
 #main
 {
-	background-image: url(images/page_middle.png);
+	background-image: url(../images/page_middle.png);
 	background-repeat: repeat-y;
 	float: left;
 }
@@ -248,7 +248,7 @@ a.external
 
 #sidebar li
 {
-	list-style-image: url(images/icon_page.gif);
+	list-style-image: url(../images/icon_page.gif);
 }
 
 
@@ -257,7 +257,7 @@ a.external
 #footer
 {
 	font-family: verdana, sans-serif;
-	background: url(images/page_bottom.png);
+	background: url(../images/page_bottom.png);
 	font-size: x-small;
 	font-weight: bold;
 	color: #CCCCCC;
