@@ -70,6 +70,17 @@ include("htmlhead.html");
 				<div id="changelog" class="listelemspacing">
     				<h2>Changelog</h2>
 
+    				<h4>2009-02-05 Version 1.0.2</h4>
+    				<ul>
+    					<li>[change] Made the source code be compilable with the slightly older QScintilla version 2.2.</li>
+    					<li>[change] When starting the very first time without any existing application settings, do not show the mainwindow at position 0,0. On Mac the window couldn't be moved because the window title bar was hidden under the Mac menu bar.</li>
+    					<li>[change] When using a non Windows system the default editor font type is now Monospace instead of Courier. The latter was not found properly.</li>
+    					<li>[change] For security reason using a randomly generated temporary directory name on Unix based systems.</li>
+    					<li>[change] Improved the GUI updates for the Notepad++ plugin a bit. Not what I would call &quot;good&quot; yet.</li>
+    					<li>[fix] Avoid a crash if an uigui ini file with faulty header info is read, where the indenter executable was emtpy.</li>
+    					<li>[fix] Some application settings were tried to be read from a wrong directory when running in multi user mode.</li>
+                    </ul>
+                    
     				<h4>2008-10-20 Version 1.0.1</h4>
     				<ul>
     					<li>[add] Feature Request ID <a href="issue/2161471">2161471</a> : Added support for the Python indenter pindent.</li>
@@ -85,7 +96,6 @@ include("htmlhead.html");
     					<li>[fix] The distributed version of GNU Indent was using a misspelled configuration file, thus lieve preview didn't correctly work. Using original GNU Win32 version now.</li>
     					<li>[fix] In version 1.0.0 the creation of batch files for indenters undet Windows always created a bash/shell script instead of batch.</li>
     					<li>[fix] Keyboard shortcuts for enabling/disabling &quot;Live Preview&quot; and syntax highlighting didn't work.</li>
-
                     </ul>
 
                     <h4>2008-09-30 Version 1.0.0</h4>
