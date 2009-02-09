@@ -34,16 +34,22 @@ include("htmlhead.html");
 
                     Many free available code beautifier, formatter and indenter are currently supported, like GNU Indent, Uncrustify,
                     Artistic Styler, PHP Stylist, Ruby Beautify, HTML Tidy and many other (look at <a href="features.php">features</a> for complete list).
-                    Currently not supported indenters can be easyly added by creating a configuration file for them.<br /><br />
+                    Currently not supported indenters can be easily added by creating a configuration file for them.<br /><br />
 
-                    Thus UniversalIndentGUI is open for nearly any new indenter and programming languages. Give it a try.
-                    Perhaps you'll also find an indenter for your programming language that you even didn't know that it exists.
+                    Thus UniversalIndentGUI is open for nearly any new indenter and programming language. Give it a try.
+                    Perhaps you'll also find an indenter for your programming language you even didn't know that it exists.
                 </p>
 				<br />
 				<h2>News</h2>
 
 				<h3>2009-02-05 UniversalIndentGUI Version 1.0.2 released</h3>
-				<p>
+				<p>Fixed a security issue that could add a vulnerability to the used temp directory on Unix based systems.
+				As nearly in every release a new indenter found its way in. From now on Fortran is supported by using the
+				indenter <a class="external" href="ftp://ftp.ifremer.fr/ifremer/ditigo/fortran90/">F90ppr</a>.<br />
+				Seems as if there are more people interested in a Notepad++ integration than I had thought. And even worse
+				the plugin package was broken. Thats fixed now and the plugin was slightly improved. Feedback is welcome.<br />
+				Starting from this release UiGUI for Linux will be distributed as Debian packages and no longer static
+				compiled. If someone likes to have the static version, please let me know.
                 </p>
                 
 				<h3>2008-10-20 UniversalIndentGUI Version 1.0.1 released</h3>

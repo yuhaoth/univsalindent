@@ -31,6 +31,7 @@ include("htmlhead.html");
                         <a class="external" href="http://invisible-island.net/bcpp/">BCPP</a>,
                         <a class="external" href="http://www.siber.com/sct/tools/cbl-beau.html">Cobol Beautifier</a> (executable not included in UiGUI),
                         <a class="external" href="http://csstidy.sourceforge.net/">CSSTidy</a>,
+                        <a class="external" href="ftp://ftp.ifremer.fr/ifremer/ditigo/fortran90/">F90ppr</a>,
                         <a class="external" href="http://www.gnu.org/software/indent/">GNU Indent</a>,
                         <a class="external" href="http://sourceforge.net/projects/gcgreatcode/">GreatCode</a>,
 						<a class="external" href="http://packages.debian.org/de/lenny/hindent">hindent</a>,
@@ -50,14 +51,14 @@ include("htmlhead.html");
                         <a class="external" href="http://xmlindent.sourceforge.net/">XML Indent</a>
                     </li>
                     <li>By integration of these indenters the following programming languages are supported :
-                        <b>C, C++, C#, Cobol, CSS, D, HTML, JAVA, Javascript, JSP, ObjectiveC, Pawn,
+                        <b>C, C++, C#, Cobol, CSS, D, Fortran, HTML, JAVA, Javascript, JSP, ObjectiveC, Pawn,
                         Perl, PHP, Python, Ruby, Shellscript, VALA, XML and XSL</b>
                     </li>
                     <li>Syntax highlighting for all above languages (except for Pawn and VALA) and many other languages</li>
                     <li>Integration as external tool into any IDE or editor supporting external tool calls</li>
 					<li>Generation of shell scripts for each indenter with possibility to format whole directories</li>
 					<li>Load the settings of an indenter from its existing config file</li>
-					<li>Save parameters as indeters config file for later use</li>
+					<li>Save parameters as indenters config file for later use</li>
 					<li>ToolTips for each indenter parameter to know what it does</li>
 					<li>Multiple language support. Currently English, French (thanks to Erwan &quot;leg&quot;), German, Taiwanese/Chinese (thanks to Nelson Tai),
 					    Ukrainian and Russian (thanks to <a class="external" href="http://korytskyy.lviv.ua">Oleksandr</a>)
@@ -72,12 +73,14 @@ include("htmlhead.html");
 
     				<h4>2009-02-05 Version 1.0.2</h4>
     				<ul>
+                        <li>[add] Feature Request ID <a href="issue/2161471">2498654</a> : Added support for the Fortran indenter F90ppr.</li>
+                        <li>[add] Made it possible to define &quot;stdin&quot; to be used for an indenter calling.</li>
     					<li>[change] Made the source code be compilable with the slightly older QScintilla version 2.2.</li>
     					<li>[change] When starting the very first time without any existing application settings, do not show the mainwindow at position 0,0. On Mac the window couldn't be moved because the window title bar was hidden under the Mac menu bar.</li>
     					<li>[change] When using a non Windows system the default editor font type is now Monospace instead of Courier. The latter was not found properly.</li>
     					<li>[change] For security reason using a randomly generated temporary directory name on Unix based systems.</li>
     					<li>[change] Improved the GUI updates for the Notepad++ plugin a bit. Not what I would call &quot;good&quot; yet.</li>
-    					<li>[fix] Avoid a crash if an uigui ini file with faulty header info is read, where the indenter executable was emtpy.</li>
+    					<li>[fix] Avoid a crash if an uigui ini file with faulty header info is read, where the indenter executable was empty.</li>
     					<li>[fix] Some application settings were tried to be read from a wrong directory when running in multi user mode.</li>
                     </ul>
                     
