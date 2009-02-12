@@ -31,7 +31,7 @@ include("htmlhead.html");
                         <a class="external" href="http://invisible-island.net/bcpp/">BCPP</a>,
                         <a class="external" href="http://www.siber.com/sct/tools/cbl-beau.html">Cobol Beautifier</a> (executable not included in UiGUI),
                         <a class="external" href="http://csstidy.sourceforge.net/">CSSTidy</a>,
-                        <a class="external" href="ftp://ftp.ifremer.fr/ifremer/ditigo/fortran90/">F90ppr</a>,
+                        <a class="external" href="ftp://ftp.ifremer.fr/ifremer/ditigo/fortran90/">Fortran 90 PPR</a>,
                         <a class="external" href="http://www.gnu.org/software/indent/">GNU Indent</a>,
                         <a class="external" href="http://sourceforge.net/projects/gcgreatcode/">GreatCode</a>,
 						<a class="external" href="http://packages.debian.org/de/lenny/hindent">hindent</a>,
@@ -51,7 +51,7 @@ include("htmlhead.html");
                         <a class="external" href="http://xmlindent.sourceforge.net/">XML Indent</a>
                     </li>
                     <li>By integration of these indenters the following programming languages are supported :
-                        <b>C, C++, C#, Cobol, CSS, D, Fortran, HTML, JAVA, Javascript, JSP, ObjectiveC, Pawn,
+                        <b>C, C++, C#, Cobol, CSS, D, Fortran, HTML, JAVA, Javascript, JSP, Objective-C, Pawn,
                         Perl, PHP, Python, Ruby, Shellscript, VALA, XML and XSL</b>
                     </li>
                     <li>Syntax highlighting for all above languages (except for Pawn and VALA) and many other languages</li>
