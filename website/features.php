@@ -81,6 +81,7 @@ include("htmlhead.html");
     					<li>[change] For security reason using a randomly generated temporary directory name on Unix based systems.</li>
     					<li>[change] Improved the GUI updates for the Notepad++ plugin a bit. Not what I would call &quot;good&quot; yet.</li>
     					<li>[fix] Bug ID <a href="issue/bug/2284777">2284777</a> : The Notepad++ plugin was falsely linked against Qt debug dlls, which were not included.</li>
+    					<li>[fix] Bug ID <a href="issue/bug/2594251">2594251</a> : The new version available check didn't work anymore since version 1.0.1.</li>
     					<li>[fix] Avoid a crash if an uigui ini file with faulty header info is read, where the indenter executable was empty.</li>
     					<li>[fix] Some application settings were tried to be read from a wrong directory when running in multi user mode.</li>
                     </ul>
