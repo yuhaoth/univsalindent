@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^([0-9]+)$ http://sourceforge.net/tracker2/?func=detail&aid=$1&group_id=167482&atid=843127
+
+
