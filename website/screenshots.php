@@ -29,10 +29,10 @@ include("htmlhead.html");
 				<p>UniversalIndentGUI under XP.</p>
 
 				<br />
-				<a href="images/screenshot2.png" rel="lightbox[uiguiscreenshots]" title="UniversalIndentGUI under XP showing up a tooltip.">
+				<a href="images/screenshot2.png" rel="lightbox[uiguiscreenshots]" title="UniversalIndentGUI under Windows 7 Beta showing up a tooltip.">
                     <img src="images/screenshot2.jpg" alt="WinXPScreenshot2" width="500"/>
                 </a>
-				<p>UniversalIndentGUI under XP showing up a tooltip.</p>
+				<p>UniversalIndentGUI under Windows 7 Beta showing up a tooltip.</p>
 
 				<br />
 				<a href="images/screenshot3.png" rel="lightbox[uiguiscreenshots]" title="UniversalIndentGUI under Linux showing the indenter select menu.">
