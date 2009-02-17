@@ -55,6 +55,7 @@ include("htmlhead.html");
                         Perl, PHP, Python, Ruby, Shellscript, VALA, XML and XSL</b>
                     </li>
                     <li>Syntax highlighting for all above languages (except for Pawn and VALA) and many other languages</li>
+                    <li>Available as <a class="external" href="http://notepad-plus.sourceforge.net/">Notepad++</a> plugin</li>
                     <li>Integration as external tool into any IDE or editor supporting external tool calls</li>
 					<li>Generation of shell scripts for each indenter with possibility to format whole directories</li>
 					<li>Load the settings of an indenter from its existing config file</li>
