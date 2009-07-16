@@ -42,6 +42,14 @@ include("htmlhead.html");
 				<br />
 				<h2>News</h2>
 
+				<h3>2009-07-16 UniversalIndentGUI Version 1.1.0 released</h3>
+				<p>With this release a logging function was introdurced. This should be helpful to catch some
+				debug output and trace back problems. Especially calling some indenters causes trouble and without
+				further information it is hard to reproduce the problem.<br />
+				Also in this release the latest Uncrustify version is supported, the fonts for Mac OS X were
+				corrected and the Mac OS X package is a real universal binary again.
+                </p>
+
 				<h3>2009-02-12 UniversalIndentGUI Version 1.0.2 released</h3>
 				<p>Fixed a security issue that could add a vulnerability to the used temp directory on Unix based systems.
 				As nearly in every release a new indenter found its way in. From now on Fortran is supported by using the

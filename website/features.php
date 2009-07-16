@@ -72,6 +72,17 @@ include("htmlhead.html");
 				<div id="changelog" class="listelemspacing">
     				<h2>Changelog</h2>
 
+    				<h4>2009-07-16 Version 1.1.0</h4>
+    				<ul>
+                        <li>[add] Added a logging class, that can catch debug output and make trace backs if any problems occur possible.</li>
+                        <li>[add] Added an application icon for Mac OS X.</li>
+    					<li>[change] Feature Request ID <a href="issue/feature/2596302">2596302</a> : Updated the greatcode.ini. Thanks to adxadx who has done this work!</li>
+    					<li>[change] Feature Request ID <a href="issue/feature/2793216">2793216</a> : Updated to Uncrustify 0.53.</li>
+    					<li>[change] Updated to JsDecoder version 1.1.0.</li>
+    					<li>[fix] Bug ID <a href="issue/bug/2791229">2791229</a> : If UiGUI was located in a path containing Unicode characters or such a path needed to be handed over to a called indenter, the indenter could get confused on Windows. So using the Windows 8.3 short path notation.</li>
+    					<li>[fix] On Mac OS X the used default font wasn't monospaced. Switched back to use Courier on Mac.</li>
+                    </ul>
+
     				<h4>2009-02-12 Version 1.0.2</h4>
     				<ul>
                         <li>[add] Feature Request ID <a href="issue/feature/2498654">2498654</a> : Added support for the Fortran indenter F90ppr.</li>

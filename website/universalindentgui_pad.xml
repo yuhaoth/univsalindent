@@ -34,9 +34,9 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>UniversalIndentGUI</Program_Name>
-		<Program_Version>1.0.2</Program_Version>
-		<Program_Release_Month>02</Program_Release_Month>
-		<Program_Release_Day>12</Program_Release_Day>
+		<Program_Version>1.1.0</Program_Version>
+		<Program_Release_Month>07</Program_Release_Month>
+		<Program_Release_Day>16</Program_Release_Day>
 		<Program_Release_Year>2009</Program_Release_Year>
 		<Program_Cost_Dollars>0</Program_Cost_Dollars>
 		<Program_Cost_Other_Code>EUR</Program_Cost_Other_Code>
@@ -44,7 +44,7 @@
 		<Program_Type>Freeware</Program_Type>
 		<Program_Release_Status>New Release</Program_Release_Status>
 		<Program_Install_Support>No Install Support</Program_Install_Support>
-		<Program_OS_Support>Win95,Win98,WinME,Windows2000,WinXP,Windows2003,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64,Unix,Linux,Linux Console,Linux Gnome,Linux GPL,Linux Open Source,Mac PPC,Mac OS 9,Mac OS X,Mac OS X 10.1,Mac OS X 10.2,Mac OS X 10.3,Mac OS X 10.4,Mac OS X 10.5,Mac Other</Program_OS_Support>
+		<Program_OS_Support>Win95,Win98,WinME,Windows2000,WinXP,Windows2003,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64,Unix,Linux,Linux Console,Linux Gnome,Linux GPL,Linux Open Source,Mac PPC,Mac OS X 10.4,Mac OS X 10.5,Mac Other</Program_OS_Support>
 		<Program_Language>English,Chinese,ChineseTraditional,French,German,Japanese,Russian,Ukrainian</Program_Language>
 		<Program_Change_Info>Corrected the Notepad++ plugin. Providing Debian packages now. Some more...</Program_Change_Info>
 		<Program_Specific_Category>Development Tools</Program_Specific_Category>
@@ -84,10 +84,10 @@
 			<Application_XML_File_URL>http://universalindent.sourceforge.net/universalindentgui_pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_1.0.2_win32.zip</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/universalindentgui_1.0.2_macx.tar.gz</Secondary_Download_URL>
-			<Additional_Download_URL_1>http://prdownloads.sourceforge.net/universalindent/universalindentgui_1.0.2-1_i386.deb</Additional_Download_URL_1>
-			<Additional_Download_URL_2>http://prdownloads.sourceforge.net/universalindent/universalindentgui-1.0.2.tar.gz</Additional_Download_URL_2>
+			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_1.1.0_win32.zip</Primary_Download_URL>
+			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/universalindentgui_1.1.0_macx.tar.gz</Secondary_Download_URL>
+			<Additional_Download_URL_1>http://prdownloads.sourceforge.net/universalindent/universalindentgui_1.1.0-1_i386.deb</Additional_Download_URL_1>
+			<Additional_Download_URL_2>http://prdownloads.sourceforge.net/universalindent/universalindentgui-1.1.0.tar.gz</Additional_Download_URL_2>
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
