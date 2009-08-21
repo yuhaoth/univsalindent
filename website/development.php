@@ -3,35 +3,35 @@ include("htmlhead.html");
 ?>
 
 <body>
-	<div id="page">
-		<div id="header">
-			<div id="tabs">
-				
-				<a style="display:none;" href="#branding" >Skip Navigation</a>
-				
-				<ul>
-					<li><a href="index.php">Home</a></li>
-					<li><a style="padding: 15px 0px 6px 0px;" href="features.php">Features / <br />Changelog</a></li>
-					<li><a href="screenshots.php">Screenshots</a></li>
-					<li id="current"><a href="development.php">Development</a></li>
-				</ul>
-			</div>
-		</div>
+    <div id="page">
+        <div id="header">
+            <div id="tabs">
 
-		<div id="main">
+                <a style="display:none;" href="#branding" >Skip Navigation</a>
 
-			<div id="content">
+                <ul>
+                    <li><a href="index.php">Home</a></li>
+                    <li><a style="padding: 15px 0px 6px 0px;" href="features.php">Features / <br />Changelog</a></li>
+                    <li><a href="screenshots.php">Screenshots</a></li>
+                    <li id="current"><a href="development.php">Development</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="main">
+
+            <div id="content">
                 <div style="font-family: Tahoma,serif; font-size: x-large; font-weight: bold;">Milestones and progress</div>
                 <div style="font-family: Tahoma,serif; font-size:1em; font-weight: bold;">(Progress bars not correctly displayed with IE &lt;7)</div>
-                
-				<p>
+
+                <p>
                     Plans for the further development of UniversalIndentGUI will be shown here.
                     Each milestone presents its approximate progress state. Since this is a free time
                     project, there will be no explicit dates for each milestones targeted ending. As common
                     for most software projects: its done when its done ;-)
                 </p><br />
-				
-				<h2>Using QScintilla for displaying source code</h2>
+
+                <h2>Using QScintilla for displaying source code</h2>
                 <p>
                     Currently the source code is shown inside of a QTextEdit. But to have more possibilities
                     to integrate new syntax highlightning and other helpful features concerning the code,
@@ -58,7 +58,7 @@ include("htmlhead.html");
                 <p>20.03.2007: The branch using QScintilla has been merged into the main trunk. This means, up from the
                 next release (version 0.5.1 Beta) QScintilla will allways be the editing component.</p>
                 <br /><br />
-                
+
                 <h2>Refactoring the architecture of UniversalIndentGUI</h2>
                 <p>
                     The composition of each UniversalIndentGUI component has to be reconsidered.
@@ -103,17 +103,17 @@ include("htmlhead.html");
                 <div id="progressframeIniGui" class="progressframe">
                     <div id="progressIniGui" class="progress p0">&nbsp;0%</div>
                 </div>
-                
 
-			</div>
+
+            </div>
 
 <?php
 include("sidebar_footer.html");
 ?>
-			
-		</div>
-	</div>
-    
+
+        </div>
+    </div>
+
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
