@@ -6,9 +6,9 @@ include("htmlhead.html");
 	<div id="page">
 		<div id="header">
 			<div id="tabs">
-				
+
 				<a style="display:none;" href="#branding" >Skip Navigation</a>
-				
+
 				<ul>
 					<li><a href="index.php">Home</a></li>
 					<li id="current"><a style="padding: 18px 0px 35px 0px;" href="features.php">Features / <br />Changelog</a></li>
@@ -43,16 +43,18 @@ include("htmlhead.html");
                         <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/">phpCB</a> (executable not included in UiGUI),
 						<a class="external" href="http://sourceforge.net/projects/phpstylist/">phpStylist</a>,
 						<a class="external" href="http://coverage.livinglogic.de/Tools/scripts/pindent.py.html">pindent</a>,
+                        <a class="external" href="http://psti.equinoxbase.com/">Pl/Sql tidy</a>,
 						<a class="external" href="http://www.arachnoid.com/ruby/rubyBeautifier.html">Ruby Script Beautifier</a>,
 						<a class="external" href="http://raa.ruby-lang.org/project/ruby_formatter/">Ruby Formatter</a>,
                         <a class="external" href="http://www.bolthole.com/AWK.html">ShellIndent</a>,
                         <a class="external" href="http://tidy.sourceforge.net/">(HTML) Tidy</a>,
+                        <a class="external" href="http://www.daansystems.com/vbsbeaut/">VBSBeautifier</a>,
                         <a class="external" href="http://uncrustify.sourceforge.net/">Uncrustify</a> and
                         <a class="external" href="http://xmlindent.sourceforge.net/">XML Indent</a>
                     </li>
                     <li>By integration of these indenters the following programming languages are supported :
                         <b>C, C++, C#, Cobol, CSS, D, Fortran, HTML, JAVA, Javascript, JSP, Objective-C, Pawn,
-                        Perl, PHP, Python, Ruby, Shellscript, VALA, XML and XSL</b>
+                        Perl, PHP, Pl/Sql, Python, Ruby, Shellscript, VALA, Visual Basic, XML and XSL</b>
                     </li>
                     <li>Syntax highlighting for all above languages (except for Pawn and VALA) and many other languages</li>
                     <li>Available as <a class="external" href="http://notepad-plus.sourceforge.net/">Notepad++</a> plugin</li>
@@ -66,9 +68,9 @@ include("htmlhead.html");
                         and partly Japanese (thanks to Nirvash)
                     </li>
 				</ul>
-				
+
 				<br />
-				
+
 				<div id="changelog" class="listelemspacing">
     				<h2>Changelog</h2>
 
@@ -97,7 +99,7 @@ include("htmlhead.html");
     					<li>[fix] Avoid a crash if an uigui ini file with faulty header info is read, where the indenter executable was empty.</li>
     					<li>[fix] Some application settings were tried to be read from a wrong directory when running in multi user mode.</li>
                     </ul>
-                    
+
     				<h4>2008-10-20 Version 1.0.1</h4>
     				<ul>
     					<li>[add] Feature Request ID <a href="issue/feature/2161471">2161471</a> : Added support for the Python indenter pindent.</li>
