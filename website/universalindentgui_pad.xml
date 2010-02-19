@@ -84,10 +84,10 @@
 			<Application_XML_File_URL>http://universalindent.sourceforge.net/universalindentgui_pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://prdownloads.sourceforge.net/universalindent/UniversalIndentGUI_1.1.0_win32.zip</Primary_Download_URL>
-			<Secondary_Download_URL>http://prdownloads.sourceforge.net/universalindent/universalindentgui_1.1.0_macx.tar.gz</Secondary_Download_URL>
-			<Additional_Download_URL_1>http://prdownloads.sourceforge.net/universalindent/universalindentgui_1.1.0-1_i386.deb</Additional_Download_URL_1>
-			<Additional_Download_URL_2>http://prdownloads.sourceforge.net/universalindent/universalindentgui-1.1.0.tar.gz</Additional_Download_URL_2>
+			<Primary_Download_URL>http://downloads.sourceforge.net/project/universalindent/universalindent/UniversalIndentGUI_1.1.0/UniversalIndentGUI_1.1.0_win32.zip</Primary_Download_URL>
+			<Secondary_Download_URL>http://downloads.sourceforge.net/project/universalindent/universalindent/UniversalIndentGUI_1.1.0/UniversalIndentGUI_1.1.0_macx.tar.gz</Secondary_Download_URL>
+			<Additional_Download_URL_1>http://downloads.sourceforge.net/project/universalindent/universalindent/UniversalIndentGUI_1.1.0/universalindentgui_1.1.0-1_i386.deb</Additional_Download_URL_1>
+			<Additional_Download_URL_2>http://downloads.sourceforge.net/project/universalindent/universalindent/UniversalIndentGUI_1.1.0/universalindentgui-1.1.0.tar.gz</Additional_Download_URL_2>
 		</Download_URLs>
 	</Web_Info>
 	<Permissions>
