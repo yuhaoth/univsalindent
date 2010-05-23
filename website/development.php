@@ -22,6 +22,13 @@ include("htmlhead.html");
 
             <div id="content">
                 <div style="font-family: Tahoma,serif; font-size: x-large; font-weight: bold;">Milestones and progress</div>
+                <p>
+                    The development organization has moved to Trac. Thus the information on this page here
+                    is kinda outdated. Please visit the projects
+                    <a href="http://sourceforge.net/apps/trac/universalindent/newticket">roadmap</a>
+                    on Trac to stay informed about the development progress.
+                    
+                <div style="font-family: Tahoma,serif; font-size: large; font-weight: bold;">Older milestones and progress (somehow deprecated)</div>
                 <div style="font-family: Tahoma,serif; font-size:1em; font-weight: bold;">(Progress bars not correctly displayed with IE &lt;7)</div>
 
                 <p>
