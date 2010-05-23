@@ -25,7 +25,7 @@ include("htmlhead.html");
                 <p>
                     The development organization has moved to Trac. Thus the information on this page here
                     is kinda outdated. Please visit the projects
-                    <a href="http://sourceforge.net/apps/trac/universalindent/newticket">roadmap</a>
+                    <a href="http://sourceforge.net/apps/trac/universalindent/roadmap">roadmap</a>
                     on Trac to stay informed about the development progress.
                     
                 <div style="font-family: Tahoma,serif; font-size: large; font-weight: bold;">Older milestones and progress (somehow deprecated)</div>
