@@ -90,7 +90,7 @@ include("htmlhead.html");
                         <li>[fix] Bug ID <a href="issue/bug/2942381">2942381</a> : When loading an indenter configuration file, the settings displayed in the docking widget were correctly updated, but the code wasn't.</li>
                         <li>[fix] Bug ID <a href="issue/bug/2135872">2135872</a> : A zombie process kept on running if UiGUI was quit during the update check in background if no internet connection is available.</li>
                         <li>[fix] Bug ID <a href="issue/bug/3175027">3175027</a> : Uncrustify had wrong pop-up comments for two check-boxes.</li>
-                        <li>[fix] Bug ID <a href="issue/bug/2916163">2916163</a> : The proxy settings a properly used and applied now.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/2916163">2916163</a> : The proxy settings are properly used and applied now.</li>
                         <li>[fix] Made the JsDecoder integration be compatible with recent Qt versions.</li>
                         <li>[change] Changed the created shell scripts indenter config file reference. Now each created shell script has a corresponding config file being created in the same dir as the shell script, with the same name but different suffix. But since the config file is referenced by &quot;./&quot;, when calling the script the working directory must be the same as the directory containing the config file.</li>
                         <li>[change] Using TCLAP as command line parser instead of own command line parsing.</li>
