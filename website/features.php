@@ -31,7 +31,7 @@ include("htmlhead.html");
                         <a class="external" href="http://invisible-island.net/bcpp/">BCPP</a>,
                         <a class="external" href="http://www.siber.com/sct/tools/cbl-beau.html">Cobol Beautifier</a> (executable not included in UiGUI),
                         <a class="external" href="http://csstidy.sourceforge.net/">CSSTidy</a>,
-                        <a class="external" href="ftp://ftp.ifremer.fr/ifremer/ditigo/fortran90/">Fortran 90 PPR</a>,
+                        <a class="external" href="ftp://ftp.ifremer.fr/ifremer/fortran90/">Fortran 90 PPR</a>,
                         <a class="external" href="http://www.gnu.org/software/indent/">GNU Indent</a>,
                         <a class="external" href="http://sourceforge.net/projects/gcgreatcode/">GreatCode</a>,
                         <a class="external" href="http://packages.debian.org/de/lenny/hindent">hindent</a>,
@@ -73,6 +73,32 @@ include("htmlhead.html");
 
                 <div id="changelog" class="listelemspacing">
                     <h2>Changelog</h2>
+
+                    <h4>2012-01-01 Version 1.2.0</h4>
+                    <ul>
+                        <li>[add] The Linux version has a menu entry in the application development menu now.</li>
+                        <li>[add] The Linux version has a mime type association to some code files now, so that UiGUI is available as &quot;open with&quot;.</li>
+                        <li>[add] Added support for the Visual Basic beautifier VBSBeautifier.</li>
+                        <li>[add] Added support for the SQL beautifier Pl/Sql tidy.</li>
+                        <li>[add] Updated the Artistic Style configuration to support Artistic Style version 2.02.1.</li>
+                        <li>[add] Updated the Uncrustify configuration to support Uncrustify version 0.59.</li>
+                        <li>[add] Updated the PerlTidy configuration to support PerlTidy version 1.74.</li>
+                        <li>[add] Updated the Ruby Script Beautifier to version 2.9.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/3021933">3021933</a> : Updated the Artistic Style configuration to support Artistic Style version 2.01.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/3021931">3021931</a> : Fixed calling of Artistic Style version 1.22 and later.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/3006513">3006513</a> : Fixed compiling UiGUI using GCC 4.5 and later.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/2942381">2942381</a> : When loading an indenter configuration file, the settings displayed in the docking widget were correctly updated, but the code wasn't.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/2135872">2135872</a> : A zombie process kept on running if UiGUI was quit during the update check in background if no internet connection is available.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/3175027">3175027</a> : Uncrustify had wrong pop-up comments for two check-boxes.</li>
+                        <li>[fix] Bug ID <a href="issue/bug/2916163">2916163</a> : The proxy settings a properly used and applied now.</li>
+                        <li>[fix] Made the JsDecoder integration be compatible with recent Qt versions.</li>
+                        <li>[change] Changed the created shell scripts indenter config file reference. Now each created shell script has a corresponding config file being created in the same dir as the shell script, with the same name but different suffix. But since the config file is referenced by &quot;./&quot;, when calling the script the working directory must be the same as the directory containing the config file.</li>
+                        <li>[change] Using TCLAP as command line parser instead of own command line parsing.</li>
+                        <li>[change] Setting a file name as parameter on the command line without any prefix will load this file instead of the last opened one.</li>
+                        <li>[change] Rewritten and improved the internal way how settings are connected to the UI.</li>
+                        <li>[change] Refactored and cleaned up the code.</li>
+                        <li>[change] Will no longer deliver binary bundles linked against Qt statically. Instead delivering all dependent DLLs and libs.</li>
+                    </ul>
 
                     <h4>2009-07-16 Version 1.1.0</h4>
                     <ul>

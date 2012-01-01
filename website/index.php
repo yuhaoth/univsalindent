@@ -41,9 +41,18 @@ include("htmlhead.html");
                 </p>
                 <br />
                 <h2>News</h2>
+                
+                <h3>2012-01-01 UniversalIndentGUI Version 1.2.0 released</h3>
+                <p>Happy new year everybody!</p>
+                <p>Quite some time has passed since the last release. UniversalIndentGUI is still alive, but as development
+                time is rare, not too many releases a year are expected.<br />
+                So whats new with this version? Support for latest Artistic Style and Uncrustify has been implemented.
+                Support for Visual Basic and Pl/Sql languages has been added. Some bug fixes and code improvements under the hood.
+                For Linux the UiGUI will integrate into the application start menu properly now. Enjoy!
+                </p>
 
                 <h3>2009-07-16 UniversalIndentGUI Version 1.1.0 released</h3>
-                <p>With this release a logging function was introdurced. This should be helpful to catch some
+                <p>With this release a logging function was introduced. This should be helpful to catch some
                 debug output and trace back problems. Especially calling some indenters causes trouble and without
                 further information it is hard to reproduce the problem.<br />
                 Also in this release the latest Uncrustify version is supported, the fonts for Mac OS X were
