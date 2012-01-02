@@ -29,7 +29,7 @@ include("htmlhead.html");
                     <li>Supported and included indenters right now are: <br />
                         <a class="external" href="http://astyle.sourceforge.net/">Artistic Styler</a>,
                         <a class="external" href="http://invisible-island.net/bcpp/">BCPP</a>,
-                        <a class="external" href="http://www.siber.com/sct/tools/cbl-beau.html">Cobol Beautifier</a> (executable not included in UiGUI),
+                        <a class="external" href="http://www.siber.com/sct/tools/cbl-beau.html">Cobol Beautifier</a>,
                         <a class="external" href="http://csstidy.sourceforge.net/">CSSTidy</a>,
                         <a class="external" href="ftp://ftp.ifremer.fr/ifremer/fortran90/">Fortran 90 PPR</a>,
                         <a class="external" href="http://www.gnu.org/software/indent/">GNU Indent</a>,
@@ -40,7 +40,7 @@ include("htmlhead.html");
                         <a class="external" href="http://jsppp.sourceforge.net/">JSPPP</a>,
                         <a class="external" href="http://perltidy.sourceforge.net/">PerlTidy</a>,
                         <a class="external" href="http://pear.php.net/package/PHP_Beautifier">PHP_Beautifier</a>,
-                        <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/">phpCB</a> (executable not included in UiGUI),
+                        <a class="external" href="http://www.waterproof.fr/products/phpCodeBeautifier/">phpCB</a>,
                         <a class="external" href="http://sourceforge.net/projects/phpstylist/">phpStylist</a>,
                         <a class="external" href="http://coverage.livinglogic.de/Tools/scripts/pindent.py.html">pindent</a>,
                         <a class="external" href="http://psti.equinoxbase.com/">Pl/Sql tidy</a>,
